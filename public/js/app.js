@@ -1313,7 +1313,15 @@ async function initHeroSlider() {
     function applySlideData() {
       // 1. Text & Category
       if (titlePrefixEl) titlePrefixEl.textContent = p.category_name ? p.category_name.toUpperCase() : 'QUALITY SUPPLEMENT';
-      if (productNameEl) productNameEl.textContent = p.name;
+      if (productNameEl) {
+        productNameEl.textContent = p.name;
+        const is2Line = (p.name && p.name.length > 22) || (p.name && p.name.includes('\n'));
+        if (is2Line) {
+          productNameEl.classList.add('hero-title-2line');
+        } else {
+          productNameEl.classList.remove('hero-title-2line');
+        }
+      }
       if (badgeTextEl) badgeTextEl.textContent = `${p.category_name || 'Flagship'} • ${p.badge_text || (p.is_new ? 'NEW RELEASE' : 'TOP RATED')}`;
       
       const cleanDesc = p.short_description || p.description || '';

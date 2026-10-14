@@ -543,16 +543,17 @@ input, textarea, select {
   66% { transform: translate(-20px, 20px) scale(0.95); }
 }
 
-/* Flagship Showcase Hero Slider */
+/* Flagship Showcase Hero Slider - Fixed Height Section */
 .flagship-hero {
   position: relative;
-  min-height: 740px;
-  height: clamp(740px, 92vh, 920px);
+  height: clamp(660px, 86vh, 760px);
+  min-height: 660px;
+  max-height: 780px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-top: calc(var(--nav-height) + 10px);
-  padding-bottom: 50px;
+  padding-bottom: 30px;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -600,15 +601,12 @@ input, textarea, select {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 32px;
-  min-height: 32px;
-  max-height: 32px;
   margin-bottom: var(--space-4);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 0 16px;
+  padding: 6px 16px;
   border-radius: var(--radius-full);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -642,17 +640,13 @@ input, textarea, select {
   transition: background-color 0.5s ease;
 }
 
-/* Fixed Static Title Height - Spacious 2-Line Support */
+/* Dynamic Details: Regular 1-Line & Tailored 2-Line Text Styles */
 .hero-title {
-  height: 175px;
-  min-height: 175px;
-  max-height: 175px;
   margin-bottom: var(--space-4);
   font-family: var(--font-heading);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: hidden;
 }
 
 .hero-title-prefix {
@@ -672,9 +666,9 @@ input, textarea, select {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: clamp(2rem, 3.3vw, 2.9rem);
+  font-size: clamp(2.3rem, 4.2vw, 3.6rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.05;
   letter-spacing: -0.5px;
   text-transform: uppercase;
   background: var(--accent-gradient);
@@ -684,16 +678,20 @@ input, textarea, select {
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-/* Fixed Static Description Height - 3 Full Lines Support */
+/* Tailored 2-line title text style */
+.hero-title-main.hero-title-2line {
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+/* Dynamic Description - Regular Natural Spacing */
 .hero-content-col .hero-description {
   margin: 0 0 var(--space-5);
-  font-size: clamp(0.92rem, 1.1vw, 1.02rem);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   color: var(--text-secondary);
   line-height: 1.55;
   max-width: 600px;
-  height: 80px;
-  min-height: 80px;
-  max-height: 80px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -701,17 +699,13 @@ input, textarea, select {
   transition: opacity 0.35s ease;
 }
 
-/* Live Product Quick Specs Row - Fixed Static Height */
+/* Dynamic Quick Specs Row */
 .hero-specs-row {
   display: flex;
   flex-wrap: nowrap;
   gap: 10px;
-  height: 38px;
-  min-height: 38px;
-  max-height: 38px;
   align-items: center;
   margin-bottom: var(--space-6);
-  overflow: hidden;
   transition: opacity 0.35s ease;
 }
 
@@ -744,29 +738,23 @@ input, textarea, select {
   display: inline-block;
 }
 
-/* Hero Action CTAs - Fixed Static Height */
+/* Dynamic Hero Action CTAs */
 .hero-content-col .hero-actions {
   display: flex;
   gap: var(--space-4);
   justify-content: flex-start;
   margin-bottom: var(--space-6);
   flex-wrap: nowrap;
-  height: 52px;
-  min-height: 52px;
-  max-height: 52px;
   align-items: center;
 }
 
-/* Slider Controls & Counter - Fixed Static Height */
+/* Slider Controls & Counter */
 .hero-slider-nav {
   display: flex;
   align-items: center;
   gap: var(--space-4);
   margin-bottom: var(--space-3);
   max-width: 440px;
-  height: 42px;
-  min-height: 42px;
-  max-height: 42px;
 }
 
 .hero-slider-arrows {
@@ -871,9 +859,9 @@ input, textarea, select {
   position: relative;
   width: 100%;
   max-width: 480px;
-  height: 520px;
-  min-height: 520px;
-  max-height: 520px;
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3113,27 +3101,20 @@ input, textarea, select {
   .hero-badge {
     font-size: 0.68rem;
     padding: 4px 12px;
-    height: 28px !important;
-    min-height: 28px !important;
-    max-height: 28px !important;
     margin-bottom: var(--space-2) !important;
     align-self: center !important;
   }
 
   .hero-title {
-    height: 88px !important;
-    min-height: 88px !important;
-    max-height: 88px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
     align-items: center !important;
-    overflow: hidden !important;
     margin-bottom: var(--space-2) !important;
   }
 
   .hero-title-main {
-    font-size: clamp(1.4rem, 5.6vw, 1.85rem) !important;
+    font-size: clamp(1.55rem, 6.2vw, 2rem) !important;
     letter-spacing: -0.5px;
     line-height: 1.15;
     display: -webkit-box !important;
@@ -3142,16 +3123,18 @@ input, textarea, select {
     overflow: hidden !important;
   }
 
+  .hero-title-main.hero-title-2line {
+    font-size: clamp(1.28rem, 5.2vw, 1.6rem) !important;
+    line-height: 1.15;
+  }
+
   .hero-content-col .hero-description {
     font-size: 0.85rem;
-    line-height: 1.45;
+    line-height: 1.4;
     margin-bottom: var(--space-3) !important;
     max-width: 350px;
     margin-left: auto;
     margin-right: auto;
-    height: 60px !important;
-    min-height: 60px !important;
-    max-height: 60px !important;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -3180,11 +3163,7 @@ input, textarea, select {
   .hero-specs-row {
     justify-content: center;
     gap: 6px;
-    height: 32px !important;
-    min-height: 32px !important;
-    max-height: 32px !important;
     margin-bottom: var(--space-3) !important;
-    overflow: hidden !important;
   }
 
   .hero-spec-pill {
@@ -3200,9 +3179,6 @@ input, textarea, select {
     max-width: 270px;
     margin: 0 auto var(--space-3);
     gap: var(--space-2);
-    height: 88px !important;
-    min-height: 88px !important;
-    max-height: 88px !important;
   }
 
   .hero-content-col .hero-actions .btn {
@@ -3671,35 +3647,33 @@ input, textarea, select {
   }
 
   .hero-title {
-    height: 84px !important;
-    min-height: 84px !important;
-    max-height: 84px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
   }
 
   .hero-title-main {
-    font-size: clamp(1.3rem, 5.8vw, 1.65rem) !important;
+    font-size: clamp(1.4rem, 6.5vw, 1.8rem) !important;
     -webkit-line-clamp: 2 !important;
   }
 
+  .hero-title-main.hero-title-2line {
+    font-size: clamp(1.18rem, 5.2vw, 1.45rem) !important;
+  }
+
   .hero-stage {
-    height: 210px;
-    max-width: 240px;
+    height: 195px;
+    max-width: 235px;
     margin: 0 auto;
   }
 
   .hero-product-img {
-    max-height: 185px;
+    max-height: 175px;
   }
 
   .hero-content-col .hero-description {
     font-size: 0.82rem;
-    line-height: 1.4;
-    height: 56px !important;
-    min-height: 56px !important;
-    max-height: 56px !important;
+    line-height: 1.35;
     display: -webkit-box !important;
     -webkit-line-clamp: 3 !important;
     -webkit-box-orient: vertical !important;
@@ -3711,9 +3685,6 @@ input, textarea, select {
     max-width: 260px;
     gap: var(--space-2);
     margin-bottom: var(--space-3);
-    height: 84px !important;
-    min-height: 84px !important;
-    max-height: 84px !important;
   }
 
   .hero-content-col .hero-actions .btn {
