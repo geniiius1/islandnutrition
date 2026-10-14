@@ -304,6 +304,69 @@
     </div>
   </section>
 
+  <!-- Product Inquiry & Wholesale Contact Section -->
+  <section class="section product-inquiry-section" id="inquiry">
+    <div class="container">
+      <div class="inquiry-card animate-on-scroll">
+        <div class="inquiry-header">
+          <span class="inquiry-badge"><i class="fa-solid fa-headset"></i> DIRECT ASSISTANCE</span>
+          <h2 class="inquiry-title">FOR MORE INFORMATION ABOUT THE PRODUCTS CONTACT US</h2>
+          <p class="inquiry-subtitle">Fill out your details below for more information about products or wholesale information and we'll get back to you soon!</p>
+        </div>
+
+        <form id="home-inquiry-form" class="inquiry-form" onsubmit="handleInquirySubmit(event)">
+          <div class="inquiry-form-grid">
+            <div class="inquiry-field-group">
+              <label for="home-inquiry-name" class="inquiry-field-label">Your Name *</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-user inquiry-field-icon"></i>
+                <input type="text" id="home-inquiry-name" name="name" class="inquiry-input" placeholder="Your Name" required autocomplete="name">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group">
+              <label for="home-inquiry-phone" class="inquiry-field-label">Your Phone</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-solid fa-phone inquiry-field-icon"></i>
+                <input type="tel" id="home-inquiry-phone" name="phone" class="inquiry-input" placeholder="Your Phone" autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group">
+              <label for="home-inquiry-email" class="inquiry-field-label">Your Email *</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-envelope inquiry-field-icon"></i>
+                <input type="email" id="home-inquiry-email" name="email" class="inquiry-input" placeholder="Your Email" required autocomplete="email">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group">
+              <label for="home-inquiry-company" class="inquiry-field-label">Company Name</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-building inquiry-field-icon"></i>
+                <input type="text" id="home-inquiry-company" name="company" class="inquiry-input" placeholder="Company Name" autocomplete="organization">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group inquiry-field-full">
+              <label for="home-inquiry-message" class="inquiry-field-label">Write A Message *</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-comment-dots inquiry-field-icon textarea-icon"></i>
+                <textarea id="home-inquiry-message" name="message" class="inquiry-textarea" placeholder="Write A Message" rows="5" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="inquiry-action">
+            <button type="submit" class="inquiry-submit-btn" id="home-inquiry-submit-btn">
+              <span>SUBMIT</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="container">

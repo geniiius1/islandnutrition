@@ -2312,6 +2312,13 @@ input, textarea, select {
   margin-bottom: var(--space-6);
 }
 
+.about-stats-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: clamp(24px, 5vw, 64px);
+}
+
 .about-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2629,6 +2636,243 @@ input, textarea, select {
 .form-textarea {
   min-height: 140px;
   resize: vertical;
+}
+
+/* ============================================================
+   PRODUCT INQUIRY & WHOLESALE FORM
+   ============================================================ */
+.product-inquiry-section {
+  position: relative;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+  overflow: hidden;
+  padding: var(--space-16) 0;
+}
+
+.inquiry-card {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2xl);
+  padding: clamp(28px, 5vw, 52px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-sizing: border-box;
+}
+
+.inquiry-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #facc15, transparent);
+  border-radius: 2px;
+}
+
+.inquiry-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.inquiry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #facc15;
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  padding: 5px 16px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-3);
+}
+
+.inquiry-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3.2vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin: 0 auto;
+  max-width: 820px;
+}
+
+.inquiry-subtitle {
+  font-size: clamp(0.88rem, 1.1vw, 1.02rem);
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin: 12px auto 0;
+  line-height: 1.55;
+}
+
+.inquiry-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+  margin-bottom: 24px;
+}
+
+.inquiry-field-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.inquiry-field-full {
+  grid-column: 1 / -1;
+}
+
+.inquiry-field-label {
+  display: block;
+  font-size: 0.80rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.inquiry-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.inquiry-field-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: color var(--duration-fast);
+}
+
+.inquiry-field-icon.textarea-icon {
+  top: 18px;
+  transform: none;
+}
+
+.inquiry-input,
+.inquiry-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 13px 18px 13px 44px;
+  border-radius: var(--radius-md);
+  transition: all var(--duration-fast);
+}
+
+[data-theme="dark"] .inquiry-input,
+[data-theme="dark"] .inquiry-textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+[data-theme="light"] .inquiry-input,
+[data-theme="light"] .inquiry-textarea {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #0a0a0c;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.inquiry-input::placeholder,
+.inquiry-textarea::placeholder {
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+.inquiry-input:focus,
+.inquiry-textarea:focus {
+  outline: none;
+  border-color: #facc15;
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.22);
+}
+
+.inquiry-input-wrap:focus-within .inquiry-field-icon {
+  color: #facc15;
+}
+
+.inquiry-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.inquiry-action {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.inquiry-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 200px;
+  padding: 14px 44px;
+  background: #facc15 !important;
+  color: #000000 !important;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(250, 204, 21, 0.35);
+  transition: all var(--duration-fast);
+}
+
+.inquiry-submit-btn:hover {
+  background: #fde047 !important;
+  color: #000000 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(250, 204, 21, 0.5);
+}
+
+.inquiry-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Contact Page Grid Layout */
+.contact-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: var(--space-10);
+  align-items: start;
+}
+
+.contact-info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2xl);
+  padding: clamp(28px, 4vw, 44px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.contact-inquiry-card {
+  max-width: 100%;
+  margin: 0;
 }
 
 /* ============================================================
@@ -3097,7 +3341,8 @@ input, textarea, select {
     text-align: center;
   }
 
-  .contact-grid {
+  .contact-grid,
+  .contact-page-grid {
     grid-template-columns: 1fr;
     gap: var(--space-8);
   }
@@ -3820,6 +4065,44 @@ input, textarea, select {
   /* Prevent iOS zoom on form input focus */
   input, textarea, select {
     font-size: 16px !important;
+  }
+
+  /* Product Inquiry Mobile */
+  .product-inquiry-section {
+    padding: var(--space-12) 0;
+  }
+
+  .inquiry-card {
+    padding: 24px 18px;
+    border-radius: var(--radius-xl);
+  }
+
+  .inquiry-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .inquiry-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .inquiry-input,
+  .inquiry-textarea {
+    font-size: 16px !important;
+    padding: 12px 16px 12px 42px;
+  }
+
+  .inquiry-field-label {
+    font-size: 0.76rem;
+    margin-bottom: 6px;
+  }
+
+  .inquiry-submit-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 13px 24px;
+    font-size: 0.92rem;
   }
 }
 

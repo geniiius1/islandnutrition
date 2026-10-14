@@ -68,11 +68,11 @@
   <!-- Contact Section -->
   <section class="section" style="padding-top: 0;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-10);">
+      <div class="contact-page-grid">
 
         <!-- Contact Info Cards -->
         <div class="animate-on-scroll stagger-1">
-          <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-8); height: 100%;">
+          <div class="contact-info-card">
             <h2 style="font-size: 1.5rem; margin-bottom: var(--space-4);">Showroom Inquiries</h2>
             <p style="color: var(--text-secondary); margin-bottom: var(--space-8); line-height: 1.6;">
               Island Nutrition operates as an exclusive showroom displaying our premier formulations, nutritional profiles, and flavors. Connect with our nutrition specialists for any inquiries.
@@ -131,41 +131,61 @@
 
         <!-- Contact Form -->
         <div class="animate-on-scroll stagger-2">
-          <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-8);">
-            <h2 style="font-size: 1.5rem; margin-bottom: var(--space-2);">Send Us a Message</h2>
-            <p style="color: var(--text-secondary); margin-bottom: var(--space-6); font-size: 0.95rem;">
-              Fill out the form below and our team will get back to you within 24 hours.
-            </p>
+          <div class="inquiry-card contact-inquiry-card">
+            <div class="inquiry-header" style="text-align: left; margin-bottom: 24px;">
+              <span class="inquiry-badge"><i class="fa-solid fa-headset"></i> DIRECT ASSISTANCE</span>
+              <h2 class="inquiry-title" style="font-size: clamp(1.2rem, 2.4vw, 1.6rem); text-align: left; margin: 0 0 8px 0;">FOR MORE INFORMATION ABOUT THE PRODUCTS CONTACT US</h2>
+              <p class="inquiry-subtitle" style="text-align: left; margin: 0; font-size: 0.90rem;">Fill out your details below for more information about products or wholesale information and we'll get back to you soon!</p>
+            </div>
 
-            <form id="contact-form" onsubmit="handleContactSubmit(event)" style="display: flex; flex-direction: column; gap: var(--space-4);">
-              <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary);">Your Name *</label>
-                <input type="text" required placeholder="John Doe" style="width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem;">
+            <form id="contact-form" class="inquiry-form" onsubmit="handleInquirySubmit(event)">
+              <div class="inquiry-form-grid">
+                <div class="inquiry-field-group">
+                  <label for="contact-name" class="inquiry-field-label">Your Name *</label>
+                  <div class="inquiry-input-wrap">
+                    <i class="fa-regular fa-user inquiry-field-icon"></i>
+                    <input type="text" id="contact-name" name="name" class="inquiry-input" placeholder="Your Name" required autocomplete="name">
+                  </div>
+                </div>
+
+                <div class="inquiry-field-group">
+                  <label for="contact-phone" class="inquiry-field-label">Your Phone</label>
+                  <div class="inquiry-input-wrap">
+                    <i class="fa-solid fa-phone inquiry-field-icon"></i>
+                    <input type="tel" id="contact-phone" name="phone" class="inquiry-input" placeholder="Your Phone" autocomplete="tel">
+                  </div>
+                </div>
+
+                <div class="inquiry-field-group">
+                  <label for="contact-email" class="inquiry-field-label">Your Email *</label>
+                  <div class="inquiry-input-wrap">
+                    <i class="fa-regular fa-envelope inquiry-field-icon"></i>
+                    <input type="email" id="contact-email" name="email" class="inquiry-input" placeholder="Your Email" required autocomplete="email">
+                  </div>
+                </div>
+
+                <div class="inquiry-field-group">
+                  <label for="contact-company" class="inquiry-field-label">Company Name</label>
+                  <div class="inquiry-input-wrap">
+                    <i class="fa-regular fa-building inquiry-field-icon"></i>
+                    <input type="text" id="contact-company" name="company" class="inquiry-input" placeholder="Company Name" autocomplete="organization">
+                  </div>
+                </div>
+
+                <div class="inquiry-field-group inquiry-field-full">
+                  <label for="contact-message" class="inquiry-field-label">Write A Message *</label>
+                  <div class="inquiry-input-wrap">
+                    <i class="fa-regular fa-comment-dots inquiry-field-icon textarea-icon"></i>
+                    <textarea id="contact-message" name="message" class="inquiry-textarea" placeholder="Write A Message" rows="4" required></textarea>
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary);">Email Address *</label>
-                <input type="email" required placeholder="john@example.com" style="width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem;">
+              <div class="inquiry-action" style="text-align: left;">
+                <button type="submit" class="inquiry-submit-btn">
+                  <span>SUBMIT</span>
+                </button>
               </div>
-
-              <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary);">Subject</label>
-                <select style="width: 100%; padding: 12px 16px; background: #141929; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem;">
-                  <option value="product">Product Specification Question</option>
-                  <option value="flavors">Flavor Inquiries</option>
-                  <option value="wholesale">Distributor & Wholesale Partnership</option>
-                  <option value="general">General Inquiries</option>
-                </select>
-              </div>
-
-              <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary);">Message *</label>
-                <textarea required rows="5" placeholder="How can we assist you regarding our products?" style="width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem; resize: vertical;"></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="margin-top: var(--space-2); padding: 14px;">
-                Send Message <i class="fa-solid fa-paper-plane" style="margin-left:6px;"></i>
-              </button>
             </form>
           </div>
         </div>

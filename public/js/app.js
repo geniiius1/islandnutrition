@@ -1187,16 +1187,38 @@ async function searchProducts(query) {
   }
 }
 
-// ===== CONTACT FORM =====
-function initContactForm() {
-  const form = document.getElementById('contact-form');
-  if (!form) return;
+// ===== CONTACT & INQUIRY FORMS =====
+function handleInquirySubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const submitBtn = form.querySelector('.inquiry-submit-btn') || form.querySelector('button[type="submit"]');
+  const originalHtml = submitBtn ? submitBtn.innerHTML : '<span>SUBMIT</span>';
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    showToast('Thank you for your message! We\'ll get back to you soon.', 'success');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> SENDING...';
+  }
+
+  setTimeout(() => {
+    showToast('Thank you! Your inquiry has been received. Our team will contact you shortly.', 'success');
     form.reset();
-  });
+    if (submitBtn) {
+      submitBtn.innerHTML = '<i class="fa-solid fa-check" style="margin-right:8px;"></i> SENT!';
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+      }, 2200);
+    }
+  }, 500);
+}
+
+window.handleInquirySubmit = handleInquirySubmit;
+window.handleContactSubmit = handleInquirySubmit;
+
+function initContactForm() {
+  const form = document.getElementById('contact-form') || document.getElementById('home-inquiry-form');
+  if (!form) return;
+  form.addEventListener('submit', handleInquirySubmit);
 }
 
 // ===== HELPER: Hex to RGBA =====
