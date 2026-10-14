@@ -1,0 +1,21 @@
+{
+  "name": "island-nutrition",
+  "version": "1.0.0",
+  "description": "Island Nutrition - Premium Supplements Showroom",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node seed.js",
+    "reseed": "node server.js --reseed",
+    "test": "node test_suite.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.5",
+    "sql.js": "^1.12.0"
+  }
+}

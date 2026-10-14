@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product - Island Nutrition</title>
+  <meta name="description" content="View product details, specifications, and available flavors at Island Nutrition.">
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <script>
+    (function() {
+      try {
+        var s = localStorage.getItem('in_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', s);
+      } catch(e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <img src="/assets/images/island-logo-black.png" alt="Island Nutrition" class="theme-logo logo-dark-variant">
+        <img src="/assets/images/island-logo-white.png" alt="Island Nutrition" class="theme-logo logo-white-variant">
+        <span class="nav-logo-text">ISLAND NUTRITION</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/products.html" class="nav-link active">Products</a>
+        <a href="/about.html" class="nav-link">About</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
+        <button class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle theme">
+          <span class="theme-toggle-icon"></span>
+        </button>
+      </div>
+      <div class="nav-actions-mobile">
+        <button class="theme-toggle-btn theme-toggle-mobile" aria-label="Toggle theme" title="Toggle theme">
+          <span class="theme-toggle-icon"></span>
+        </button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Product Detail -->
+  <section class="product-detail">
+    <div class="container" id="product-detail">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo">
+            <img src="/assets/images/island-logo-black.png" alt="Island Nutrition" class="theme-logo logo-dark-variant">
+            <img src="/assets/images/island-logo-white.png" alt="Island Nutrition" class="theme-logo logo-white-variant">
+            <span class="nav-logo-text">ISLAND NUTRITION</span>
+          </a>
+          <p style="margin-top: 16px;">Premium nutrition supplements crafted for peak performance.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/products.html">Products</a></li>
+            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Island Nutrition. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProductDetail();
+    });
+  </script>
+</body>
+</html>

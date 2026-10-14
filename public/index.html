@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Island Nutrition - Premium Supplements Showroom</title>
+  <meta name="description" content="Island Nutrition — Premium nutrition supplements crafted for peak performance. Explore our curated collection of proteins, pre-workouts, vitamins, and more.">
+  <meta name="keywords" content="nutrition, supplements, protein, pre-workout, vitamins, island nutrition">
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <script>
+    (function() {
+      try {
+        var s = localStorage.getItem('in_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', s);
+      } catch(e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <img src="/assets/images/island-logo-black.png" alt="Island Nutrition" class="theme-logo logo-dark-variant">
+        <img src="/assets/images/island-logo-white.png" alt="Island Nutrition" class="theme-logo logo-white-variant">
+        <span class="nav-logo-text">ISLAND NUTRITION</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="/" class="nav-link active">Home</a>
+        <a href="/products.html" class="nav-link">Products</a>
+        <a href="/about.html" class="nav-link">About</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
+        <button class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle theme">
+          <span class="theme-toggle-icon"></span>
+        </button>
+      </div>
+      <div class="nav-actions-mobile">
+        <button class="theme-toggle-btn theme-toggle-mobile" aria-label="Toggle theme" title="Toggle theme">
+          <span class="theme-toggle-icon"></span>
+        </button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section (Flagship Showcase Slider) -->
+  <section class="hero flagship-hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div class="hero-dynamic-backdrop" id="hero-backdrop-glow"></div>
+    </div>
+
+    <div class="hero-wrapper container">
+      <!-- Left Column: Product Info & Controls -->
+      <div class="hero-content-col">
+        <div class="hero-badge" id="hero-badge">
+          <span class="hero-badge-dot" id="hero-badge-dot"></span>
+          <span id="hero-badge-text">Island Nutrition • Flagship Series</span>
+        </div>
+
+        <h1 class="hero-title" id="hero-title">
+          <span class="hero-title-prefix" id="hero-title-prefix">ENGINEERED FOR</span><br>
+          <span class="gradient-text hero-title-main" id="hero-product-name">PEAK PERFORMANCE</span>
+        </h1>
+
+        <p class="hero-description" id="hero-product-desc">
+          Precision-formulated nutrition supplements crafted for elite athletes and fitness enthusiasts. Zero filler, pure potency, scientific results.
+        </p>
+
+        <!-- Live Product Quick Specs -->
+        <div class="hero-specs-row" id="hero-specs-row">
+          <div class="hero-spec-pill"><i class="fa-solid fa-fire-flame-curved"></i> <span id="hero-spec-1">Swedish Formula</span></div>
+          <div class="hero-spec-pill"><i class="fa-solid fa-check-double"></i> <span id="hero-spec-2">Halal Certified</span></div>
+          <div class="hero-spec-pill"><i class="fa-solid fa-bolt"></i> <span id="hero-spec-3">100% Pure Potency</span></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="hero-actions">
+          <a href="/products.html" class="btn btn-primary btn-lg" id="hero-primary-cta">
+            <span>View Product</span> <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i>
+          </a>
+          <a href="/products.html" class="btn btn-secondary btn-lg">
+            <span>Explore All</span>
+          </a>
+        </div>
+
+        <!-- Slider Navigation & Autoplay Progress Bar -->
+        <div class="hero-slider-nav">
+          <div class="hero-slider-arrows">
+            <button class="hero-slider-btn prev-btn" id="hero-prev-btn" aria-label="Previous product">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="hero-slider-btn next-btn" id="hero-next-btn" aria-label="Next product">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="hero-slider-dots" id="hero-slider-dots">
+            <!-- Dynamic dots inserted by JS -->
+          </div>
+          <div class="hero-slider-counter">
+            <span id="hero-curr-slide">01</span><span class="counter-sep">/</span><span id="hero-total-slides">05</span>
+          </div>
+        </div>
+
+        <!-- Autoplay Progress Track -->
+        <div class="hero-progress-track">
+          <div class="hero-progress-bar" id="hero-progress-bar"></div>
+        </div>
+      </div>
+
+      <!-- Right Column: 3D Floating Showcase Stage -->
+      <div class="hero-visual-col">
+        <div class="hero-stage" id="hero-stage">
+          <!-- Ambient Radial Halo -->
+          <div class="hero-aura-glow" id="hero-aura-glow"></div>
+
+          <!-- Floating Micro-Badges -->
+          <div class="hero-floating-chip chip-top" id="hero-chip-top">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span id="hero-chip-top-text">Elite Formula</span>
+          </div>
+
+          <div class="hero-floating-chip chip-bottom" id="hero-chip-bottom">
+            <i class="fa-solid fa-droplet"></i>
+            <span id="hero-chip-bottom-text">Active Flavor</span>
+          </div>
+
+          <!-- Product Image Stage with 3D Float -->
+          <div class="hero-product-stage-wrap">
+            <a href="/products.html" id="hero-product-link" class="hero-product-link" aria-label="View featured product">
+              <img src="/uploads/product_pwo_x-shred.webp" alt="Featured Product" id="hero-product-img" class="hero-product-img">
+            </a>
+            <div class="hero-ground-shadow" id="hero-ground-shadow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="hero-scroll-indicator">
+      <a href="#featured-products-section">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Featured Products Slider -->
+  <section class="section" id="featured-products-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Spotlight</span>
+        <h2 class="section-title">Featured Products</h2>
+        <p class="section-subtitle">Our most popular supplements, loved by athletes worldwide.</p>
+      </div>
+
+      <!-- Products Carousel Wrapper -->
+      <div class="carousel-outer-wrapper animate-on-scroll">
+        <button class="carousel-arrow prev-arrow" id="prod-prev-btn" aria-label="Previous products">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="carousel-viewport" id="products-viewport">
+          <div class="carousel-track products-carousel-track" id="featured-products">
+            <div class="loading-spinner" style="width:100%;"><div class="spinner"></div></div>
+          </div>
+        </div>
+
+        <button class="carousel-arrow next-arrow" id="prod-next-btn" aria-label="Next products">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="carousel-dots" id="prod-carousel-dots"></div>
+
+      <div class="text-center mt-8 animate-on-scroll">
+        <a href="/products.html" class="btn btn-secondary btn-lg">Explore Full Showroom <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Snippet -->
+  <section class="section about-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-content animate-on-scroll">
+          <span class="section-label" style="justify-content:flex-start;">Why Island Nutrition</span>
+          <h2>Premium Quality,<br><span class="text-gradient">Exceptional Results</span></h2>
+          <p>At Island Nutrition, we believe that premium supplements should be accessible to everyone. Our products are formulated with the highest quality ingredients, rigorously tested, and designed to deliver real results.</p>
+          <p>From professional athletes to fitness enthusiasts, our supplements are trusted by thousands who demand nothing but the best for their bodies.</p>
+          <div class="about-stats">
+            <div class="about-stat">
+              <div class="about-stat-number">50+</div>
+              <div class="about-stat-label">Products</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-number">100%</div>
+              <div class="about-stat-label">Quality</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-number">24/7</div>
+              <div class="about-stat-label">Support</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-image animate-on-scroll">
+          <div class="brand-card-display">
+            <img src="/assets/images/island-logo-black.png" alt="Island Nutrition" class="theme-logo logo-dark-variant brand-showcase-logo">
+            <img src="/assets/images/island-logo-white.png" alt="Island Nutrition" class="theme-logo logo-white-variant brand-showcase-logo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">What Sets Us Apart</span>
+        <h2 class="section-title">Our Promise</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate-on-scroll stagger-1">
+          <div class="feature-icon"><i class="fa-solid fa-flask-vial"></i></div>
+          <h3>Lab Tested</h3>
+          <p>Every batch is rigorously tested in independent labs to ensure purity, potency, and safety.</p>
+        </div>
+        <div class="feature-card animate-on-scroll stagger-2">
+          <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+          <h3>Premium Ingredients</h3>
+          <p>We source only the finest raw materials from trusted suppliers around the world.</p>
+        </div>
+        <div class="feature-card animate-on-scroll stagger-3">
+          <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Performance Driven</h3>
+          <p>Formulated by sports scientists to maximize your performance and recovery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Categories Slider -->
+  <section class="section categories-slider-section" id="categories-section" style="padding-bottom: var(--space-12);">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Our Collection</span>
+        <h2 class="section-title">Browse Categories</h2>
+        <p class="section-subtitle">Explore our carefully curated range of premium supplements designed for every goal.</p>
+      </div>
+
+      <!-- Categories Carousel Wrapper -->
+      <div class="carousel-outer-wrapper animate-on-scroll">
+        <button class="carousel-arrow prev-arrow" id="cat-prev-btn" aria-label="Previous categories">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="carousel-viewport" id="categories-viewport">
+          <div class="carousel-track" id="featured-categories">
+            <div class="loading-spinner" style="width:100%;"><div class="spinner"></div></div>
+          </div>
+        </div>
+
+        <button class="carousel-arrow next-arrow" id="cat-next-btn" aria-label="Next categories">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Carousel Pagination Dots -->
+      <div class="carousel-dots" id="cat-carousel-dots"></div>
+
+      <div class="text-center mt-8 animate-on-scroll">
+        <a href="/products.html" class="btn btn-secondary btn-lg">View All Categories <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo">
+            <img src="/assets/images/island-logo-black.png" alt="Island Nutrition" class="theme-logo logo-dark-variant">
+            <img src="/assets/images/island-logo-white.png" alt="Island Nutrition" class="theme-logo logo-white-variant">
+            <span class="nav-logo-text">ISLAND NUTRITION</span>
+          </a>
+          <p style="margin-top: 16px;">Premium nutrition supplements crafted for peak performance. Fuel your paradise with the finest quality ingredients.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/products.html">Products</a></li>
+            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Products</h4>
+          <ul id="footer-categories">
+            <li><a href="/products.html">All Categories</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Island Nutrition. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initHeroSlider();
+      loadFeaturedCategories();
+      loadFeaturedProducts();
+    });
+  </script>
+</body>
+</html>

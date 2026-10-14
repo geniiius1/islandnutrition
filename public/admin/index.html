@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Island Nutrition</title>
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- Sidebar Overlay for mobile -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="/assets/images/island-logo-white.png" alt="Island Nutrition Logo">
+        <div class="sidebar-brand">ISLAND NUTRITION</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Navigation</div>
+          <button type="button" class="sidebar-link active" data-page="dashboard" onclick="navigateTo('dashboard')">
+            <span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+            <span>Dashboard</span>
+          </button>
+          <button type="button" class="sidebar-link" data-page="categories" onclick="navigateTo('categories')">
+            <span class="icon"><i class="fa-solid fa-folder-open"></i></span>
+            <span>Categories</span>
+          </button>
+          <button type="button" class="sidebar-link" data-page="products" onclick="navigateTo('products')">
+            <span class="icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+            <span>Products</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">System</div>
+          <button type="button" class="sidebar-link" data-page="settings" onclick="navigateTo('settings')">
+            <span class="icon"><i class="fa-solid fa-gear"></i></span>
+            <span>Site Settings</span>
+          </button>
+          <a href="/" target="_blank" class="sidebar-link">
+            <span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            <span>View Showroom</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button type="button" class="sidebar-link logout" onclick="logout()">
+          <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="sidebar-toggle" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+          <h1 class="admin-header-title" id="header-title">Dashboard</h1>
+        </div>
+
+        <div class="admin-header-actions">
+          <span style="font-size: 0.85rem; color: var(--admin-text-secondary);">
+            Logged in as <strong id="admin-username" style="color: var(--admin-accent);">admin</strong>
+          </span>
+          <a href="/" target="_blank" class="btn-admin btn-admin-secondary" style="font-size: 0.8rem; padding: 6px 14px;">
+            Showroom <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.75rem; margin-left:4px;"></i>
+          </a>
+        </div>
+      </header>
+
+      <div class="admin-content" id="admin-content">
+        <!-- Loaded dynamically by admin.js -->
+        <div style="text-align: center; padding: 60px; color: var(--admin-text-muted);">
+          <p>Loading dashboard...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/admin/js/admin.js"></script>
+</body>
+</html>
