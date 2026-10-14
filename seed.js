@@ -401,15 +401,16 @@ const catalog = [
     products: [
       {
         name: 'L-Carnitine + Synephrine',
-        short_description: 'Dual-Action Thermogenic Formula — L-Carnitine & Synephrine • 60 Capsules',
+        short_description: 'Dual-Action Thermogenic Formula — L-Carnitine & Synephrine • 60 Capsules • 30 Servings',
         description: 'Island Nutrition\'s L-Carnitine + Synephrine combines dual active metabolic compounds to accelerate fat transport and thermogenesis. L-Carnitine transports long-chain fatty acids into mitochondria for clean energy production, while Synephrine HCl boosts resting metabolic rate and energy expenditure. 60 capsules.',
-        weight: '',
-        servings: '60 Capsules',
+        weight: '60 Capsules',
+        servings: '30',
         ingredients: 'L-Carnitine L-Tartrate, Acetyl L-Carnitine, Synephrine HCl, Vitamin B6, BioPerine® Black Pepper Extract, Vegetable Cellulose Capsule.',
         usage_instructions: 'Take recommended dose 30 minutes before cardio or training. Can also be taken with meals for metabolic support throughout the day.',
         is_featured: 0,
         specs: [
           { name: 'Form', value: '60 Capsules / Kapslar' },
+          { name: 'Servings', value: '30 Servings' },
           { name: 'Formula', value: 'Dual Active Formula' },
           { name: 'L-Carnitine', value: 'Fatty Acid Oxidation Support' },
           { name: 'Synephrine', value: 'Thermogenic Metabolic Rate Activator' },
@@ -420,16 +421,17 @@ const catalog = [
       },
       {
         name: 'CLA',
-        short_description: 'Conjugated Linoleic Acid — Body Composition & Lean Muscle Support • 90 Softgels',
+        short_description: 'Conjugated Linoleic Acid — Body Composition & Lean Muscle Support • 90 Softgels • 45 Servings',
         description: 'CLA (Conjugated Linoleic Acid) from Island Nutrition supports healthy body composition by promoting lean muscle retention while aiding fat metabolism. A stimulant-free staple supplement derived from pure safflower oil. 90 softgels.',
-        weight: '',
-        servings: '90 Softgels',
+        weight: '90 Softgels',
+        servings: '45',
         ingredients: 'Conjugated Linoleic Acid (from Safflower Oil), Gelatin Softgel Capsule, Glycerin.',
         usage_instructions: 'Take 1-2 softgels with meals, 2-3 times daily. Best results with a balanced diet and regular exercise.',
         is_featured: 0,
         specs: [
           { name: 'Active', value: 'Conjugated Linoleic Acid' },
           { name: 'Form', value: '90 Softgels' },
+          { name: 'Servings', value: '45 Servings' },
           { name: 'Source', value: 'Pure Safflower Oil' },
           { name: 'Stimulant Free', value: 'Yes' },
           { name: 'Quality', value: '100% Premium' }
@@ -452,16 +454,17 @@ const catalog = [
     products: [
       {
         name: 'Vitamin C',
-        short_description: 'Essential Antioxidant & High-Potency Vitamin C • 60 Capsules',
+        short_description: 'Essential Antioxidant & High-Potency Vitamin C • 60 Capsules • 30 Servings',
         description: 'Island Nutrition\'s Vitamin C delivers high-potency ascorbic acid for robust immune defense, cellular antioxidant protection, and collagen synthesis support. Essential for hard-training athletes. 60 capsules.',
-        weight: '',
-        servings: '60 Capsules',
+        weight: '60 Capsules',
+        servings: '30',
         ingredients: 'Ascorbic Acid (Vitamin C), Microcrystalline Cellulose, Vegetable Cellulose Capsule, Magnesium Stearate.',
         usage_instructions: 'Take 1 capsule daily with food and water.',
         is_featured: 0,
         specs: [
           { name: 'Active', value: 'Vitamin C (Ascorbic Acid)' },
           { name: 'Form', value: '60 Capsules / Kapslar' },
+          { name: 'Servings', value: '30 Servings' },
           { name: 'Benefit', value: 'Essential Antioxidant & Immune Support' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -469,10 +472,10 @@ const catalog = [
       },
       {
         name: 'Vitamin D3 + K2',
-        short_description: 'Daily Vitamin Formula with 5000 IU Vitamin D & Synergistic K2 • 60 Tablets',
+        short_description: 'Daily Vitamin Formula with 5000 IU Vitamin D & Synergistic K2 • 60 Tablets • 60 Servings',
         description: 'Island Nutrition\'s Vitamin D3 + K2 provides a clinical 5000 IU dose of Vitamin D3 combined with Vitamin K2 (MK-7) to optimize calcium metabolism, strengthen bone density, and support immune and cardiovascular health. 60 tablets.',
-        weight: '',
-        servings: '60 Tablets',
+        weight: '60 Tablets',
+        servings: '60',
         ingredients: 'Cholecalciferol (Vitamin D3), Menaquinone-7 (Vitamin K2 as MK-7), Microcrystalline Cellulose, Tablet Coating, Magnesium Stearate.',
         usage_instructions: 'Take 1 tablet daily with a meal for optimal absorption.',
         is_featured: 0,
@@ -480,6 +483,7 @@ const catalog = [
           { name: 'Vitamin D3', value: '5000 IU' },
           { name: 'Vitamin K2', value: 'MK-7 Synergistic Form' },
           { name: 'Form', value: '60 Tablets / Tabletter' },
+          { name: 'Servings', value: '60 Servings' },
           { name: 'Support', value: 'Bone Density, Immune & Cardiovascular' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -487,16 +491,17 @@ const catalog = [
       },
       {
         name: 'B-Complex',
-        short_description: 'Full Spectrum B-Vitamins for Cellular Energy & Nervous System • 60 Capsules',
+        short_description: 'Full Spectrum B-Vitamins for Cellular Energy & Nervous System • 60 Capsules • 30 Servings',
         description: 'Island Nutrition\'s B-Complex delivers a comprehensive, full-spectrum profile of essential B-vitamins to drive cellular energy metabolism, support neurological health, and reduce fatigue. 60 capsules.',
-        weight: '',
-        servings: '60 Capsules',
+        weight: '60 Capsules',
+        servings: '30',
         ingredients: 'Thiamine (B1), Riboflavin (B2), Niacin (B3), Pantothenic Acid (B5), Pyridoxine (B6), Biotin (B7), Folate (B9 as Methylfolate), Methylcobalamin (B12), Vegetable Cellulose Capsule.',
         usage_instructions: 'Take 1 capsule daily with food.',
         is_featured: 0,
         specs: [
           { name: 'Profile', value: 'Full Spectrum B-Vitamins (B1-B12)' },
           { name: 'Form', value: '60 Capsules / Kapslar' },
+          { name: 'Servings', value: '30 Servings' },
           { name: 'Function', value: 'Energy Metabolism & Nervous System' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -504,16 +509,17 @@ const catalog = [
       },
       {
         name: 'Magnesium X4',
-        short_description: 'Four Bioavailable Forms of Magnesium for Muscle & Nerve Support • 60 Capsules',
+        short_description: 'Four Bioavailable Forms of Magnesium for Muscle & Nerve Support • 60 Capsules • 30 Servings',
         description: 'Magnesium X4 combines four highly bioavailable forms of magnesium (Bisglycinate, Taurate, Malate, and Citrate) for optimal absorption. Promotes neuromuscular relaxation, reduces muscle cramping, and enhances recovery and sleep quality. 60 capsules.',
-        weight: '',
-        servings: '60 Capsules',
+        weight: '60 Capsules',
+        servings: '30',
         ingredients: 'Magnesium Bisglycinate, Magnesium Taurate, Magnesium Malate, Magnesium Citrate, Vegetable Cellulose Capsule.',
         usage_instructions: 'Take 2 capsules daily, preferably in the evening with food.',
         is_featured: 0,
         specs: [
           { name: 'Magnesium Forms', value: 'Four Forms (Bisglycinate, Taurate, Malate, Citrate)' },
           { name: 'Form', value: '60 Capsules / Kapslar' },
+          { name: 'Servings', value: '30 Servings' },
           { name: 'Benefits', value: 'Muscle Function, Nerve Support & Recovery' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -521,16 +527,17 @@ const catalog = [
       },
       {
         name: 'MULTIWELL',
-        short_description: 'Complete Vitamins + Minerals Formula for Active Lifestyles • 90 Tablets',
+        short_description: 'Complete Vitamins + Minerals Formula for Active Lifestyles • 90 Tablets • 90 Servings',
         description: 'MULTIWELL is Island Nutrition\'s comprehensive daily multi-nutrient formula delivering an essential matrix of vitamins and chelated minerals to maintain vitality, optimize physiological performance, and support overall health. 90 tablets.',
-        weight: '',
-        servings: '90 Tablets',
+        weight: '90 Tablets',
+        servings: '90',
         ingredients: 'Vitamin A, C, D3, E, K2, B-Complex, Zinc Bisglycinate, Magnesium, Selenium, Chromium, Iron, CoQ10, BioPerine®, Microcrystalline Cellulose, Tablet Coating, Magnesium Stearate.',
         usage_instructions: 'Take 1 tablet daily with a meal.',
         is_featured: 0,
         specs: [
           { name: 'Composition', value: 'Vitamins + Minerals Complete Spectrum' },
           { name: 'Form', value: '90 Tablets / Tabletter' },
+          { name: 'Servings', value: '90 Servings' },
           { name: 'Target', value: 'Daily Health, Immune & Vitality Support' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -552,16 +559,17 @@ const catalog = [
     products: [
       {
         name: 'TESTO POWER',
-        short_description: 'Zinc + Botanical Complex for Natural Testosterone & Vitality • 120 Capsules',
+        short_description: 'Zinc + Botanical Complex for Natural Testosterone & Vitality • 120 Capsules • 60 Servings',
         description: 'TESTO POWER is Island Nutrition\'s advanced male performance formula featuring Zinc paired with an evidence-based botanical complex. Designed to support optimal testosterone synthesis, vitality, strength progression, and athletic drive. 120 capsules.',
-        weight: '',
-        servings: '120 Capsules',
+        weight: '120 Capsules',
+        servings: '60',
         ingredients: 'Ashwagandha Root Extract (KSM-66®), Fenugreek Seed Extract, Tribulus Terrestris, Zinc Bisglycinate, Boron Citrate, Vitamin D3, Magnesium, BioPerine®, Vegetable Cellulose Capsule.',
         usage_instructions: 'Take the recommended dose daily with a meal. Best taken with breakfast or 30-45 minutes before training.',
         is_featured: 0,
         specs: [
           { name: 'Formula', value: 'Zinc + Botanical Complex' },
           { name: 'Form', value: '120 Capsules / Kapslar' },
+          { name: 'Servings', value: '60 Servings' },
           { name: 'Benefits', value: 'Testosterone Support, Vitality & Strength' },
           { name: 'Zinc Source', value: 'Bisglycinate Chelate' },
           { name: 'Quality', value: '100% Premium' }
@@ -570,16 +578,17 @@ const catalog = [
       },
       {
         name: 'ZMA',
-        short_description: 'Zinc • Magnesium • B6 Synergy for Sleep & Recovery • 90 Capsules',
+        short_description: 'Zinc • Magnesium • B6 Synergy for Sleep & Recovery • 90 Capsules • 45 Servings',
         description: 'Island Nutrition\'s ZMA unites highly bioavailable Zinc, Magnesium, and Vitamin B6 to optimize night-time hormonal balance, facilitate restorative deep sleep, and accelerate muscle tissue recovery. 90 capsules.',
-        weight: '',
-        servings: '90 Capsules',
+        weight: '90 Capsules',
+        servings: '45',
         ingredients: 'Zinc Monomethionine Aspartate, Magnesium Aspartate, Pyridoxine HCl (Vitamin B6), Vegetable Cellulose Capsule.',
         usage_instructions: 'Take 2-3 capsules 30-60 minutes before bedtime on an empty stomach.',
         is_featured: 0,
         specs: [
           { name: 'Synergy', value: 'Zinc • Magnesium • B6' },
           { name: 'Form', value: '90 Capsules / Kapslar' },
+          { name: 'Servings', value: '45 Servings' },
           { name: 'Timing', value: 'Bedtime Recovery & Sleep Optimization' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -601,16 +610,17 @@ const catalog = [
     products: [
       {
         name: 'Joint Complex',
-        short_description: 'Collagen • MSM • Glucosamine Matrix for Joint & Cartilage Health • 90 Capsules',
+        short_description: 'Collagen • MSM • Glucosamine Matrix for Joint & Cartilage Health • 90 Capsules • 45 Servings',
         description: 'Joint Complex is Island Nutrition\'s premium triple-action formula featuring Collagen, MSM, and Glucosamine to maintain joint cartilage integrity, improve connective tissue resilience, and alleviate exercise-induced joint stiffness. 90 capsules.',
-        weight: '',
-        servings: '90 Capsules',
+        weight: '90 Capsules',
+        servings: '45',
         ingredients: 'Glucosamine Sulfate, Chondroitin Sulfate, MSM (Methylsulfonylmethane), Collagen, Hyaluronic Acid, Turmeric Extract (Curcumin), Boswellia Extract, Vitamin C, Manganese, Vegetable Cellulose Capsule.',
         usage_instructions: 'Take 2-3 capsules daily with food. Allow 4-6 weeks for optimal joint support benefits.',
         is_featured: 0,
         specs: [
           { name: 'Key Actives', value: 'Collagen • MSM • Glucosamine' },
           { name: 'Form', value: '90 Capsules / Kapslar' },
+          { name: 'Servings', value: '45 Servings' },
           { name: 'Function', value: 'Cartilage Integrity, Joint Flexibility & Comfort' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -655,16 +665,17 @@ const catalog = [
     products: [
       {
         name: 'Ashwagandha',
-        short_description: 'Withania Somnifera Adaptogen for Cortisol Balance & Stress Relief • 60 Capsules',
+        short_description: 'Withania Somnifera Adaptogen for Cortisol Balance & Stress Relief • 60 Capsules • 30 Servings',
         description: 'Island Nutrition\'s Ashwagandha delivers pure Withania Somnifera root extract, an ancient adaptogen clinically revered for lowering cortisol levels, calming the nervous system, enhancing resilience to stress, and promoting physical recovery. 60 capsules.',
-        weight: '',
-        servings: '60 Capsules',
+        weight: '60 Capsules',
+        servings: '30',
         ingredients: 'Withania Somnifera Root Extract, Vegetable Cellulose Capsule, Rice Flour.',
         usage_instructions: 'Take 1-2 capsules daily with food. Can be taken morning or evening.',
         is_featured: 0,
         specs: [
           { name: 'Botanical', value: 'Withania Somnifera Root Extract' },
           { name: 'Form', value: '60 Capsules / Kapslar' },
+          { name: 'Servings', value: '30 Servings' },
           { name: 'Function', value: 'Adaptogen, Cortisol Balance & Recovery' },
           { name: 'Quality', value: '100% Premium' }
         ],
@@ -672,16 +683,17 @@ const catalog = [
       },
       {
         name: 'GABA + L-Theanine',
-        short_description: 'Dual Amino Acid Formula for Deep Relaxation & Calm Focus • 60 Capsules',
+        short_description: 'Dual Amino Acid Formula for Deep Relaxation & Calm Focus • 60 Capsules • 30 Servings',
         description: 'A synergistic calming nootropic blend of Gamma-Aminobutyric Acid (GABA) and L-Theanine. Supports inhibitory neurotransmitter pathways to quiet mental chatter, promote alpha brainwave state, and improve sleep onset and depth. 60 capsules.',
-        weight: '',
-        servings: '60 Capsules',
+        weight: '60 Capsules',
+        servings: '30',
         ingredients: 'Gamma-Aminobutyric Acid (GABA), L-Theanine, Vegetable Cellulose Capsule, Magnesium Stearate.',
         usage_instructions: 'Take 1-2 capsules 30-60 minutes before bedtime, or during the day for calm focus.',
         is_featured: 0,
         specs: [
           { name: 'Formula', value: 'Dual Amino Acid Formula (GABA + L-Theanine)' },
           { name: 'Form', value: '60 Capsules / Kapslar' },
+          { name: 'Servings', value: '30 Servings' },
           { name: 'Support', value: 'Relaxation, Calm Mental Clarity & Sleep Quality' },
           { name: 'Quality', value: '100% Premium' }
         ],

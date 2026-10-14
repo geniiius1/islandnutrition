@@ -235,12 +235,14 @@ function showToast(message, type = 'success') {
 // Helper: Detect heavy mass gainers / high-capacity buckets (4000g, 4kg, >=3000g, Mass Gainers)
 function isHeavyProduct(product) {
   if (!product) return false;
+  // If it's capsules/tablets/softgels, it's not a heavy mass gainer
+  if (/capsule|tablet|softgel|caps|pill/i.test(product.weight || '')) return false;
   const weightStr = String(product.weight || '').toLowerCase();
   const weightMatch = weightStr.match(/(\d+(?:\.\d+)?)\s*(g|kg)?/);
   if (weightMatch) {
     const val = parseFloat(weightMatch[1]);
     const unit = weightMatch[2] || 'g';
-    const grams = unit === 'kg' ? val * 1000 : val;
+    const grams = unit === 'kg' ? val * 1000 : (unit === 'g' ? val : 0);
     if (grams >= 3000) return true;
   }
   const nameStr = String(product.name || '').toLowerCase();
@@ -698,13 +700,13 @@ async function loadProductDetail() {
             <div class="product-meta-grid">
               ${product.weight ? `
                 <div class="product-meta-item">
-                  <div class="product-meta-label">Net Weight</div>
+                  <div class="product-meta-label">${/capsule|tablet|softgel|caps|pill/i.test(product.weight) ? 'Quantity / Form' : 'Net Weight'}</div>
                   <div class="product-meta-value">${product.weight}</div>
                 </div>
               ` : ''}
               ${product.servings ? `
                 <div class="product-meta-item">
-                  <div class="product-meta-label">Servings / Count</div>
+                  <div class="product-meta-label">Servings</div>
                   <div class="product-meta-value">${formatServings(product.servings)}</div>
                 </div>
               ` : ''}
@@ -1246,10 +1248,11 @@ async function initHeroSlider() {
       if (specsRowEl) {
         const specItems = [];
         if (p.servings) {
-          specItems.push(`<div class="hero-spec-pill"><i class="fa-solid fa-fire-flame-curved"></i> <span>${p.servings} Servings</span></div>`);
+          specItems.push(`<div class="hero-spec-pill"><i class="fa-solid fa-fire-flame-curved"></i> <span>${formatServings(p.servings)}</span></div>`);
         }
         if (p.weight) {
-          specItems.push(`<div class="hero-spec-pill"><i class="fa-solid fa-weight-scale"></i> <span>${p.weight}</span></div>`);
+          const isPill = /capsule|tablet|softgel|caps|pill/i.test(p.weight);
+          specItems.push(`<div class="hero-spec-pill"><i class="fa-solid ${isPill ? 'fa-pills' : 'fa-weight-scale'}"></i> <span>${p.weight}</span></div>`);
         }
         if (p.flavors && p.flavors.length > 0) {
           const flv = p.flavors[0];

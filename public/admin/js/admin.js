@@ -372,7 +372,7 @@ async function loadProductsPage(container) {
                 <th>Category</th>
                 <th>Badges</th>
                 <th>Flavors & Dots</th>
-                <th>Weight</th>
+                <th>Size & Servings</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -412,8 +412,10 @@ async function loadProductsPage(container) {
                         </div>
                       </div>
                     ` : '<span style="color:var(--admin-text-muted);font-size:0.8rem;">—</span>'}
+                  <td>
+                    <div style="font-weight:600;">${p.weight || '-'}</div>
+                    ${p.servings ? `<div style="font-size:0.75rem; color:var(--admin-accent); font-weight:600; margin-top:2px;">${p.servings.toLowerCase().includes('serving') ? p.servings : p.servings + ' Servings'}</div>` : ''}
                   </td>
-                  <td>${p.weight || '-'}</td>
                   <td>
                     <div class="table-actions">
                       <button class="btn-table btn-table-edit" onclick="showProductForm(${p.id})">Edit</button>
@@ -498,13 +500,13 @@ async function showProductForm(id = null) {
 
           <div class="form-row">
             <div class="form-group">
-              <label for="product-weight">Weight / Size</label>
-              <input type="text" id="product-weight" value="${product ? escHTML(product.weight || '') : ''}" placeholder="e.g., 2000g, 4000g, 320g">
-              <div class="form-hint">Products with 4000g / heavy mass gainers automatically render with expanded heroic scale across all product cards and hero sliders.</div>
+              <label for="product-weight">Weight / Size / Count</label>
+              <input type="text" id="product-weight" value="${product ? escHTML(product.weight || '') : ''}" placeholder="e.g., 2000g, 60 Capsules, 90 Tablets">
+              <div class="form-hint">For powders enter weight (e.g., 2000g), for capsules/tablets enter count (e.g., 60 Capsules). Products with 4000g mass gainers render with heroic scale.</div>
             </div>
             <div class="form-group">
               <label for="product-servings">Servings</label>
-              <input type="text" id="product-servings" value="${product ? escHTML(product.servings || '') : ''}" placeholder="e.g., 67, 20">
+              <input type="text" id="product-servings" value="${product ? escHTML(product.servings || '') : ''}" placeholder="e.g., 67, 30, 45, 90">
             </div>
           </div>
 
