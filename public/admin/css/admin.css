@@ -414,9 +414,30 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
 }
 
+.admin-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-table-wrap::-webkit-scrollbar {
+  height: 6px;
+}
+.admin-table-wrap::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+.admin-table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+.admin-table-wrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 .admin-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 680px;
 }
 
 .admin-table thead th {
@@ -445,22 +466,26 @@ img { max-width: 100%; display: block; }
 }
 
 .admin-table tbody td {
-  padding: 16px 24px;
+  padding: 14px 24px;
   font-size: 0.9rem;
   vertical-align: middle;
 }
 
 .table-image {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border-radius: var(--admin-radius-sm);
-  object-fit: cover;
-  background: var(--admin-surface);
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px;
+  display: block;
 }
 
 .table-actions {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .btn-table {
@@ -469,6 +494,22 @@ img { max-width: 100%; display: block; }
   font-size: 0.8rem;
   font-weight: 600;
   transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn-table-view {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+.btn-table-view:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 .btn-table-edit {
@@ -482,6 +523,118 @@ img { max-width: 100%; display: block; }
   color: var(--admin-danger);
 }
 .btn-table-delete:hover { background: rgba(239, 71, 111, 0.2); }
+
+/* Badges & Pills */
+.admin-count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--admin-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.admin-id-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.admin-category-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--admin-text-secondary);
+}
+
+/* Toolbar & Filter Bar */
+.admin-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid var(--admin-border);
+  flex-wrap: wrap;
+}
+
+.admin-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.admin-search-wrap i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--admin-text-muted);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.admin-search-input {
+  width: 100%;
+  padding: 9px 12px 9px 36px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: var(--admin-radius-sm) !important;
+  color: var(--admin-text) !important;
+  font-size: 0.85rem !important;
+  transition: all 0.2s;
+}
+
+.admin-search-input:focus {
+  outline: none;
+  border-color: var(--admin-accent) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: 0 0 0 3px rgba(var(--admin-accent-rgb), 0.1);
+}
+
+.admin-filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-filter-select {
+  padding: 9px 32px 9px 12px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: var(--admin-radius-sm) !important;
+  color: var(--admin-text) !important;
+  font-size: 0.85rem !important;
+  cursor: pointer;
+  min-width: 140px;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238892a6' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+}
+
+.admin-filter-select option {
+  background: var(--admin-surface);
+  color: var(--admin-text);
+}
+
+.admin-filter-stats {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: var(--admin-text-muted);
+}
 
 /* ============================================================
    ADMIN BUTTONS
@@ -674,22 +827,67 @@ img { max-width: 100%; display: block; }
 
 .image-preview-item {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: var(--admin-radius-sm);
   overflow: hidden;
   border: 2px solid var(--admin-border);
-  background: var(--admin-surface);
+  background: radial-gradient(circle at center, rgba(255,255,255,0.06) 0%, rgba(10,10,15,0.85) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
 }
 
 .image-preview-item.primary {
-  border-color: var(--admin-accent);
+  border-color: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
 }
 
 .image-preview-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 6px;
+  display: block;
+}
+
+.primary-badge-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  letter-spacing: 0.3px;
+}
+
+.primary-badge-btn.is-primary {
+  background: #10b981;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
+  cursor: default;
+}
+
+.primary-badge-btn.set-primary {
+  background: rgba(10, 10, 15, 0.85);
+  color: var(--admin-text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.primary-badge-btn.set-primary:hover {
+  background: #ffffff;
+  color: #070709;
+  border-color: #ffffff;
 }
 
 .image-preview-remove {
@@ -1241,19 +1439,98 @@ img { max-width: 100%; display: block; }
   }
 
   .admin-content {
-    padding: 20px 16px;
+    padding: 16px 12px;
   }
 
   .stats-grid {
     grid-template-columns: 1fr;
   }
 
-  .form-row {
-    grid-template-columns: 1fr;
+  .admin-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
   }
 
-  .admin-table {
-    display: block;
-    overflow-x: auto;
+  .admin-filter-bar {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .admin-search-wrap {
+    min-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .admin-filter-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-filter-select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .admin-filter-stats {
+    margin-left: 0;
+    width: 100%;
+    text-align: right;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .flavor-row-main {
+    gap: 8px;
+  }
+
+  .flavor-row-main .flavor-name-input {
+    min-width: 0;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .dynamic-row {
+    flex-wrap: wrap;
+  }
+
+  .dynamic-row input {
+    min-width: 0;
+    flex: 1 1 calc(50% - 24px);
+  }
+
+  .modal {
+    max-width: 100%;
+    margin: 12px;
+    border-radius: var(--admin-radius);
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-header {
+    padding: 12px 14px;
+  }
+
+  .admin-header-title {
+    font-size: 1.1rem;
+  }
+
+  .admin-header-actions span {
+    display: none;
+  }
+
+  .admin-badge-preview-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .admin-table thead th,
+  .admin-table tbody td {
+    padding: 12px 14px;
   }
 }

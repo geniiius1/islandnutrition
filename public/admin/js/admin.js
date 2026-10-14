@@ -87,6 +87,12 @@ function navigateTo(page) {
   const activeLink = document.querySelector(`[data-page="${page}"]`);
   if (activeLink) activeLink.classList.add('active');
 
+  // Auto-close mobile sidebar if open
+  const sidebar = document.querySelector('.admin-sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+
   const headerTitle = document.getElementById('header-title');
   const content = document.getElementById('admin-content');
 
@@ -186,38 +192,40 @@ async function loadCategoriesPage(container) {
           <button class="btn-admin btn-admin-primary" onclick="showCategoryModal()"><i class="fa-solid fa-plus" style="margin-right:6px;"></i> Add Category</button>
         </div>
         ${categories.length > 0 ? `
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Products</th>
-                <th>Order</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${categories.map(cat => `
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
                 <tr>
-                  <td>
-                    ${cat.image || cat.preview_image
-                      ? `<img class="table-image" src="${cat.image || cat.preview_image}" alt="${cat.name}">`
-                      : '<div class="table-image" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--admin-text-muted);"><i class="fa-solid fa-folder"></i></div>'
-                    }
-                  </td>
-                  <td><strong>${cat.name}</strong></td>
-                  <td>${cat.product_count || 0}</td>
-                  <td>${cat.sort_order || 0}</td>
-                  <td>
-                    <div class="table-actions">
-                      <button class="btn-table btn-table-edit" onclick="showCategoryModal(${cat.id})">Edit</button>
-                      <button class="btn-table btn-table-delete" onclick="deleteCategory(${cat.id}, '${cat.name.replace(/'/g, "\\'")}')">Delete</button>
-                    </div>
-                  </td>
+                  <th style="width:70px;">Image</th>
+                  <th>Name</th>
+                  <th>Products</th>
+                  <th>Order</th>
+                  <th style="text-align:right;">Actions</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                ${categories.map(cat => `
+                  <tr>
+                    <td>
+                      ${cat.image || cat.preview_image
+                        ? `<img class="table-image" src="${cat.image || cat.preview_image}" alt="${escHTML(cat.name)}">`
+                        : '<div class="table-image" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--admin-text-muted);"><i class="fa-solid fa-folder"></i></div>'
+                      }
+                    </td>
+                    <td><strong>${escHTML(cat.name)}</strong></td>
+                    <td><span class="admin-count-pill">${cat.product_count || 0}</span></td>
+                    <td>${cat.sort_order || 0}</td>
+                    <td style="text-align:right;">
+                      <div class="table-actions" style="justify-content:flex-end;">
+                        <button class="btn-table btn-table-edit" onclick="showCategoryModal(${cat.id})"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                        <button class="btn-table btn-table-delete" onclick="deleteCategory(${cat.id}, '${cat.name.replace(/'/g, "\\'")}')"><i class="fa-solid fa-trash-can"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
         ` : `
           <div style="padding: 60px 20px; text-align: center; color: var(--admin-text-muted);">
             <p style="font-size: 2rem; margin-bottom: 8px;"><i class="fa-solid fa-folder-open"></i></p>
@@ -280,6 +288,11 @@ function showCategoryModal(id = null) {
   const modal = document.getElementById('category-modal');
   const title = document.getElementById('category-modal-title');
   const form = document.getElementById('category-form');
+  const preview = document.getElementById('category-image-preview');
+  const fileInput = document.getElementById('category-image');
+
+  if (preview) preview.innerHTML = '';
+  if (fileInput) fileInput.value = '';
 
   if (id) {
     const cat = categories.find(c => c.id === id);
@@ -290,15 +303,13 @@ function showCategoryModal(id = null) {
     document.getElementById('category-description').value = cat.description || '';
     document.getElementById('category-order').value = cat.sort_order || 0;
     // Show existing image
-    const preview = document.getElementById('category-image-preview');
-    if (cat.image) {
-      preview.innerHTML = `<div class="image-preview-item"><img src="${cat.image}" alt="Current"></div>`;
+    if (cat.image || cat.preview_image) {
+      preview.innerHTML = `<div class="image-preview-item"><img src="${cat.image || cat.preview_image}" alt="Current"></div>`;
     }
   } else {
     title.textContent = 'Add Category';
     form.reset();
     document.getElementById('category-id').value = '';
-    document.getElementById('category-image-preview').innerHTML = '';
   }
 
   modal.classList.add('open');
@@ -360,72 +371,70 @@ async function loadProductsPage(container) {
     container.innerHTML = `
       <div class="admin-card" style="margin-bottom: 24px;">
         <div class="admin-card-header">
-          <h3 class="admin-card-title">All Products (${products.length})</h3>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <h3 class="admin-card-title">Products</h3>
+            <span class="admin-count-pill" id="admin-product-count-badge">${products.length}</span>
+          </div>
           <button class="btn-admin btn-admin-primary" onclick="showProductForm()"><i class="fa-solid fa-plus" style="margin-right:6px;"></i> Add Product</button>
         </div>
-        ${products.length > 0 ? `
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Badges</th>
-                <th>Flavors & Dots</th>
-                <th>Size & Servings</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${products.map(p => `
-                <tr>
-                  <td>
-                    ${p.primary_image
-                      ? `<img class="table-image" src="${p.primary_image}" alt="${p.name}">`
-                      : '<div class="table-image" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--admin-text-muted);"><i class="fa-solid fa-box"></i></div>'
-                    }
-                  </td>
-                  <td><strong>${p.name}</strong></td>
-                  <td>${p.category_name || '-'}</td>
-                  <td>
-                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                      ${p.is_new || p.badge_text ? `
-                        <span class="product-custom-badge" style="position:static; display:inline-flex; border-color:${p.badge_color ? p.badge_color + '55' : 'rgba(255,255,255,0.22)'}; box-shadow:0 2px 8px ${p.badge_color ? p.badge_color + '33' : 'rgba(0,0,0,0.25)'};">
-                          <span class="badge-dot" style="background:${p.badge_color || '#10b981'};"></span>
-                          ${escHTML(p.badge_text || 'NEW')}
-                        </span>
-                      ` : ''}
-                      ${p.is_featured ? `
-                        <span style="display:inline-flex; align-items:center; gap:3px; padding:3px 7px; border-radius:9999px; font-size:0.68rem; font-weight:700; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
-                          <i class="fa-solid fa-star" style="font-size:0.58rem;"></i> Featured
-                        </span>
-                      ` : ''}
-                      ${!p.is_new && !p.badge_text && !p.is_featured ? '<span style="color:var(--admin-text-muted);font-size:0.8rem;">-</span>' : ''}
-                    </div>
-                  </td>
-                  <td>
-                    ${p.flavor_count > 0 ? `
-                      <div style="display:flex; align-items:center; gap:8px;" title="${escHTML(p.flavor_names || '')}">
-                        <span style="font-size:0.8rem; font-weight:700; background:rgba(255,255,255,0.08); padding:2px 7px; border-radius:10px;">${p.flavor_count}</span>
-                        <div style="display:inline-flex; gap:3px; align-items:center;">
-                          ${(p.flavors || []).map(f => `<span style="width:8px; height:8px; border-radius:50%; background:${f.color_code || '#fff'}; display:inline-block; box-shadow:0 0 3px rgba(0,0,0,0.5);" title="${escHTML(f.flavor_name)}"></span>`).join('')}
-                        </div>
-                      </div>
-                    ` : '<span style="color:var(--admin-text-muted);font-size:0.8rem;">—</span>'}
-                  <td>
-                    <div style="font-weight:600;">${p.weight || '-'}</div>
-                    ${p.servings ? `<div style="font-size:0.75rem; color:var(--admin-accent); font-weight:600; margin-top:2px;">${p.servings.toLowerCase().includes('serving') ? p.servings : p.servings + ' Servings'}</div>` : ''}
-                  </td>
-                  <td>
-                    <div class="table-actions">
-                      <button class="btn-table btn-table-edit" onclick="showProductForm(${p.id})">Edit</button>
-                      <button class="btn-table btn-table-delete" onclick="deleteProduct(${p.id}, '${p.name.replace(/'/g, "\\'")}')">Delete</button>
-                    </div>
-                  </td>
-                </tr>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="admin-filter-bar">
+          <div class="admin-search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="admin-product-search" class="admin-search-input" placeholder="Search by name, category, weight, flavor..." oninput="filterAdminProducts()">
+          </div>
+
+          <div class="admin-filter-controls">
+            <select id="admin-category-filter" class="admin-filter-select" onchange="filterAdminProducts()">
+              <option value="">All Categories (${categories.length})</option>
+              ${categories.map(c => `
+                <option value="${c.id}">${escHTML(c.name)}</option>
               `).join('')}
-            </tbody>
-          </table>
+            </select>
+
+            <select id="admin-status-filter" class="admin-filter-select" onchange="filterAdminProducts()">
+              <option value="">All Statuses</option>
+              <option value="featured">Featured Only</option>
+              <option value="badge">Badged / NEW Only</option>
+              <option value="flavors">With Flavors</option>
+            </select>
+
+            <button type="button" class="btn-admin btn-admin-secondary btn-clear-filters" id="btn-clear-filters" onclick="clearProductFilters()" style="display:none; padding:8px 12px; font-size:0.8rem;">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+          </div>
+
+          <div class="admin-filter-stats" id="admin-filter-stats">
+            Showing <strong id="admin-shown-count">${products.length}</strong> of ${products.length}
+          </div>
+        </div>
+
+        ${products.length > 0 ? `
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="admin-products-table">
+              <thead>
+                <tr>
+                  <th style="width:70px;">Image</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Badges</th>
+                  <th>Flavors & Dots</th>
+                  <th>Size & Servings</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-tbody">
+                ${renderProductRows(products)}
+              </tbody>
+            </table>
+          </div>
+          <div id="admin-no-results" style="display:none; padding: 50px 20px; text-align: center; color: var(--admin-text-muted);">
+            <p style="font-size: 2rem; margin-bottom: 8px;"><i class="fa-solid fa-filter-circle-xmark"></i></p>
+            <p style="font-size: 1rem; color:var(--admin-text); font-weight:600; margin-bottom:4px;">No matching products</p>
+            <p style="font-size: 0.85rem; margin-bottom: 16px;">Try adjusting your search query or filters.</p>
+            <button class="btn-admin btn-admin-secondary" onclick="clearProductFilters()">Clear All Filters</button>
+          </div>
         ` : `
           <div style="padding: 60px 20px; text-align: center; color: var(--admin-text-muted);">
             <p style="font-size: 2rem; margin-bottom: 8px;"><i class="fa-solid fa-boxes-stacked"></i></p>
@@ -439,6 +448,130 @@ async function loadProductsPage(container) {
   } catch (err) {
     container.innerHTML = '<p>Failed to load products</p>';
   }
+}
+
+function renderProductRows(list) {
+  return list.map(p => `
+    <tr class="admin-product-row" data-id="${p.id}" data-category-id="${p.category_id || ''}" data-featured="${p.is_featured ? '1' : '0'}" data-badge="${p.is_new || p.badge_text ? '1' : '0'}" data-flavor-count="${p.flavor_count || 0}" data-search="${escHTML((p.name + ' ' + (p.category_name || '') + ' ' + (p.flavor_names || '') + ' ' + (p.weight || '') + ' ' + (p.servings || '')).toLowerCase())}">
+      <td>
+        ${p.primary_image
+          ? `<img class="table-image" src="${p.primary_image}" alt="${escHTML(p.name)}" loading="lazy">`
+          : '<div class="table-image" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--admin-text-muted);"><i class="fa-solid fa-box"></i></div>'
+        }
+      </td>
+      <td>
+        <div style="font-weight:700; color:#ffffff; font-size:0.95rem;">${escHTML(p.name)}</div>
+        ${p.short_description ? `<div style="font-size:0.75rem; color:var(--admin-text-muted); margin-top:2px; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHTML(p.short_description)}</div>` : ''}
+      </td>
+      <td>
+        <span class="admin-category-tag">${escHTML(p.category_name || '-')}</span>
+      </td>
+      <td>
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          ${p.is_new || p.badge_text ? `
+            <span class="product-custom-badge" style="position:static; display:inline-flex; border-color:${p.badge_color ? p.badge_color + '55' : 'rgba(255,255,255,0.22)'}; box-shadow:0 2px 8px ${p.badge_color ? p.badge_color + '33' : 'rgba(0,0,0,0.25)'};">
+              <span class="badge-dot" style="background:${p.badge_color || '#10b981'};"></span>
+              ${escHTML(p.badge_text || 'NEW')}
+            </span>
+          ` : ''}
+          ${p.is_featured ? `
+            <span style="display:inline-flex; align-items:center; gap:3px; padding:3px 7px; border-radius:9999px; font-size:0.68rem; font-weight:700; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+              <i class="fa-solid fa-star" style="font-size:0.58rem; color:#f59e0b;"></i> Featured
+            </span>
+          ` : ''}
+          ${!p.is_new && !p.badge_text && !p.is_featured ? '<span style="color:var(--admin-text-muted);font-size:0.8rem;">—</span>' : ''}
+        </div>
+      </td>
+      <td>
+        ${p.flavor_count > 0 ? `
+          <div style="display:flex; align-items:center; gap:8px;" title="${escHTML(p.flavor_names || '')}">
+            <span style="font-size:0.8rem; font-weight:700; background:rgba(255,255,255,0.08); padding:2px 7px; border-radius:10px;">${p.flavor_count}</span>
+            <div style="display:inline-flex; gap:3px; align-items:center;">
+              ${(p.flavors || []).map(f => `<span style="width:8px; height:8px; border-radius:50%; background:${f.color_code || '#fff'}; display:inline-block; box-shadow:0 0 3px rgba(0,0,0,0.5);" title="${escHTML(f.flavor_name)}"></span>`).join('')}
+            </div>
+          </div>
+        ` : '<span style="color:var(--admin-text-muted);font-size:0.8rem;">—</span>'}
+      </td>
+      <td>
+        <div style="font-weight:600;">${escHTML(p.weight || '—')}</div>
+        ${p.servings ? `<div style="font-size:0.75rem; color:var(--admin-accent); font-weight:600; margin-top:2px;">${p.servings.toLowerCase().includes('serving') ? escHTML(p.servings) : escHTML(p.servings) + ' Servings'}</div>` : ''}
+      </td>
+      <td style="text-align:right;">
+        <div class="table-actions" style="justify-content:flex-end;">
+          <a href="/product.html?id=${p.id}" target="_blank" class="btn-table btn-table-view" title="View in Showroom">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Showroom
+          </a>
+          <button type="button" class="btn-table btn-table-edit" onclick="showProductForm(${p.id})">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+          <button type="button" class="btn-table btn-table-delete" onclick="deleteProduct(${p.id}, '${p.name.replace(/'/g, "\\'")}')" title="Delete Product">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterAdminProducts() {
+  const query = (document.getElementById('admin-product-search')?.value || '').trim().toLowerCase();
+  const categoryId = document.getElementById('admin-category-filter')?.value || '';
+  const status = document.getElementById('admin-status-filter')?.value || '';
+
+  const rows = document.querySelectorAll('#admin-products-tbody .admin-product-row');
+  let visibleCount = 0;
+
+  rows.forEach(row => {
+    const rowSearch = row.dataset.search || '';
+    const rowCat = row.dataset.categoryId || '';
+    const isFeatured = row.dataset.featured === '1';
+    const isBadged = row.dataset.badge === '1';
+    const flavorCount = parseInt(row.dataset.flavorCount || '0', 10);
+
+    const matchesQuery = !query || rowSearch.includes(query);
+    const matchesCat = !categoryId || rowCat === categoryId;
+    let matchesStatus = true;
+    if (status === 'featured') matchesStatus = isFeatured;
+    else if (status === 'badge') matchesStatus = isBadged;
+    else if (status === 'flavors') matchesStatus = flavorCount > 0;
+
+    if (matchesQuery && matchesCat && matchesStatus) {
+      row.style.display = '';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const shownCountEl = document.getElementById('admin-shown-count');
+  if (shownCountEl) shownCountEl.textContent = visibleCount;
+
+  const noResultsEl = document.getElementById('admin-no-results');
+  const tableEl = document.getElementById('admin-products-table');
+  if (noResultsEl && tableEl) {
+    if (visibleCount === 0 && rows.length > 0) {
+      noResultsEl.style.display = 'block';
+      tableEl.style.display = 'none';
+    } else {
+      noResultsEl.style.display = 'none';
+      tableEl.style.display = '';
+    }
+  }
+
+  const clearBtn = document.getElementById('btn-clear-filters');
+  if (clearBtn) {
+    clearBtn.style.display = (query || categoryId || status) ? 'inline-flex' : 'none';
+  }
+}
+
+function clearProductFilters() {
+  const searchInput = document.getElementById('admin-product-search');
+  const catFilter = document.getElementById('admin-category-filter');
+  const statusFilter = document.getElementById('admin-status-filter');
+  if (searchInput) searchInput.value = '';
+  if (catFilter) catFilter.value = '';
+  if (statusFilter) statusFilter.value = '';
+  filterAdminProducts();
 }
 
 let newProductFiles = [];
@@ -460,13 +593,19 @@ async function showProductForm(id = null) {
   }
 
   container.style.display = 'block';
-  container.scrollIntoView({ behavior: 'smooth' });
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   container.innerHTML = `
     <div class="admin-card">
       <div class="admin-card-header">
-        <h3 class="admin-card-title">${product ? 'Edit Product' : 'Add New Product'}</h3>
-        <button class="btn-admin btn-admin-secondary" onclick="hideProductForm()">Cancel</button>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <h3 class="admin-card-title">${product ? 'Edit Product' : 'Add New Product'}</h3>
+          ${product ? `<span class="admin-id-badge">ID: #${product.id}</span>` : ''}
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          ${product ? `<a href="/product.html?id=${product.id}" target="_blank" class="btn-admin btn-admin-secondary" style="font-size:0.8rem; padding:6px 12px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Showroom</a>` : ''}
+          <button class="btn-admin btn-admin-secondary" onclick="hideProductForm()">Cancel</button>
+        </div>
       </div>
       <div style="padding: 24px;">
         <form id="product-form" class="admin-form" onsubmit="saveProduct(event)">
@@ -482,7 +621,7 @@ async function showProductForm(id = null) {
               <select id="product-category" required>
                 <option value="">Select Category</option>
                 ${categories.map(c => `
-                  <option value="${c.id}" ${product && product.category_id === c.id ? 'selected' : ''}>${c.name}</option>
+                  <option value="${c.id}" ${product && product.category_id === c.id ? 'selected' : ''}>${escHTML(c.name)}</option>
                 `).join('')}
               </select>
             </div>
@@ -599,11 +738,14 @@ async function showProductForm(id = null) {
 
           <!-- Images -->
           <div class="form-group">
-            <label>Product Images</label>
+            <label style="display:flex; align-items:center; justify-content:space-between;">
+              <span>Product Images</span>
+              <span style="font-size:0.75rem; color:var(--admin-text-muted); text-transform:none; font-weight:normal;">Images match flavors 1-to-1 in order</span>
+            </label>
             <div class="image-upload-area" id="product-image-upload">
               <div class="image-upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-              <div class="image-upload-text">Click or drag to upload images</div>
-              <div class="image-upload-hint">Upload high-res images. Images match your flavors in exact order (1st image = 1st flavor, 2nd image = 2nd flavor, etc.).</div>
+              <div class="image-upload-text">Click or drag & drop to upload images</div>
+              <div class="image-upload-hint">Upload high-res JPG, PNG, or WebP. 1st image = 1st flavor, 2nd image = 2nd flavor.</div>
               <input type="file" id="product-images" accept="image/*" multiple>
             </div>
             <div class="image-preview-grid" id="product-image-preview">
@@ -611,7 +753,11 @@ async function showProductForm(id = null) {
                 <div class="image-preview-item ${img.is_primary ? 'primary' : ''}" data-id="${img.id}">
                   <img src="${img.image_path}" alt="Product image">
                   <span class="image-order-badge">#${idx + 1}</span>
-                  <button type="button" class="image-preview-remove" onclick="removeExistingImage(this, ${img.id})"><i class="fa-solid fa-xmark"></i></button>
+                  ${img.is_primary
+                    ? `<span class="primary-badge-btn is-primary"><i class="fa-solid fa-star"></i> Primary</span>`
+                    : `<button type="button" class="primary-badge-btn set-primary" onclick="setPrimaryImage(${product.id}, ${img.id}, this)"><i class="fa-regular fa-star"></i> Primary</button>`
+                  }
+                  <button type="button" class="image-preview-remove" onclick="removeExistingImage(this, ${img.id})" title="Remove Image"><i class="fa-solid fa-xmark"></i></button>
                 </div>
               `).join('') : ''}
             </div>
@@ -625,7 +771,7 @@ async function showProductForm(id = null) {
                 <div class="dynamic-row">
                   <input type="text" placeholder="Spec name (e.g., Protein per serving)" value="${escHTML(s.spec_name)}">
                   <input type="text" placeholder="Value (e.g., 22g)" value="${escHTML(s.spec_value)}">
-                  <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
+                  <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()" title="Remove spec"><i class="fa-solid fa-xmark"></i></button>
                 </div>
               `).join('') : ''}
             </div>
@@ -679,6 +825,11 @@ async function showProductForm(id = null) {
 
   // Update live badge simulation preview
   updateLiveBadgePreview();
+
+  // Focus product name
+  requestAnimationFrame(() => {
+    document.getElementById('product-name')?.focus();
+  });
 }
 
 function hideProductForm() {
@@ -688,6 +839,8 @@ function hideProductForm() {
     container.innerHTML = '';
   }
   newProductFiles = [];
+  const card = document.querySelector('.admin-card');
+  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function addSpecRow() {
@@ -879,8 +1032,51 @@ function reindexAllImageBadges() {
 }
 
 function removeExistingImage(btn, imgId) {
-  btn.closest('.image-preview-item').remove();
+  const item = btn.closest('.image-preview-item');
+  const wasPrimary = item && item.classList.contains('primary');
+  item.remove();
   reindexAllImageBadges();
+
+  if (wasPrimary) {
+    const firstRemaining = document.querySelector('#product-image-preview .image-preview-item');
+    if (firstRemaining) {
+      firstRemaining.classList.add('primary');
+      const badge = firstRemaining.querySelector('.primary-badge-btn');
+      if (badge) {
+        badge.outerHTML = `<span class="primary-badge-btn is-primary"><i class="fa-solid fa-star"></i> Primary</span>`;
+      }
+    }
+  }
+}
+
+async function setPrimaryImage(productId, imageId, btn) {
+  try {
+    const res = await fetch(`/api/admin/products/${productId}/primary-image/${imageId}`, {
+      method: 'PUT'
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to update primary image');
+
+    const preview = document.getElementById('product-image-preview');
+    if (preview) {
+      preview.querySelectorAll('.image-preview-item').forEach(item => {
+        item.classList.remove('primary');
+        const oldBadge = item.querySelector('.primary-badge-btn');
+        const thisId = item.dataset.id;
+        if (oldBadge && thisId) {
+          oldBadge.outerHTML = `<button type="button" class="primary-badge-btn set-primary" onclick="setPrimaryImage(${productId}, ${thisId}, this)"><i class="fa-regular fa-star"></i> Primary</button>`;
+        }
+      });
+      const currentItem = btn.closest('.image-preview-item');
+      if (currentItem) {
+        currentItem.classList.add('primary');
+        btn.outerHTML = `<span class="primary-badge-btn is-primary"><i class="fa-solid fa-star"></i> Primary</span>`;
+      }
+    }
+    showAdminToast('Primary image updated!', 'success');
+  } catch (err) {
+    showAdminToast(err.message || 'Failed to update primary image', 'error');
+  }
 }
 
 function removeNewProductImage(fileId, btn) {
