@@ -588,13 +588,35 @@ input, textarea, select {
   width: 100%;
 }
 
-/* Left Column: Product Information & Controls - Static Fixed Slot Heights */
+/* Left Column: Product Information & Controls - Static Fixed Baseline */
 .hero-content-col {
   text-align: left;
   max-width: 680px;
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Dynamic Product Information Stage - Absorbs 1-line vs 2-line title differences */
+.hero-info-stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Static Controls Stage - Anchored to exact baseline so controls NEVER move */
+.hero-controls-stage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: auto;
 }
 
 .hero-content-col .hero-badge {
@@ -705,7 +727,7 @@ input, textarea, select {
   flex-wrap: nowrap;
   gap: 10px;
   align-items: center;
-  margin-bottom: var(--space-6);
+  margin-bottom: 0;
   transition: opacity 0.35s ease;
 }
 
@@ -738,12 +760,13 @@ input, textarea, select {
   display: inline-block;
 }
 
-/* Dynamic Hero Action CTAs */
+/* Dynamic Hero Action CTAs - Static Anchored Position */
 .hero-content-col .hero-actions {
   display: flex;
   gap: var(--space-4);
   justify-content: flex-start;
-  margin-bottom: var(--space-6);
+  margin-top: 0;
+  margin-bottom: var(--space-5);
   flex-wrap: nowrap;
   align-items: center;
 }
@@ -1047,6 +1070,28 @@ input, textarea, select {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+  }
+
+  .hero-info-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 620px;
+    min-height: 240px;
+    justify-content: flex-start;
+  }
+
+  .hero-controls-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 440px;
+    margin-top: 0;
   }
 
   .hero-content-col .hero-badge {
@@ -3128,6 +3173,25 @@ input, textarea, select {
     line-height: 1.15;
   }
 
+  .hero-info-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    min-height: 185px;
+    justify-content: flex-start;
+  }
+
+  .hero-controls-stage {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+  }
+
   .hero-content-col .hero-description {
     font-size: 0.85rem;
     line-height: 1.4;
@@ -3644,6 +3708,10 @@ input, textarea, select {
 
   .hero-wrapper {
     gap: var(--space-2);
+  }
+
+  .hero-info-stage {
+    min-height: 175px !important;
   }
 
   .hero-title {

@@ -71,62 +71,68 @@
     <div class="hero-wrapper container">
       <!-- Left Column: Product Info & Controls -->
       <div class="hero-content-col">
-        <div class="hero-badge" id="hero-badge" style="border-color: rgba(132, 204, 22, 0.45); box-shadow: 0 4px 16px rgba(132, 204, 22, 0.18);">
-          <span class="hero-badge-dot" id="hero-badge-dot" style="background: #84cc16; box-shadow: 0 0 10px #84cc16;"></span>
-          <span id="hero-badge-text">Pre-Workout • NEW RELEASE</span>
-        </div>
-
-        <h1 class="hero-title" id="hero-title">
-          <span class="hero-title-prefix" id="hero-title-prefix">PRE-WORKOUT</span>
-          <span class="gradient-text hero-title-main" id="hero-product-name">X-SHRED PRE-WORKOUT</span>
-        </h1>
-
-        <p class="hero-description" id="hero-product-desc">
-          Pre-Workout Thermogenic Formula — Shred • Focus • Energy • 35 Servings
-        </p>
-
-        <!-- Live Product Quick Specs -->
-        <div class="hero-specs-row" id="hero-specs-row">
-          <div class="hero-spec-pill"><i class="fa-solid fa-fire-flame-curved"></i> <span id="hero-spec-1">35 Servings</span></div>
-          <div class="hero-spec-pill"><i class="fa-solid fa-weight-scale"></i> <span id="hero-spec-2">320g</span></div>
-          <div class="hero-spec-pill flavor-spec"><span class="flavor-dot" style="background: #84cc16;"></span> <span id="hero-spec-3">Ice Tea Lime</span></div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="hero-actions">
-          <a href="/product.html?slug=x-shred-pre-workout" class="btn btn-primary btn-lg" id="hero-primary-cta">
-            <span>View Product</span> <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i>
-          </a>
-          <a href="/products.html" class="btn btn-secondary btn-lg" id="hero-explore-all-btn">
-            <span>Explore All</span>
-          </a>
-        </div>
-
-        <!-- Slider Navigation & Autoplay Progress Bar -->
-        <div class="hero-slider-nav">
-          <div class="hero-slider-arrows">
-            <button class="hero-slider-btn prev-btn" id="hero-prev-btn" aria-label="Previous product">
-              <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <button class="hero-slider-btn next-btn" id="hero-next-btn" aria-label="Next product">
-              <i class="fa-solid fa-chevron-right"></i>
-            </button>
+        <!-- Dynamic Product Content Stage -->
+        <div class="hero-info-stage">
+          <div class="hero-badge" id="hero-badge" style="border-color: rgba(132, 204, 22, 0.45); box-shadow: 0 4px 16px rgba(132, 204, 22, 0.18);">
+            <span class="hero-badge-dot" id="hero-badge-dot" style="background: #84cc16; box-shadow: 0 0 10px #84cc16;"></span>
+            <span id="hero-badge-text">Pre-Workout • NEW RELEASE</span>
           </div>
-          <div class="hero-slider-dots" id="hero-slider-dots">
-            <button class="hero-dot active" data-index="0" aria-label="Go to slide 1"></button>
-            <button class="hero-dot" data-index="1" aria-label="Go to slide 2"></button>
-            <button class="hero-dot" data-index="2" aria-label="Go to slide 3"></button>
-            <button class="hero-dot" data-index="3" aria-label="Go to slide 4"></button>
-            <button class="hero-dot" data-index="4" aria-label="Go to slide 5"></button>
-          </div>
-          <div class="hero-slider-counter">
-            <span id="hero-curr-slide">01</span><span class="counter-sep">/</span><span id="hero-total-slides">05</span>
+
+          <h1 class="hero-title" id="hero-title">
+            <span class="hero-title-prefix" id="hero-title-prefix">PRE-WORKOUT</span>
+            <span class="gradient-text hero-title-main" id="hero-product-name">X-SHRED PRE-WORKOUT</span>
+          </h1>
+
+          <p class="hero-description" id="hero-product-desc">
+            Pre-Workout Thermogenic Formula — Shred • Focus • Energy • 35 Servings
+          </p>
+
+          <!-- Live Product Quick Specs -->
+          <div class="hero-specs-row" id="hero-specs-row">
+            <div class="hero-spec-pill"><i class="fa-solid fa-fire-flame-curved"></i> <span id="hero-spec-1">35 Servings</span></div>
+            <div class="hero-spec-pill"><i class="fa-solid fa-weight-scale"></i> <span id="hero-spec-2">320g</span></div>
+            <div class="hero-spec-pill flavor-spec"><span class="flavor-dot" style="background: #84cc16;"></span> <span id="hero-spec-3">Ice Tea Lime</span></div>
           </div>
         </div>
 
-        <!-- Autoplay Progress Track -->
-        <div class="hero-progress-track">
-          <div class="hero-progress-bar" id="hero-progress-bar"></div>
+        <!-- Static Anchored Controls Stage -->
+        <div class="hero-controls-stage">
+          <!-- Action Buttons -->
+          <div class="hero-actions">
+            <a href="/product.html?slug=x-shred-pre-workout" class="btn btn-primary btn-lg" id="hero-primary-cta">
+              <span>View Product</span> <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i>
+            </a>
+            <a href="/products.html" class="btn btn-secondary btn-lg" id="hero-explore-all-btn">
+              <span>Explore All</span>
+            </a>
+          </div>
+
+          <!-- Slider Navigation & Autoplay Progress Bar -->
+          <div class="hero-slider-nav">
+            <div class="hero-slider-arrows">
+              <button class="hero-slider-btn prev-btn" id="hero-prev-btn" aria-label="Previous product">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button class="hero-slider-btn next-btn" id="hero-next-btn" aria-label="Next product">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+            <div class="hero-slider-dots" id="hero-slider-dots">
+              <button class="hero-dot active" data-index="0" aria-label="Go to slide 1"></button>
+              <button class="hero-dot" data-index="1" aria-label="Go to slide 2"></button>
+              <button class="hero-dot" data-index="2" aria-label="Go to slide 3"></button>
+              <button class="hero-dot" data-index="3" aria-label="Go to slide 4"></button>
+              <button class="hero-dot" data-index="4" aria-label="Go to slide 5"></button>
+            </div>
+            <div class="hero-slider-counter">
+              <span id="hero-curr-slide">01</span><span class="counter-sep">/</span><span id="hero-total-slides">05</span>
+            </div>
+          </div>
+
+          <!-- Autoplay Progress Track -->
+          <div class="hero-progress-track">
+            <div class="hero-progress-bar" id="hero-progress-bar"></div>
+          </div>
         </div>
       </div>
 
