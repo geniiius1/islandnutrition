@@ -2772,30 +2772,17 @@ input, textarea, select {
   font-weight: 500;
   padding: 13px 18px 13px 44px;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
   color: var(--text-primary);
-  transition: all var(--duration-fast);
-}
-
-[data-theme="dark"] .inquiry-input,
-[data-theme="dark"] .inquiry-textarea {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-}
-
-[data-theme="light"] .inquiry-input,
-[data-theme="light"] .inquiry-textarea {
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  color: #0a0a0c;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .inquiry-input::placeholder,
 .inquiry-textarea::placeholder {
-  color: var(--text-tertiary);
+  color: var(--text-muted);
   font-weight: 400;
 }
 
@@ -2803,7 +2790,7 @@ input, textarea, select {
 .inquiry-textarea:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.18);
+  box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.15);
 }
 
 .inquiry-input-wrap:focus-within .inquiry-field-icon {
@@ -2814,6 +2801,7 @@ input, textarea, select {
   min-height: 120px;
   resize: vertical;
   line-height: 1.5;
+  padding-top: 13px;
 }
 
 .inquiry-action {
@@ -2828,15 +2816,15 @@ input, textarea, select {
   gap: 8px;
   min-width: 200px;
   padding: 14px 44px;
-  background: #09090b;
-  color: #ffffff;
+  background: var(--accent-primary);
+  color: var(--text-inverse);
   font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 900;
   letter-spacing: 2px;
   text-transform: uppercase;
   border-radius: 6px;
-  border: none;
+  border: 2px solid var(--accent-primary);
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   transition: all var(--duration-fast);
@@ -2844,26 +2832,15 @@ input, textarea, select {
   appearance: none;
 }
 
-[data-theme="dark"] .inquiry-submit-btn {
-  background: #ffffff;
-  color: #070709;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
-}
-
-[data-theme="dark"] .inquiry-submit-btn:hover {
-  background: #f4f4f5;
-  color: #070709;
-}
-
 .inquiry-submit-btn:hover {
-  background: #18181b;
-  color: #ffffff;
+  opacity: 0.88;
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
 }
 
 .inquiry-submit-btn:active {
   transform: translateY(0);
+  opacity: 1;
 }
 
 /* Contact Page Grid Layout */
