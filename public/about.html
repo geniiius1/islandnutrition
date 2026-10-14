@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us - Island Nutrition</title>
-  <meta name="description" content="Learn about Island Nutrition's mission to provide premium quality supplements. Our story, values, and commitment to excellence.">
+  <meta name="description" content="Learn about Island Nutrition's mission to provide quality supplements. Our story, values, and commitment to excellence.">
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
   <script>
     (function() {
@@ -14,8 +14,15 @@
       } catch(e) {}
     })();
   </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+  <!-- Preconnect for faster external resource loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <!-- Google Fonts loaded directly in parallel -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+  <link rel="stylesheet" href="/css/style.css?v=2.8">
 </head>
 <body>
 
@@ -54,7 +61,7 @@
     <div class="container">
       <span class="section-label animate-on-scroll">Our Story</span>
       <h1 class="animate-on-scroll">About <span class="text-gradient">Island Nutrition</span></h1>
-      <p class="animate-on-scroll">Fueling greatness with premium supplements since day one.</p>
+      <p class="animate-on-scroll">Fueling greatness with quality supplements since day one.</p>
     </div>
   </div>
 
@@ -65,7 +72,7 @@
         <div class="about-content animate-on-scroll">
           <h2>Our Mission</h2>
           <p>
-            Island Nutrition was founded with a singular vision: to make premium-quality nutrition supplements accessible to every individual passionate about their health and fitness journey.
+            Island Nutrition was founded with a singular vision: to make high-quality nutrition supplements accessible to every individual passionate about their health and fitness journey.
           </p>
           <p>
             We understand that what you put into your body directly impacts your performance, recovery, and overall well-being. That's why we go above and beyond industry standards to source the finest ingredients, employ cutting-edge formulation techniques, and maintain rigorous quality control processes.
@@ -88,7 +95,7 @@
   <section class="section" style="padding-top: 0;">
     <div class="container">
       <div class="section-header animate-on-scroll">
-        <span class="section-label">Our Values</span>
+        <span class="section-label">QUALITY SUPPLEMENTS</span>
         <h2 class="section-title">What Drives Us</h2>
       </div>
       <div class="features-grid">
@@ -153,7 +160,7 @@
     <div class="container text-center">
       <div class="animate-on-scroll">
         <h2 class="section-title">Ready to Explore?</h2>
-        <p class="section-subtitle mb-8">Discover our complete range of premium supplements.</p>
+        <p class="section-subtitle mb-8">Discover our complete range of quality supplements.</p>
         <a href="/products.html" class="btn btn-primary btn-lg">Browse Showroom <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></a>
       </div>
     </div>
@@ -169,7 +176,7 @@
             <img src="/assets/images/island-logo-white.png" alt="Island Nutrition" class="theme-logo logo-white-variant">
             <span class="nav-logo-text">ISLAND NUTRITION</span>
           </a>
-          <p style="margin-top: 16px;">Premium nutrition supplements crafted for peak performance.</p>
+          <p style="margin-top: 16px;">Quality supplements crafted for peak performance.</p>
         </div>
         <div class="footer-col">
           <h4>Navigation</h4>
@@ -184,10 +191,14 @@
           <h4>Connect</h4>
           <ul>
             <li><a href="#">Instagram</a></li>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Twitter</a></li>
           </ul>
         </div>
+      </div>
+      <div class="footer-badges">
+        <picture>
+          <source srcset="/assets/images/certified_badges.webp" type="image/webp">
+          <img src="/assets/images/certified_badges.png" alt="Island Nutrition Quality Certifications - 100% Premium Quality, Halal Certified, Swedish Quality" class="footer-certified-badges" width="280" height="85" loading="lazy">
+        </picture>
       </div>
       <div class="footer-bottom">
         <p>&copy; 2026 Island Nutrition. All rights reserved.</p>
@@ -197,6 +208,6 @@
 
   <button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-  <script src="/js/app.js"></script>
+  <script src="/js/app.js?v=2.6"></script>
 </body>
 </html>

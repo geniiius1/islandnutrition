@@ -93,16 +93,22 @@ function initNavbar() {
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
 
-  // Scroll effect
+  // Scroll effect (throttled with rAF for 60fps scrolling)
   if (navbar) {
+    let scrollTicking = false;
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
+      if (!scrollTicking) {
+        scrollTicking = true;
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+          } else {
+            navbar.classList.remove('scrolled');
+          }
+          scrollTicking = false;
+        });
       }
-    });
-    // Initial check
+    }, { passive: true });
     if (window.scrollY > 50) navbar.classList.add('scrolled');
   }
 
@@ -159,18 +165,26 @@ function initNavbar() {
   });
 }
 
-// ===== SCROLL ANIMATIONS =====
+// ===== SCROLL ANIMATIONS (High Performance Singleton Observer) =====
+let scrollObserver = null;
 function initScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animated');
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  if (!scrollObserver) {
+    scrollObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animated');
+          obs.unobserve(entry.target); // Unobserve once animated - saves CPU and battery on mobile
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  }
 
-  document.querySelectorAll('.animate-on-scroll').forEach(el => {
-    observer.observe(el);
+  document.querySelectorAll('.animate-on-scroll:not(.animated)').forEach(el => {
+    if (el.closest('.carousel-track') || el.closest('.carousel-viewport')) {
+      el.classList.add('animated');
+      return;
+    }
+    scrollObserver.observe(el);
   });
 }
 
@@ -179,13 +193,20 @@ function initBackToTop() {
   const btn = document.querySelector('.back-to-top');
   if (!btn) return;
 
+  let bttTicking = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 500) {
-      btn.classList.add('visible');
-    } else {
-      btn.classList.remove('visible');
+    if (!bttTicking) {
+      bttTicking = true;
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 500) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+        bttTicking = false;
+      });
     }
-  });
+  }, { passive: true });
 
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -202,8 +223,32 @@ function formatServings(servings) {
   return `${s} Servings`;
 }
 
-// ===== API HELPER =====
+// ===== API HELPER (High-Performance In-Memory + SessionStorage Cache) =====
+const _apiCache = new Map();
+const SESSION_CACHE_PREFIX = 'in_cache_';
+const SESSION_CACHE_TTL = 120000; // 2 minutes
+
 async function api(url, options = {}) {
+  const method = (options.method || 'GET').toUpperCase();
+
+  if (method === 'GET') {
+    // 1. Check in-memory Map
+    if (_apiCache.has(url)) {
+      return _apiCache.get(url);
+    }
+    // 2. Check sessionStorage (cross-page navigation)
+    try {
+      const stored = sessionStorage.getItem(SESSION_CACHE_PREFIX + url);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Date.now() - parsed.ts < SESSION_CACHE_TTL) {
+          _apiCache.set(url, parsed.data);
+          return parsed.data;
+        }
+      }
+    } catch (e) {}
+  }
+
   try {
     const res = await fetch(url, {
       headers: { 'Content-Type': 'application/json', ...options.headers },
@@ -211,6 +256,12 @@ async function api(url, options = {}) {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Request failed');
+    if (method === 'GET') {
+      _apiCache.set(url, data);
+      try {
+        sessionStorage.setItem(SESSION_CACHE_PREFIX + url, JSON.stringify({ ts: Date.now(), data }));
+      } catch (e) {}
+    }
     return data;
   } catch (err) {
     console.error('API Error:', err);
@@ -336,7 +387,7 @@ function renderProductCardHtml(product, i = 0, options = {}) {
       ${flavorBadgeHtml}
       <div class="product-card-image">
         ${product.primary_image
-          ? `<img src="${product.primary_image}" alt="${cardName}" class="${giantImgClass}" loading="lazy">`
+          ? `<img src="${product.primary_image}?v=2.6" alt="${cardName}" class="${giantImgClass}" loading="lazy">`
           : `<div class="no-image"><i class="fa-solid fa-box"></i></div>`
         }
       </div>
@@ -390,7 +441,7 @@ async function loadProductsPage() {
     if (filtersContainer) {
       const pillsHtml = [
         `<button type="button" class="filter-pill ${activeCategory === 'all' ? 'active' : ''}" data-category="all">
-          All Products <span class="pill-count">${products.length}</span>
+          All Products
         </button>`
       ];
 
@@ -400,7 +451,7 @@ async function loadProductsPage() {
           const isActive = (activeCategory == cat.id || activeCategory === cat.slug);
           pillsHtml.push(`
             <button type="button" class="filter-pill ${isActive ? 'active' : ''}" data-category="${cat.id}" data-slug="${cat.slug || ''}">
-              ${cat.name} <span class="pill-count">${catProducts.length}</span>
+              ${cat.name}
             </button>
           `);
         }
@@ -466,15 +517,15 @@ async function loadProductsPage() {
         });
       }
 
-      // 3. Update Title & Count
+      // 3. Update Title
       if (titleEl) {
         if (searchQuery.length > 0) {
-          titleEl.textContent = `SEARCH RESULTS (${filtered.length})`;
+          titleEl.textContent = 'SEARCH RESULTS';
         } else if (activeCategory === 'all') {
-          titleEl.textContent = `ALL PRODUCTS (${filtered.length})`;
+          titleEl.textContent = 'ALL PRODUCTS';
         } else {
           const selectedCat = categories.find(c => c.id == activeCategory || c.slug === activeCategory);
-          titleEl.textContent = `${(selectedCat ? selectedCat.name : 'PRODUCTS').toUpperCase()} (${filtered.length})`;
+          titleEl.textContent = (selectedCat ? selectedCat.name : 'PRODUCTS').toUpperCase();
         }
       }
 
@@ -483,9 +534,9 @@ async function loadProductsPage() {
           subtitleEl.textContent = `Showing products matching "${searchQuery}"`;
         } else if (activeCategory !== 'all') {
           const selectedCat = categories.find(c => c.id == activeCategory || c.slug === activeCategory);
-          subtitleEl.textContent = selectedCat?.description || `Explore our premium ${selectedCat?.name || ''} collection`;
+          subtitleEl.textContent = selectedCat?.description || `Explore our quality ${selectedCat?.name || ''} collection`;
         } else {
-          subtitleEl.textContent = 'Explore our complete range of premium sports nutrition supplements';
+          subtitleEl.textContent = 'Explore our complete range of quality supplements';
         }
       }
 
@@ -555,12 +606,12 @@ async function loadCategories() {
       <a href="/category.html?id=${cat.id}" class="category-card animate-on-scroll stagger-${(i % 10) + 1}">
         <div class="category-card-image">
           ${cat.preview_image || cat.image
-            ? `<img src="${cat.preview_image || cat.image}" alt="${cat.name}" loading="lazy">`
+            ? `<img src="${cat.preview_image || cat.image}?v=2.1" alt="${cat.name}" loading="lazy">`
             : `<div class="no-image"><i class="fa-solid fa-box"></i></div>`
           }
         </div>
         <div class="category-card-info">
-          <div class="category-card-name">${cat.name} (${cat.product_count})</div>
+          <div class="category-card-name">${cat.name}</div>
         </div>
       </a>
     `).join('');
@@ -589,12 +640,11 @@ async function loadCategoryProducts() {
     grid.innerHTML = '<div class="loading-spinner" style="grid-column:1/-1"><div class="spinner"></div></div>';
     const data = await api(`/api/categories/${categoryId}`);
 
-    const count = data.products ? data.products.length : 0;
-    if (titleEl) titleEl.textContent = `${data.name} (${count})`;
+    if (titleEl) titleEl.textContent = data.name;
     if (breadcrumbName) breadcrumbName.textContent = data.name;
 
     // Update page title
-    document.title = `${data.name} (${count}) - Island Nutrition`;
+    document.title = `${data.name} - Island Nutrition`;
 
     if (!data.products || data.products.length === 0) {
       grid.innerHTML = `
@@ -638,7 +688,7 @@ async function loadProductDetail() {
     // Store image paths for flavor switcher (index-matched with flavors)
     window.__productImages = (product.images || [])
       .sort((a, b) => a.sort_order - b.sort_order)
-      .map(img => img.image_path);
+      .map(img => `${img.image_path}?v=2.6`);
 
     container.innerHTML = `
       <div class="product-detail-grid">
@@ -651,7 +701,7 @@ async function loadProductDetail() {
               </button>
             ` : ''}
             <img id="main-product-image"
-              src="${primaryImage ? primaryImage.image_path : '/assets/images/island-logo-white.png'}"
+              src="${primaryImage ? `${primaryImage.image_path}?v=2.6` : '/assets/images/island-logo-white.png'}"
               alt="${product.name}">
             ${product.images && product.images.length > 1 ? `
               <button class="gallery-arrow gallery-arrow-right" onclick="galleryNext()" aria-label="Next image">
@@ -667,7 +717,7 @@ async function loadProductDetail() {
               ${product.images.map((img, i) => `
                 <div class="product-gallery-thumb ${i === 0 ? 'active' : ''}"
                      onclick="galleryGoTo(${i})">
-                  <img src="${img.image_path}" alt="View ${i + 1}">
+                  <img src="${img.image_path}?v=2.6" alt="View ${i + 1}">
                 </div>
               `).join('')}
             </div>
@@ -877,10 +927,10 @@ function setupCarousel(viewportId, trackId, prevBtnId, nextBtnId, dotsId, autoIn
     const firstItem = items[0];
     if (firstItem) {
       const style = window.getComputedStyle(track);
-      const gap = parseFloat(style.gap) || 24;
+      const gap = parseFloat(style.gap) || 0;
       return (firstItem.offsetWidth + gap);
     }
-    return viewport.clientWidth * 0.75;
+    return viewport.clientWidth;
   }
 
   function scrollNext() {
@@ -911,31 +961,46 @@ function setupCarousel(viewportId, trackId, prevBtnId, nextBtnId, dotsId, autoIn
       dotsContainer.innerHTML = '';
       return;
     }
-    const pageCount = Math.max(2, Math.ceil(viewport.scrollWidth / (viewport.clientWidth * 0.8)));
+    const isSingleCard = window.innerWidth <= 768;
+    const step = Math.max(1, getStep());
+    const pageCount = isSingleCard 
+      ? Math.min(items.length, 8) 
+      : Math.max(2, Math.ceil(viewport.scrollWidth / (viewport.clientWidth * 0.8)));
+
     if (dotsContainer.children.length !== pageCount) {
       dotsContainer.innerHTML = Array.from({ length: pageCount }, (_, i) => 
         `<button class="carousel-dot ${i === 0 ? 'active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
       ).join('');
 
       dotsContainer.querySelectorAll('.carousel-dot').forEach(dot => {
-        dot.addEventListener('click', () => {
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
           const page = parseInt(dot.getAttribute('data-page'), 10);
-          const target = (maxScroll / (pageCount - 1)) * page;
+          const target = isSingleCard ? (step * page) : ((maxScroll / (pageCount - 1)) * page);
           viewport.scrollTo({ left: target, behavior: 'smooth' });
         });
       });
     }
 
-    const currentFraction = viewport.scrollLeft / maxScroll;
-    const activeIndex = Math.min(pageCount - 1, Math.round(currentFraction * (pageCount - 1)));
+    const activeIndex = isSingleCard
+      ? Math.min(pageCount - 1, Math.max(0, Math.round(viewport.scrollLeft / step)))
+      : Math.min(pageCount - 1, Math.max(0, Math.round((viewport.scrollLeft / maxScroll) * (pageCount - 1))));
+
     const dots = dotsContainer.querySelectorAll('.carousel-dot');
     dots.forEach((d, i) => {
       d.classList.toggle('active', i === activeIndex);
     });
   }
 
+  let dotsTicking = false;
   viewport.addEventListener('scroll', () => {
-    window.requestAnimationFrame(updateDots);
+    if (!dotsTicking) {
+      dotsTicking = true;
+      window.requestAnimationFrame(() => {
+        updateDots();
+        dotsTicking = false;
+      });
+    }
   }, { passive: true });
 
   setTimeout(updateDots, 350);
@@ -974,10 +1039,10 @@ function setupCarousel(viewportId, trackId, prevBtnId, nextBtnId, dotsId, autoIn
     }
   }, true);
 
-  // Autoplay with Hover Pause
+  // Autoplay with Hover Pause (Desktop only - disabled on mobile to prevent scroll hijacking)
   let timer = null;
   function startAutoplay() {
-    if (autoInterval <= 0) return;
+    if (autoInterval <= 0 || window.innerWidth <= 768) return;
     stopAutoplay();
     timer = setInterval(scrollNext, autoInterval);
   }
@@ -1003,15 +1068,15 @@ async function loadFeaturedCategories() {
     if (!categories || categories.length === 0) return;
 
     track.innerHTML = categories.map((cat, i) => `
-      <a href="/category.html?id=${cat.id}" class="category-card">
+      <a href="/category.html?id=${cat.id}" class="category-card" style="opacity:1 !important; transform:none !important; visibility:visible !important;">
         <div class="category-card-image">
           ${cat.preview_image || cat.image
-            ? `<img src="${cat.preview_image || cat.image}" alt="${cat.name}" loading="lazy">`
+            ? `<img src="${cat.preview_image || cat.image}?v=2.3" alt="${cat.name}" loading="lazy">`
             : `<div class="no-image"><i class="fa-solid fa-box"></i></div>`
           }
         </div>
         <div class="category-card-info">
-          <div class="category-card-name">${cat.name} (${cat.product_count})</div>
+          <div class="category-card-name">${cat.name}</div>
         </div>
       </a>
     `).join('');
@@ -1051,7 +1116,16 @@ async function loadFeaturedProducts() {
 function renderProductCards(container, products) {
   container.innerHTML = products.map((product, i) => renderProductCardHtml(product, i)).join('');
 
-  initScrollAnimations();
+  if (container.classList.contains('carousel-track') || container.closest('.carousel-viewport')) {
+    container.querySelectorAll('.product-card').forEach(c => {
+      c.classList.remove('animate-on-scroll');
+      c.style.opacity = '1';
+      c.style.transform = 'none';
+      c.style.visibility = 'visible';
+    });
+  } else {
+    initScrollAnimations();
+  }
 }
 
 // ===== SEARCH =====
@@ -1207,21 +1281,15 @@ async function initHeroSlider() {
     return '#06d6a0';
   }
 
-  function renderSlide(index) {
+  function renderSlide(index, isInitial = false) {
     const p = products[index];
     if (!p) return;
 
     const accentColor = getProductColor(p);
 
-    // Animate Exit
-    const animElements = [productNameEl, titlePrefixEl, descEl, specsRowEl, productImg];
-    animElements.forEach(el => {
-      if (el) el.classList.add('slide-exit');
-    });
-
-    setTimeout(() => {
+    function applySlideData() {
       // 1. Text & Category
-      if (titlePrefixEl) titlePrefixEl.textContent = p.category_name ? p.category_name.toUpperCase() : 'PREMIUM SUPPLEMENT';
+      if (titlePrefixEl) titlePrefixEl.textContent = p.category_name ? p.category_name.toUpperCase() : 'QUALITY SUPPLEMENT';
       if (productNameEl) productNameEl.textContent = p.name;
       if (badgeTextEl) badgeTextEl.textContent = `${p.category_name || 'Flagship'} • ${p.badge_text || (p.is_new ? 'NEW RELEASE' : 'TOP RATED')}`;
       
@@ -1235,7 +1303,7 @@ async function initHeroSlider() {
 
       // 3. Product Image
       if (productImg && p.primary_image) {
-        productImg.src = p.primary_image;
+        productImg.src = `${p.primary_image}?v=2.6`;
         productImg.alt = p.name;
         if (isHeavyProduct(p)) {
           productImg.classList.add('hero-img--giant');
@@ -1302,6 +1370,21 @@ async function initHeroSlider() {
       dots.forEach((d, i) => {
         d.classList.toggle('active', i === index);
       });
+    }
+
+    if (isInitial) {
+      applySlideData();
+      return;
+    }
+
+    // Animate Exit
+    const animElements = [productNameEl, titlePrefixEl, descEl, specsRowEl, productImg];
+    animElements.forEach(el => {
+      if (el) el.classList.add('slide-exit');
+    });
+
+    setTimeout(() => {
+      applySlideData();
 
       // Animate Enter
       animElements.forEach(el => {
@@ -1313,31 +1396,40 @@ async function initHeroSlider() {
     }, 180);
   }
 
+  // High Performance CSS Transition Progress Bar (Zero CPU overhead on mobile)
+  let slideTimer = null;
   function startProgressBar() {
-    if (progressAnimationId) cancelAnimationFrame(progressAnimationId);
-    startTime = Date.now();
-
-    function update() {
+    if (slideTimer) clearTimeout(slideTimer);
+    if (progressBar) {
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '0%';
+      // Force repaint to reset transition cleanly
+      void progressBar.offsetWidth;
       if (!isPaused) {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min((elapsed / slideDuration) * 100, 100);
-        if (progressBar) progressBar.style.width = `${progress}%`;
-
-        if (elapsed >= slideDuration) {
-          nextSlide();
-          return;
-        }
-      } else {
-        startTime = Date.now() - (parseFloat(progressBar?.style?.width || '0') / 100) * slideDuration;
+        progressBar.style.transition = `width ${slideDuration}ms linear`;
+        progressBar.style.width = '100%';
       }
-      progressAnimationId = requestAnimationFrame(update);
     }
-    progressAnimationId = requestAnimationFrame(update);
+    if (!isPaused) {
+      slideTimer = setTimeout(() => {
+        nextSlide();
+      }, slideDuration);
+    }
+  }
+
+  // Preload next product image in background for instant transition
+  function preloadNextSlide(idx) {
+    const nextProd = products[(idx + 1) % products.length];
+    if (nextProd && nextProd.primary_image) {
+      const img = new Image();
+      img.src = `${nextProd.primary_image}?v=2.6`;
+    }
   }
 
   function goToSlide(index) {
     currentIndex = (index + products.length) % products.length;
     renderSlide(currentIndex);
+    preloadNextSlide(currentIndex);
     startProgressBar();
   }
 
@@ -1353,12 +1445,26 @@ async function initHeroSlider() {
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
   // Pause on hover
-  hero.addEventListener('mouseenter', () => { isPaused = true; });
-  hero.addEventListener('mouseleave', () => { isPaused = false; });
+  hero.addEventListener('mouseenter', () => {
+    isPaused = true;
+    if (slideTimer) clearTimeout(slideTimer);
+    if (progressBar) {
+      const computed = window.getComputedStyle(progressBar);
+      progressBar.style.transition = 'none';
+      progressBar.style.width = computed.width;
+    }
+  });
 
-  // Subtle 3D Tilt Effect on Product Stage ("just a little rotate is enough")
+  hero.addEventListener('mouseleave', () => {
+    if (isPaused) {
+      isPaused = false;
+      startProgressBar();
+    }
+  });
+
+  // Subtle 3D Tilt Effect on Product Stage (Desktop / Mouse only to save mobile battery & CPU)
   const stageWrap = document.querySelector('.hero-product-stage-wrap');
-  if (stageWrap && stage) {
+  if (stageWrap && stage && window.matchMedia('(pointer: fine)').matches) {
     const maxTilt = 3.5;
     hero.addEventListener('mousemove', (e) => {
       const rect = stage.getBoundingClientRect();
@@ -1367,7 +1473,7 @@ async function initHeroSlider() {
       const rotateX = Math.max(-maxTilt, Math.min(maxTilt, (-y / rect.height) * 3));
       const rotateY = Math.max(-maxTilt, Math.min(maxTilt, (x / rect.width) * 3));
       stageWrap.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
-    });
+    }, { passive: true });
 
     hero.addEventListener('mouseleave', () => {
       stageWrap.style.transform = 'rotateX(0deg) rotateY(0deg)';
@@ -1394,7 +1500,8 @@ async function initHeroSlider() {
     }
   }, { passive: true });
 
-  // Initial Slide Render
-  renderSlide(0);
+  // Initial Slide Render (instant without exit/enter animation flicker)
+  renderSlide(0, true);
+  preloadNextSlide(0);
   startProgressBar();
 }

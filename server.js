@@ -7,12 +7,16 @@ const { createDatabase } = require('./db');
 const { seedInitialData } = require('./seed');
 const fs = require('fs');
 const sharp = require('sharp');
+const compression = require('compression');
 
 // ============================================================
 // SERVER SETUP
 // ============================================================
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Enable gzip/deflate compression for all text, json, html, css, js responses
+app.use(compression());
 
 // Database handle (initialized in startServer)
 let db;
@@ -29,9 +33,57 @@ app.use(session({
   cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
 
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// In-Memory Fast API Cache (reduces repeated SQLite queries to 0ms)
+const apiCache = new Map();
+function getApiCache(key, ttlMs = 120000) {
+  const item = apiCache.get(key);
+  if (item && Date.now() - item.ts < ttlMs) {
+    return item.data;
+  }
+  return null;
+}
+function setApiCache(key, data) {
+  apiCache.set(key, { ts: Date.now(), data });
+}
+function invalidateApiCache() {
+  apiCache.clear();
+}
+
+// Invalidate API cache on any admin mutations
+app.use('/api/admin', (req, res, next) => {
+  if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) {
+    invalidateApiCache();
+  }
+  next();
+});
+
+// HTTP Cache headers: Fast, light, aggressive static caching with conditional revalidation
+app.use((req, res, next) => {
+  // HTML: Always validate for instant updates with 304 fallback
+  if (req.path.endsWith('.html') || req.path === '/') {
+    res.setHeader('Cache-Control', 'no-cache');
+  } 
+  // Versioned assets or images: 7 days cache with 1 day stale-while-revalidate
+  else if (req.query.v || req.path.startsWith('/uploads/') || req.path.startsWith('/assets/')) {
+    res.setHeader('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
+  } 
+  // CSS & JS: 1 day cache with conditional revalidation
+  else if (req.path.endsWith('.css') || req.path.endsWith('.js')) {
+    res.setHeader('Cache-Control', 'public, max-age=86400, must-revalidate');
+  }
+  next();
+});
+
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1d',
+  etag: true,
+  lastModified: true
+}));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+  maxAge: '7d',
+  etag: true,
+  lastModified: true
+}));
 
 // ============================================================
 // FILE UPLOAD (Multer + Sharp)
@@ -137,6 +189,10 @@ app.put('/api/admin/change-password', requireAuth, (req, res) => {
 // CATEGORY ROUTES - PUBLIC
 // ============================================================
 app.get('/api/categories', (req, res) => {
+  const cacheKey = 'categories_all';
+  const cached = getApiCache(cacheKey);
+  if (cached) return res.json(cached);
+
   const categories = db.prepare(`
     SELECT c.*,
       (SELECT pi.image_path FROM products p2
@@ -158,11 +214,16 @@ app.get('/api/categories', (req, res) => {
     cat.product_count = prods.length > 0 ? count : 0;
   }
 
+  setApiCache(cacheKey, categories);
   res.json(categories);
 });
 
 app.get('/api/categories/:idOrSlug', (req, res) => {
   const param = req.params.idOrSlug;
+  const cacheKey = `category_${param}`;
+  const cached = getApiCache(cacheKey);
+  if (cached) return res.json(cached);
+
   const category = db.prepare(
     'SELECT * FROM categories WHERE id = ? OR slug = ?'
   ).get(param, param);
@@ -197,7 +258,9 @@ app.get('/api/categories/:idOrSlug', (req, res) => {
     });
   }
 
-  res.json({ ...category, product_count: consolidatedProducts.length, products: consolidatedProducts });
+  const result = { ...category, product_count: consolidatedProducts.length, products: consolidatedProducts };
+  setApiCache(cacheKey, result);
+  res.json(result);
 });
 
 // ============================================================
@@ -277,6 +340,10 @@ app.delete('/api/admin/categories/:id', requireAuth, (req, res) => {
 // PRODUCT ROUTES - PUBLIC
 // ============================================================
 app.get('/api/products', (req, res) => {
+  const cacheKey = `products_${JSON.stringify(req.query)}`;
+  const cached = getApiCache(cacheKey);
+  if (cached) return res.json(cached);
+
   const { category_id, featured, search, limit } = req.query;
   let query = `
     SELECT p.*, c.name as category_name, c.slug as category_slug,
@@ -293,7 +360,7 @@ app.get('/api/products', (req, res) => {
   const params = [];
 
   if (category_id) { query += ' AND p.category_id = ?'; params.push(category_id); }
-  if (featured === 'true') { query += ' AND p.is_featured = 1'; }
+  if (featured === 'true') { query += ' AND (p.is_featured = 1 OR p.is_new = 1 OR UPPER(COALESCE(p.badge_text, "")) = "NEW")'; }
   if (search) {
     query += ' AND (p.name LIKE ? OR p.description LIKE ? OR c.name LIKE ?)';
     params.push(`%${search}%`, `%${search}%`, `%${search}%`);
@@ -310,11 +377,17 @@ app.get('/api/products', (req, res) => {
   for (const p of products) {
     p.flavors = db.prepare('SELECT id, flavor_name, color_code FROM product_flavors WHERE product_id = ? ORDER BY rowid').all(p.id);
   }
+
+  setApiCache(cacheKey, products);
   res.json(products);
 });
 
 app.get('/api/products/:idOrSlug', (req, res) => {
   const param = req.params.idOrSlug;
+  const cacheKey = `product_${param}`;
+  const cached = getApiCache(cacheKey);
+  if (cached) return res.json(cached);
+
   const product = db.prepare(`
     SELECT p.*, c.name as category_name, c.slug as category_slug
     FROM products p
@@ -346,6 +419,7 @@ app.get('/api/products/:idOrSlug', (req, res) => {
     ORDER BY RANDOM() LIMIT 4
   `).all(product.category_id, product.id);
 
+  setApiCache(cacheKey, product);
   res.json(product);
 });
 
@@ -695,6 +769,17 @@ async function startServer() {
   try { db.exec('ALTER TABLE products ADD COLUMN badge_text TEXT;'); } catch (e) {}
   try { db.exec('ALTER TABLE products ADD COLUMN badge_color TEXT;'); } catch (e) {}
 
+  // High performance SQLite indexes
+  db.exec(`
+    CREATE INDEX IF NOT EXISTS idx_products_category ON products(category_id);
+    CREATE INDEX IF NOT EXISTS idx_products_slug ON products(slug);
+    CREATE INDEX IF NOT EXISTS idx_products_featured ON products(is_featured);
+    CREATE INDEX IF NOT EXISTS idx_products_sort ON products(sort_order);
+    CREATE INDEX IF NOT EXISTS idx_product_flavors_product ON product_flavors(product_id);
+    CREATE INDEX IF NOT EXISTS idx_product_images_product ON product_images(product_id);
+    CREATE INDEX IF NOT EXISTS idx_product_specs_product ON product_specs(product_id);
+  `);
+
   // Create default admin user
   const adminExists = db.prepare('SELECT id FROM admin_users WHERE username = ?').get('admin');
   if (!adminExists) {
@@ -707,7 +792,7 @@ async function startServer() {
   const defaultSettings = {
     site_name: 'Island Nutrition',
     site_tagline: 'Fuel Your Paradise',
-    site_description: 'Premium nutrition supplements crafted for peak performance.',
+    site_description: 'Quality supplements crafted for peak performance.',
     contact_email: 'info@islandnutrition.com',
     contact_phone: '+1 (555) 123-4567',
     instagram: '#',
