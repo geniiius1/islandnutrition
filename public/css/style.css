@@ -2356,11 +2356,11 @@ input, textarea, select {
 .brand-card-display {
   width: 100%;
   max-width: 480px;
-  aspect-ratio: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-6);
+  padding: var(--space-4) var(--space-6);
   background: transparent;
   border: none;
   box-shadow: none;
@@ -2380,7 +2380,7 @@ input, textarea, select {
 
 .brand-showcase-logo {
   max-width: 88%;
-  max-height: 88%;
+  max-height: 80%;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -2393,7 +2393,35 @@ input, textarea, select {
 }
 
 .brand-card-display:hover .brand-showcase-logo {
-  transform: scale(1.05);
+  transform: scale(1.04);
+}
+
+/* Brand Tagline Under Logo (Flanked by lines, matching brand weight and uppercase style) */
+.brand-tagline-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: var(--space-5);
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 3.5px;
+  color: var(--text-primary);
+  user-select: none;
+  white-space: nowrap;
+  transition: all var(--duration-fast);
+}
+
+.brand-tagline-label::before,
+.brand-tagline-label::after {
+  content: '';
+  width: 32px;
+  height: 1.5px;
+  background: currentColor;
+  opacity: 0.35;
+  border-radius: 1px;
 }
 
 /* Feature Cards */
@@ -3595,6 +3623,19 @@ input, textarea, select {
   .brand-card-display {
     max-width: 260px;
     margin: 0 auto;
+    padding: var(--space-2) 0;
+  }
+
+  .brand-tagline-label {
+    font-size: 0.72rem;
+    letter-spacing: 2.2px;
+    gap: 8px;
+    margin-top: var(--space-3);
+  }
+
+  .brand-tagline-label::before,
+  .brand-tagline-label::after {
+    width: 20px;
   }
 
   .footer-grid {
