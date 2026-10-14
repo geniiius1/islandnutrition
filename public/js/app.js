@@ -1317,7 +1317,7 @@ async function initHeroSlider() {
       if (badgeTextEl) badgeTextEl.textContent = `${p.category_name || 'Flagship'} • ${p.badge_text || (p.is_new ? 'NEW RELEASE' : 'TOP RATED')}`;
       
       const cleanDesc = p.short_description || p.description || '';
-      if (descEl) descEl.textContent = cleanDesc.length > 170 ? cleanDesc.substring(0, 167) + '...' : cleanDesc;
+      if (descEl) descEl.textContent = cleanDesc.length > 220 ? cleanDesc.substring(0, 217) + '...' : cleanDesc;
 
       // 2. Links - Target exact product and active flavor
       const activeFlavor = (p.flavors && p.flavors.length > 0) ? p.flavors[0].flavor_name : null;

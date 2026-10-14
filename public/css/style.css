@@ -546,8 +546,8 @@ input, textarea, select {
 /* Flagship Showcase Hero Slider */
 .flagship-hero {
   position: relative;
-  min-height: 700px;
-  height: clamp(700px, 92vh, 860px);
+  min-height: 740px;
+  height: clamp(740px, 92vh, 920px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -642,39 +642,39 @@ input, textarea, select {
   transition: background-color 0.5s ease;
 }
 
-/* Fixed Static Title Height */
+/* Fixed Static Title Height - Spacious 2-Line Support */
 .hero-title {
-  height: 155px;
-  min-height: 155px;
-  max-height: 155px;
+  height: 175px;
+  min-height: 175px;
+  max-height: 175px;
   margin-bottom: var(--space-4);
   font-family: var(--font-heading);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   overflow: hidden;
 }
 
 .hero-title-prefix {
-  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-size: clamp(0.9rem, 1.4vw, 1.15rem);
   font-weight: 700;
   letter-spacing: 3px;
   color: var(--text-muted);
   text-transform: uppercase;
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   line-height: 1.2;
   transition: opacity 0.35s ease;
 }
 
 .hero-title-main {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: clamp(1.9rem, 3.4vw, 3.0rem);
+  font-size: clamp(2rem, 3.3vw, 2.9rem);
   font-weight: 900;
-  line-height: 1.06;
+  line-height: 1.1;
   letter-spacing: -0.5px;
   text-transform: uppercase;
   background: var(--accent-gradient);
@@ -684,18 +684,18 @@ input, textarea, select {
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-/* Fixed Static Description Height */
+/* Fixed Static Description Height - 3 Full Lines Support */
 .hero-content-col .hero-description {
   margin: 0 0 var(--space-5);
-  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  font-size: clamp(0.92rem, 1.1vw, 1.02rem);
   color: var(--text-secondary);
   line-height: 1.55;
-  max-width: 580px;
-  height: 50px;
-  min-height: 50px;
-  max-height: 50px;
+  max-width: 600px;
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: opacity 0.35s ease;
@@ -871,9 +871,9 @@ input, textarea, select {
   position: relative;
   width: 100%;
   max-width: 480px;
-  height: 500px;
-  min-height: 500px;
-  max-height: 500px;
+  height: 520px;
+  min-height: 520px;
+  max-height: 520px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3121,19 +3121,19 @@ input, textarea, select {
   }
 
   .hero-title {
-    height: 80px !important;
-    min-height: 80px !important;
-    max-height: 80px !important;
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: flex-end !important;
+    justify-content: flex-start !important;
     align-items: center !important;
     overflow: hidden !important;
     margin-bottom: var(--space-2) !important;
   }
 
   .hero-title-main {
-    font-size: clamp(1.4rem, 5.8vw, 1.95rem) !important;
+    font-size: clamp(1.4rem, 5.6vw, 1.85rem) !important;
     letter-spacing: -0.5px;
     line-height: 1.15;
     display: -webkit-box !important;
@@ -3146,14 +3146,14 @@ input, textarea, select {
     font-size: 0.85rem;
     line-height: 1.45;
     margin-bottom: var(--space-3) !important;
-    max-width: 340px;
+    max-width: 350px;
     margin-left: auto;
     margin-right: auto;
-    height: 42px !important;
-    min-height: 42px !important;
-    max-height: 42px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -3671,13 +3671,17 @@ input, textarea, select {
   }
 
   .hero-title {
-    height: 74px !important;
-    min-height: 74px !important;
-    max-height: 74px !important;
+    height: 84px !important;
+    min-height: 84px !important;
+    max-height: 84px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
   }
 
   .hero-title-main {
-    font-size: clamp(1.35rem, 6.2vw, 1.75rem) !important;
+    font-size: clamp(1.3rem, 5.8vw, 1.65rem) !important;
+    -webkit-line-clamp: 2 !important;
   }
 
   .hero-stage {
@@ -3693,9 +3697,13 @@ input, textarea, select {
   .hero-content-col .hero-description {
     font-size: 0.82rem;
     line-height: 1.4;
-    height: 38px !important;
-    min-height: 38px !important;
-    max-height: 38px !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    max-height: 56px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
     margin-bottom: var(--space-2);
   }
 
