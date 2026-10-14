@@ -881,10 +881,10 @@ input, textarea, select {
 .hero-stage {
   position: relative;
   width: 100%;
-  max-width: 530px;
-  height: 520px;
-  min-height: 520px;
-  max-height: 520px;
+  max-width: 560px;
+  height: 560px;
+  min-height: 560px;
+  max-height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -991,8 +991,8 @@ input, textarea, select {
 }
 
 .hero-product-img {
-  max-width: 92%;
-  max-height: 485px;
+  max-width: 95%;
+  max-height: 520px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -1005,8 +1005,8 @@ input, textarea, select {
 }
 
 .hero-product-img.hero-img--giant {
-  max-width: 96%;
-  max-height: 495px;
+  max-width: 98%;
+  max-height: 540px;
   transform: none;
 }
 
@@ -1132,12 +1132,12 @@ input, textarea, select {
   }
 
   .hero-stage {
-    height: 380px;
-    max-width: 400px;
+    height: 420px;
+    max-width: 440px;
   }
 
   .hero-product-img {
-    max-height: 340px;
+    max-height: 400px;
   }
 
   /* Hide floating chips to prevent clutter & overlap on tablet and mobile */
@@ -2670,7 +2670,7 @@ input, textarea, select {
   left: 15%;
   right: 15%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #facc15, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
   border-radius: 2px;
 }
 
@@ -2687,9 +2687,9 @@ input, textarea, select {
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #facc15;
-  background: rgba(250, 204, 21, 0.12);
-  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: var(--accent-primary);
+  background: rgba(var(--accent-primary-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-primary-rgb), 0.25);
   padding: 5px 16px;
   border-radius: var(--radius-full);
   margin-bottom: var(--space-3);
@@ -2799,12 +2799,12 @@ input, textarea, select {
 .inquiry-input:focus,
 .inquiry-textarea:focus {
   outline: none;
-  border-color: #facc15;
-  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.22);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.18);
 }
 
 .inquiry-input-wrap:focus-within .inquiry-field-icon {
-  color: #facc15;
+  color: var(--accent-primary);
 }
 
 .inquiry-textarea {
@@ -2825,8 +2825,8 @@ input, textarea, select {
   gap: 8px;
   min-width: 200px;
   padding: 14px 44px;
-  background: #facc15 !important;
-  color: #000000 !important;
+  background: var(--btn-primary-bg) !important;
+  color: var(--btn-primary-text) !important;
   font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 900;
@@ -2835,15 +2835,15 @@ input, textarea, select {
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(250, 204, 21, 0.35);
+  box-shadow: 0 6px 20px var(--btn-primary-shadow);
   transition: all var(--duration-fast);
 }
 
 .inquiry-submit-btn:hover {
-  background: #fde047 !important;
-  color: #000000 !important;
+  background: var(--btn-primary-hover-bg) !important;
+  color: var(--btn-primary-text) !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(250, 204, 21, 0.5);
+  box-shadow: 0 10px 28px var(--btn-primary-shadow);
 }
 
 .inquiry-submit-btn:active {
@@ -3439,13 +3439,13 @@ input, textarea, select {
   }
 
   .hero-stage {
-    height: clamp(215px, 29vh, 255px);
-    max-width: 290px;
+    height: clamp(250px, 36vh, 310px);
+    max-width: 340px;
     margin: 0 auto;
   }
 
   .hero-product-img {
-    max-height: clamp(200px, 27vh, 240px);
+    max-height: clamp(235px, 34vh, 295px);
     max-width: 95%;
     width: auto;
     object-fit: contain;
@@ -4149,13 +4149,13 @@ input, textarea, select {
   }
 
   .hero-stage {
-    height: clamp(205px, 28vh, 235px);
-    max-width: 270px;
+    height: clamp(240px, 34vh, 290px);
+    max-width: 320px;
     margin: 0 auto;
   }
 
   .hero-product-img {
-    max-height: clamp(190px, 26vh, 220px);
+    max-height: clamp(225px, 32vh, 275px);
     max-width: 95%;
     width: auto;
     object-fit: contain;
@@ -4514,6 +4514,83 @@ input, textarea, select {
     width: 42px;
     height: 42px;
     font-size: 1rem;
+  }
+
+  /* Product Inquiry - Small Smartphones */
+  .product-inquiry-section {
+    padding: var(--space-10) 0;
+  }
+
+  .inquiry-card {
+    padding: 20px 14px;
+    border-radius: var(--radius-lg);
+  }
+
+  .inquiry-header {
+    margin-bottom: var(--space-5);
+  }
+
+  .inquiry-badge {
+    font-size: 0.66rem;
+    padding: 4px 12px;
+    letter-spacing: 1.5px;
+  }
+
+  .inquiry-title {
+    font-size: clamp(1.1rem, 4.8vw, 1.4rem) !important;
+  }
+
+  .inquiry-subtitle {
+    font-size: 0.82rem;
+  }
+
+  .inquiry-form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .inquiry-input,
+  .inquiry-textarea {
+    font-size: 16px !important;
+    padding: 12px 14px 12px 40px;
+  }
+
+  .inquiry-field-label {
+    font-size: 0.72rem;
+    margin-bottom: 5px;
+  }
+
+  .inquiry-field-icon {
+    left: 14px;
+    font-size: 0.88rem;
+  }
+
+  .inquiry-submit-btn {
+    width: 100%;
+    max-width: 100%;
+    padding: 13px 20px;
+    font-size: 0.90rem;
+    letter-spacing: 1.5px;
+  }
+
+  .inquiry-action {
+    margin-top: 8px;
+  }
+
+  /* Contact page grid stacking */
+  .contact-page-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .contact-info-card {
+    padding: 20px 16px;
+    border-radius: var(--radius-lg);
+  }
+
+  .contact-inquiry-card {
+    padding: 20px 14px;
   }
 }
 
