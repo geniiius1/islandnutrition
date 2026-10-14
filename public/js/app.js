@@ -671,7 +671,7 @@ async function loadProductDetail() {
   if (!container) return;
 
   const params = new URLSearchParams(window.location.search);
-  const productId = params.get('id');
+  const productId = params.get('id') || params.get('slug');
   if (!productId) {
     window.location.href = '/products.html';
     return;
@@ -829,10 +829,24 @@ async function loadProductDetail() {
 
     initScrollAnimations();
 
-    // If a flavor index was passed (from category page), jump to that flavor's image
-    const flavorIndex = params.get('flavor');
-    if (flavorIndex !== null && !isNaN(parseInt(flavorIndex))) {
-      setTimeout(() => galleryGoTo(parseInt(flavorIndex)), 150);
+    // If a flavor index or flavor name was passed, activate that exact flavor
+    const flavorParam = params.get('flavor');
+    if (flavorParam !== null && flavorParam !== undefined) {
+      let targetIdx = parseInt(flavorParam, 10);
+      if (isNaN(targetIdx) && product.flavors) {
+        targetIdx = product.flavors.findIndex(f => f.flavor_name && f.flavor_name.toLowerCase() === flavorParam.toLowerCase().trim());
+      }
+      if (!isNaN(targetIdx) && targetIdx >= 0 && targetIdx < (product.images || []).length) {
+        if (targetIdx !== 0) {
+          galleryGoTo(targetIdx);
+          setTimeout(() => galleryGoTo(targetIdx), 150);
+        } else {
+          const thumbs = document.querySelectorAll('.product-gallery-thumb');
+          thumbs.forEach((t, i) => t.classList.toggle('active', i === 0));
+          const flavorTags = document.querySelectorAll('.flavor-tag');
+          flavorTags.forEach((t, i) => t.classList.toggle('active', i === 0));
+        }
+      }
     }
   } catch (err) {
     container.innerHTML = '<div class="empty-state"><p>Product not found</p><a href="/products.html" class="btn btn-primary mt-8">Browse Products</a></div>';
@@ -1249,6 +1263,15 @@ async function initHeroSlider() {
 
   if (totalSlidesEl) totalSlidesEl.textContent = String(products.length).padStart(2, '0');
 
+  // Explore All Button Navigation
+  const exploreBtn = document.getElementById('hero-explore-all-btn');
+  if (exploreBtn) {
+    exploreBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/products.html';
+    });
+  }
+
   // Render Dots
   if (dotsContainer) {
     dotsContainer.innerHTML = products.map((_, i) => 
@@ -1296,10 +1319,23 @@ async function initHeroSlider() {
       const cleanDesc = p.short_description || p.description || '';
       if (descEl) descEl.textContent = cleanDesc.length > 170 ? cleanDesc.substring(0, 167) + '...' : cleanDesc;
 
-      // 2. Links
-      const targetUrl = `/product.html?slug=${p.slug || p.id}`;
+      // 2. Links - Target exact product and active flavor
+      const activeFlavor = (p.flavors && p.flavors.length > 0) ? p.flavors[0].flavor_name : null;
+      const flavorQuery = activeFlavor ? `&flavor=${encodeURIComponent(activeFlavor)}` : '';
+      const targetUrl = `/product.html?id=${p.id}${flavorQuery}`;
       if (primaryCta) primaryCta.href = targetUrl;
       if (productLink) productLink.href = targetUrl;
+
+      const chipTopEl = document.getElementById('hero-chip-top');
+      const chipBottomEl = document.getElementById('hero-chip-bottom');
+      if (chipTopEl) {
+        chipTopEl.style.cursor = 'pointer';
+        chipTopEl.onclick = () => { window.location.href = targetUrl; };
+      }
+      if (chipBottomEl) {
+        chipBottomEl.style.cursor = 'pointer';
+        chipBottomEl.onclick = () => { window.location.href = targetUrl; };
+      }
 
       // 3. Product Image
       if (productImg && p.primary_image) {

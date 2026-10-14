@@ -546,13 +546,15 @@ input, textarea, select {
 /* Flagship Showcase Hero Slider */
 .flagship-hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 700px;
+  height: clamp(700px, 92vh, 860px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: calc(var(--nav-height) + 20px);
-  padding-bottom: 70px;
+  padding-top: calc(var(--nav-height) + 10px);
+  padding-bottom: 50px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .hero-dynamic-backdrop {
@@ -585,26 +587,35 @@ input, textarea, select {
   width: 100%;
 }
 
-/* Left Column: Product Information & Controls */
+/* Left Column: Product Information & Controls - Static Fixed Slot Heights */
 .hero-content-col {
   text-align: left;
   max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .hero-content-col .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: var(--space-5);
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+  margin-bottom: var(--space-4);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 7px 18px;
+  padding: 0 16px;
   border-radius: var(--radius-full);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border-default);
+  box-sizing: border-box;
+  white-space: nowrap;
+  align-self: flex-start;
   transition: all 0.5s ease;
 }
 
@@ -631,28 +642,40 @@ input, textarea, select {
   transition: background-color 0.5s ease;
 }
 
+/* Fixed Static Title Height */
 .hero-title {
+  height: 155px;
+  min-height: 155px;
+  max-height: 155px;
   margin-bottom: var(--space-4);
   font-family: var(--font-heading);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .hero-title-prefix {
-  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
   font-weight: 700;
   letter-spacing: 3px;
   color: var(--text-muted);
   text-transform: uppercase;
-  display: inline-block;
-  margin-bottom: 6px;
+  display: block;
+  margin-bottom: 4px;
+  line-height: 1.2;
   transition: opacity 0.35s ease;
 }
 
 .hero-title-main {
-  display: inline-block;
-  font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: clamp(1.9rem, 3.4vw, 3.0rem);
   font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -1px;
+  line-height: 1.06;
+  letter-spacing: -0.5px;
   text-transform: uppercase;
   background: var(--accent-gradient);
   -webkit-background-clip: text;
@@ -661,22 +684,34 @@ input, textarea, select {
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
+/* Fixed Static Description Height */
 .hero-content-col .hero-description {
-  margin: 0 0 var(--space-6);
-  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  margin: 0 0 var(--space-5);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   color: var(--text-secondary);
-  line-height: 1.65;
+  line-height: 1.55;
   max-width: 580px;
-  min-height: 52px;
+  height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   transition: opacity 0.35s ease;
 }
 
-/* Live Product Quick Specs Row */
+/* Live Product Quick Specs Row - Fixed Static Height */
 .hero-specs-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
-  margin-bottom: var(--space-8);
+  height: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  overflow: hidden;
   transition: opacity 0.35s ease;
 }
 
@@ -693,6 +728,7 @@ input, textarea, select {
   color: var(--text-primary);
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  white-space: nowrap;
   transition: all var(--duration-fast);
 }
 
@@ -708,22 +744,29 @@ input, textarea, select {
   display: inline-block;
 }
 
-/* Hero Action CTAs */
+/* Hero Action CTAs - Fixed Static Height */
 .hero-content-col .hero-actions {
   display: flex;
   gap: var(--space-4);
   justify-content: flex-start;
-  margin-bottom: var(--space-8);
-  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+  flex-wrap: nowrap;
+  height: 52px;
+  min-height: 52px;
+  max-height: 52px;
+  align-items: center;
 }
 
-/* Slider Controls & Counter */
+/* Slider Controls & Counter - Fixed Static Height */
 .hero-slider-nav {
   display: flex;
   align-items: center;
   gap: var(--space-4);
   margin-bottom: var(--space-3);
   max-width: 440px;
+  height: 42px;
+  min-height: 42px;
+  max-height: 42px;
 }
 
 .hero-slider-arrows {
@@ -828,7 +871,9 @@ input, textarea, select {
   position: relative;
   width: 100%;
   max-width: 480px;
-  height: 520px;
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1011,6 +1056,17 @@ input, textarea, select {
     text-align: center;
     max-width: 100%;
     order: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-content-col .hero-badge {
+    align-self: center;
+  }
+
+  .hero-title {
+    align-items: center;
   }
 
   .hero-content-col .hero-actions {
@@ -3054,33 +3110,52 @@ input, textarea, select {
     margin-bottom: 2px;
   }
 
+  .hero-badge {
+    font-size: 0.68rem;
+    padding: 4px 12px;
+    height: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+    margin-bottom: var(--space-2) !important;
+    align-self: center !important;
+  }
+
   .hero-title {
-    margin-bottom: var(--space-2);
+    height: 80px !important;
+    min-height: 80px !important;
+    max-height: 80px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    margin-bottom: var(--space-2) !important;
   }
 
   .hero-title-main {
-    font-size: clamp(1.65rem, 6.5vw, 2.1rem);
+    font-size: clamp(1.4rem, 5.8vw, 1.95rem) !important;
     letter-spacing: -0.5px;
     line-height: 1.15;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
   }
 
   .hero-content-col .hero-description {
     font-size: 0.85rem;
     line-height: 1.45;
-    margin-bottom: var(--space-3);
-    max-width: 330px;
+    margin-bottom: var(--space-3) !important;
+    max-width: 340px;
     margin-left: auto;
     margin-right: auto;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  .hero-badge {
-    font-size: 0.68rem;
-    padding: 4px 12px;
-    margin-bottom: var(--space-2) !important;
   }
 
   .hero-stage {
@@ -3105,7 +3180,11 @@ input, textarea, select {
   .hero-specs-row {
     justify-content: center;
     gap: 6px;
-    margin-bottom: var(--space-3);
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    margin-bottom: var(--space-3) !important;
+    overflow: hidden !important;
   }
 
   .hero-spec-pill {
@@ -3121,6 +3200,9 @@ input, textarea, select {
     max-width: 270px;
     margin: 0 auto var(--space-3);
     gap: var(--space-2);
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
   }
 
   .hero-content-col .hero-actions .btn {
@@ -3588,8 +3670,14 @@ input, textarea, select {
     gap: var(--space-2);
   }
 
+  .hero-title {
+    height: 74px !important;
+    min-height: 74px !important;
+    max-height: 74px !important;
+  }
+
   .hero-title-main {
-    font-size: clamp(1.55rem, 7.2vw, 2rem);
+    font-size: clamp(1.35rem, 6.2vw, 1.75rem) !important;
   }
 
   .hero-stage {
@@ -3605,6 +3693,9 @@ input, textarea, select {
   .hero-content-col .hero-description {
     font-size: 0.82rem;
     line-height: 1.4;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
     margin-bottom: var(--space-2);
   }
 
@@ -3612,6 +3703,9 @@ input, textarea, select {
     max-width: 260px;
     gap: var(--space-2);
     margin-bottom: var(--space-3);
+    height: 84px !important;
+    min-height: 84px !important;
+    max-height: 84px !important;
   }
 
   .hero-content-col .hero-actions .btn {
