@@ -134,582 +134,1002 @@ async function generateCategoryThumbnail(sourceFilename, categorySlug) {
 // ============================================================
 
 const catalog = [
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 1: Pre-Workout (PWOx7 & X-SHRED)
-  // ──────────────────────────────────────────────────────────
   {
-    category: {
-      name: 'Pre-Workout',
-      description: 'High-intensity pre-workout formulas engineered for explosive energy, laser focus, endurance, and skin-splitting pumps. Made in Sweden with premium ingredients.',
-      sort_order: 10,
-      thumbnailSource: 'PWOx7 TROPICAL.png'
+    "category": {
+      "name": "Whey Protein",
+      "description": "WHEY X3 Protein Complex — premium triple-source whey protein with digestive enzyme blend. 22g protein, 3.9g carbs, 1.4g fat per serving. 67 servings per container.",
+      "sort_order": 10,
+      "thumbnailSource": "WHEY X3 CHOCOLATE MUFFIN.png"
     },
-    products: [
+    "products": [
       {
-        name: 'PWOx7',
-        short_description: 'Explosive Pre-Workout Formula — Energy • Focus • Endurance • Pump',
-        description: 'PWOx7 is Island Nutrition\'s flagship pre-workout formula, delivering 7 clinically dosed active compounds for explosive energy, razor-sharp mental focus, enhanced muscular endurance, and intense vascular pumps. Made in Sweden with Halal certification and 100% premium quality ingredients. Available in Tropical and Watermelon flavours.',
-        weight: '320g',
-        servings: '40',
-        ingredients: 'L-Citrulline Malate, Beta-Alanine, Caffeine Anhydrous, L-Tyrosine, Taurine, Alpha-GPC, AstraGin®, Natural & Artificial Flavors, Citric Acid, Sucralose, Silicon Dioxide.',
-        usage_instructions: 'Mix 1 scoop (8g) with 250-350ml cold water. Consume 20-30 minutes before training. Do not exceed 1 serving in a 24-hour period. Assess tolerance with half a scoop.',
-        is_featured: 1,
-        specs: [
-          { name: 'L-Citrulline Malate', value: '6,000 mg' },
-          { name: 'Beta-Alanine', value: '3,200 mg' },
-          { name: 'Caffeine', value: '300 mg' },
-          { name: 'L-Tyrosine', value: '1,000 mg' },
-          { name: 'Alpha-GPC', value: '300 mg' },
-          { name: 'Servings', value: '40' },
-          { name: 'Net Weight', value: '320g' },
-          { name: 'Made In', value: 'Sweden 🇸🇪' },
-          { name: 'Certification', value: 'Halal Suitable' }
+        "name": "WHEY X3 Protein Complex",
+        "short_description": "Triple-Source Whey Protein — 22g Protein • 3.9g Carbs • 1.4g Fat • 67 Servings",
+        "description": "WHEY X3 is Island Nutrition's premium triple-source whey protein complex, combining whey concentrate, isolate, and hydrolysate for superior amino acid delivery. Enhanced with a digestive enzyme blend for maximum absorption and zero bloating. Available in three indulgent flavours: Chocolate Muffin, Salted Caramel, and Vanilla Swirl. 100% Premium Quality, Halal Suitable.",
+        "weight": "2000g",
+        "servings": "67",
+        "ingredients": "Whey Protein Concentrate, Whey Protein Isolate, Whey Protein Hydrolysate, Digestive Enzyme Blend (Protease, Lactase, Lipase), Natural & Artificial Flavors, Lecithin, Sucralose, Acesulfame-K.",
+        "usage_instructions": "Mix 1 scoop (30g) with 200-300ml cold water or milk. Shake well for 15-20 seconds. Consume post-workout or between meals for optimal protein intake.",
+        "is_featured": 1,
+        "specs": [
+          {
+            "name": "Protein per Serving",
+            "value": "22 g"
+          },
+          {
+            "name": "Carbohydrates",
+            "value": "3.9 g"
+          },
+          {
+            "name": "Fat",
+            "value": "1.4 g"
+          },
+          {
+            "name": "Servings per Container",
+            "value": "67"
+          },
+          {
+            "name": "Net Weight",
+            "value": "2000g"
+          },
+          {
+            "name": "Digestive Enzymes",
+            "value": "Included"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          },
+          {
+            "name": "Certification",
+            "value": "Halal Suitable"
+          }
         ],
-        flavors: [
-          { name: 'Tropical', color: '#f59e0b', image: 'PWOx7 TROPICAL.png' },
-          { name: 'Watermelon', color: '#ef4444', image: 'PWOx7 WATERMELON.png' }
-        ]
-      },
-      {
-        name: 'X-SHRED Pre-Workout',
-        short_description: 'Pre-Workout Thermogenic Formula — Shred • Focus • Energy',
-        description: 'X-SHRED is Island Nutrition\'s cutting-edge pre-workout formula designed for those focused on shredding and definition. Combining energy-boosting compounds with thermogenic agents, X-SHRED helps maximize fat oxidation during training while maintaining peak performance. Ice Tea Lime flavour for a crisp, refreshing pre-training drink. Made in Sweden, Halal certified.',
-        weight: '320g',
-        servings: '35',
-        ingredients: 'L-Citrulline, Acetyl L-Carnitine, Caffeine Anhydrous, Green Tea Extract, Beta-Alanine, L-Tyrosine, Synephrine HCl, BioPerine®, Natural & Artificial Ice Tea Lime Flavor, Citric Acid, Sucralose.',
-        usage_instructions: 'Mix 1 scoop with 250-350ml cold water. Consume 20-30 minutes before training. Start with half a scoop to assess tolerance.',
-        is_featured: 1,
-        is_new: 1,
-        badge_text: 'NEW',
-        specs: [
-          { name: 'L-Citrulline', value: '4,000 mg' },
-          { name: 'Acetyl L-Carnitine', value: '1,500 mg' },
-          { name: 'Green Tea Extract', value: '500 mg' },
-          { name: 'Caffeine', value: '250 mg' },
-          { name: 'Synephrine HCl', value: '30 mg' },
-          { name: 'Flavour', value: 'Ice Tea Lime' },
-          { name: 'Servings', value: '35' },
-          { name: 'Net Weight', value: '320g' },
-          { name: 'Made In', value: 'Sweden 🇸🇪' },
-          { name: 'Certification', value: 'Halal Suitable' }
-        ],
-        flavors: [
-          { name: 'Ice Tea Lime', color: '#84cc16', image: 'PWO_X-SHRED.png' }
-        ]
-      }
-    ]
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 2: Whey Protein (WHEY X3 — 1 product, 3 flavors)
-  // ──────────────────────────────────────────────────────────
-  {
-    category: {
-      name: 'Whey Protein',
-      description: 'WHEY X3 Protein Complex — premium triple-source whey protein with digestive enzyme blend. 22g protein, 3.9g carbs, 1.4g fat per serving. 67 servings per container.',
-      sort_order: 20,
-      thumbnailSource: 'WHEY X3 CHOCOLATE MUFFIN.png'
-    },
-    products: [
-      {
-        name: 'WHEY X3 Protein Complex',
-        short_description: 'Triple-Source Whey Protein — 22g Protein • 3.9g Carbs • 1.4g Fat • 67 Servings',
-        description: 'WHEY X3 is Island Nutrition\'s premium triple-source whey protein complex, combining whey concentrate, isolate, and hydrolysate for superior amino acid delivery. Enhanced with a digestive enzyme blend for maximum absorption and zero bloating. Available in three indulgent flavours: Chocolate Muffin, Salted Caramel, and Vanilla Swirl. 100% Premium Quality, Halal Suitable.',
-        weight: '2000g',
-        servings: '67',
-        ingredients: 'Whey Protein Concentrate, Whey Protein Isolate, Whey Protein Hydrolysate, Digestive Enzyme Blend (Protease, Lactase, Lipase), Natural & Artificial Flavors, Lecithin, Sucralose, Acesulfame-K.',
-        usage_instructions: 'Mix 1 scoop (30g) with 200-300ml cold water or milk. Shake well for 15-20 seconds. Consume post-workout or between meals for optimal protein intake.',
-        is_featured: 1,
-        specs: [
-          { name: 'Protein per Serving', value: '22 g' },
-          { name: 'Carbohydrates', value: '3.9 g' },
-          { name: 'Fat', value: '1.4 g' },
-          { name: 'Servings per Container', value: '67' },
-          { name: 'Net Weight', value: '2000g' },
-          { name: 'Digestive Enzymes', value: 'Included' },
-          { name: 'Quality', value: '100% Premium' },
-          { name: 'Certification', value: 'Halal Suitable' }
-        ],
-        flavors: [
-          { name: 'Chocolate Muffin', color: '#78350f', image: 'WHEY X3 CHOCOLATE MUFFIN.png' },
-          { name: 'Salted Caramel', color: '#d97706', image: 'WHEY X3 SALTED CARAMEL.png' },
-          { name: 'Vanilla Swirl', color: '#fef3c7', image: 'WHEY X3 VANILLA SWIRL.png' }
+        "flavors": [
+          {
+            "name": "Chocolate Muffin",
+            "color": "#78350f",
+            "image": "WHEY X3 CHOCOLATE MUFFIN.png"
+          },
+          {
+            "name": "Salted Caramel",
+            "color": "#d97706",
+            "image": "WHEY X3 SALTED CARAMEL.png"
+          },
+          {
+            "name": "Vanilla Swirl",
+            "color": "#fef3c7",
+            "image": "WHEY X3 VANILLA SWIRL.png"
+          }
         ]
       }
     ]
   },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 3: Mass Gainers (X-GAINER — 1 product, 3 flavors)
-  // ──────────────────────────────────────────────────────────
   {
-    category: {
-      name: 'Mass Gainers',
-      description: 'X-GAINER — 800 kcal per serving with over 61g protein. Massive calorie-dense mass builder with digestive enzyme blend for hardgainers seeking serious muscle volume.',
-      sort_order: 30,
-      thumbnailSource: 'X-GAINER DOUBLE RICH CHOCOLATE.png'
+    "category": {
+      "name": "Mass Gainers",
+      "description": "X-GAINER — 800 kcal per serving with over 61g protein. Massive calorie-dense mass builder with digestive enzyme blend for hardgainers seeking serious muscle volume.",
+      "sort_order": 20,
+      "thumbnailSource": "X-GAINER DOUBLE RICH CHOCOLATE.png"
     },
-    products: [
+    "products": [
       {
-        name: 'X-GAINER',
-        short_description: '800 KCAL • Over 61g Protein Per Serving • Digestive Enzyme Blend',
-        description: 'X-GAINER is Island Nutrition\'s premium mass gainer delivering a massive 800 kcal and over 61g of protein per serving. Formulated with a digestive enzyme blend for smooth digestion and maximum nutrient uptake. Available in three rich flavours: Double Rich Chocolate, Strawberry & Raspberry, and Vanilla Pear. Swedish quality, Halal certified, 100% premium ingredients.',
-        weight: '4000g',
-        servings: '20',
-        ingredients: 'Maltodextrin, Whey Protein Concentrate, Whey Protein Isolate, Micellar Casein, Oat Flour, Cocoa Powder (Dutch Process), Digestive Enzyme Blend (Amylase, Protease, Lipase), MCT Powder, Lecithin, Natural & Artificial Flavors, Sucralose.',
-        usage_instructions: 'Mix 2 scoops (200g) with 500-700ml cold water or milk. Consume between meals or post-workout. For extreme mass gain, use milk instead of water.',
-        is_featured: 1,
-        specs: [
-          { name: 'Calories per Serving', value: '800 kcal' },
-          { name: 'Protein per Serving', value: 'Over 61 g' },
-          { name: 'Digestive Enzymes', value: 'Included' },
-          { name: 'Servings per Container', value: '20' },
-          { name: 'Net Weight', value: '4000g' },
-          { name: 'Made In', value: 'Sweden 🇸🇪' },
-          { name: 'Certification', value: 'Halal Certified' }
+        "name": "X-GAINER",
+        "short_description": "800 KCAL • Over 61g Protein Per Serving • Digestive Enzyme Blend",
+        "description": "X-GAINER is Island Nutrition's premium mass gainer delivering a massive 800 kcal and over 61g of protein per serving. Formulated with a digestive enzyme blend for smooth digestion and maximum nutrient uptake. Available in three rich flavours: Double Rich Chocolate, Strawberry & Raspberry, and Vanilla Pear. Swedish quality, Halal certified, 100% premium ingredients.",
+        "weight": "4000g",
+        "servings": "20",
+        "ingredients": "Maltodextrin, Whey Protein Concentrate, Whey Protein Isolate, Micellar Casein, Oat Flour, Cocoa Powder (Dutch Process), Digestive Enzyme Blend (Amylase, Protease, Lipase), MCT Powder, Lecithin, Natural & Artificial Flavors, Sucralose.",
+        "usage_instructions": "Mix 2 scoops (200g) with 500-700ml cold water or milk. Consume between meals or post-workout. For extreme mass gain, use milk instead of water.",
+        "is_featured": 1,
+        "specs": [
+          {
+            "name": "Calories per Serving",
+            "value": "800 kcal"
+          },
+          {
+            "name": "Protein per Serving",
+            "value": "Over 61 g"
+          },
+          {
+            "name": "Digestive Enzymes",
+            "value": "Included"
+          },
+          {
+            "name": "Servings per Container",
+            "value": "20"
+          },
+          {
+            "name": "Net Weight",
+            "value": "4000g"
+          },
+          {
+            "name": "Made In",
+            "value": "Sweden 🇸🇪"
+          },
+          {
+            "name": "Certification",
+            "value": "Halal Certified"
+          }
         ],
-        flavors: [
-          { name: 'Double Rich Chocolate', color: '#451a03', image: 'X-GAINER DOUBLE RICH CHOCOLATE.png' },
-          { name: 'Strawberry & Raspberry', color: '#e11d48', image: 'X-GAINER STRAWBERRY&RASPBERRY.png' },
-          { name: 'Vanilla Pear', color: '#d4d68c', image: 'X-GAINER VANILLA PEAR.png' }
+        "flavors": [
+          {
+            "name": "Double Rich Chocolate",
+            "color": "#451a03",
+            "image": "X-GAINER DOUBLE RICH CHOCOLATE.png"
+          },
+          {
+            "name": "Strawberry & Raspberry",
+            "color": "#e11d48",
+            "image": "X-GAINER STRAWBERRY&RASPBERRY.png"
+          },
+          {
+            "name": "Vanilla Pear",
+            "color": "#d4d68c",
+            "image": "X-GAINER VANILLA PEAR.png"
+          }
         ]
       }
     ]
   },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 4: Creatine (2 distinct products: Flavored 360g & Unflavored 500g)
-  // ──────────────────────────────────────────────────────────
   {
-    category: {
-      name: 'Creatine',
-      description: 'Micronized Creatine Monohydrate 200 Mesh — ultra-fine, fast-dissolving creatine formulas for explosive strength, power output, and muscle cell volumization.',
-      sort_order: 40,
-      thumbnailSource: 'CREATINE ORANGE.png'
+    "category": {
+      "name": "Pre-Workout",
+      "description": "High-intensity pre-workout formulas engineered for explosive energy, laser focus, endurance, and skin-splitting pumps. Made in Sweden with premium ingredients.",
+      "sort_order": 30,
+      "thumbnailSource": "PWOx7 TROPICAL.png"
     },
-    products: [
+    "products": [
       {
-        name: 'Creatine Monohydrate 200 Mesh',
-        short_description: 'Micronized Creatine Monohydrate • 60 Servings • 360g • Ultra-Fine 200 Mesh',
-        description: 'Island Nutrition\'s Creatine Monohydrate features a 200 Mesh ultra-fine grade for superior solubility and absorption. Delivers 5,000 mg pure creatine monohydrate per serving to replenish cellular ATP, enhance explosive strength, and support muscle cell volumization. Halal certified and 100% premium quality. Available in Orange and Watermelon flavours.',
-        weight: '360g',
-        servings: '60',
-        ingredients: '100% Micronized Creatine Monohydrate (200 Mesh), Citric Acid, Natural & Artificial Flavors, Sucralose.',
-        usage_instructions: 'Mix 1 scoop (6g providing 5g creatine) with 200-300ml cold water. Take daily, preferably post-workout or with a meal. No loading phase required.',
-        is_featured: 1,
-        specs: [
-          { name: 'Creatine Monohydrate', value: '5,000 mg per serving' },
-          { name: 'Mesh Grade', value: '200 Mesh Ultra-Fine' },
-          { name: 'Servings', value: '60' },
-          { name: 'Net Weight', value: '360g' },
-          { name: 'Certification', value: 'Halal Certified' },
-          { name: 'Quality', value: '100% Premium' }
+        "name": "PWOx7",
+        "short_description": "Explosive Pre-Workout Formula — Energy • Focus • Endurance • Pump",
+        "description": "PWOx7 is Island Nutrition's flagship pre-workout formula, delivering 7 clinically dosed active compounds for explosive energy, razor-sharp mental focus, enhanced muscular endurance, and intense vascular pumps. Made in Sweden with Halal certification and 100% premium quality ingredients. Available in Tropical and Watermelon flavours.",
+        "weight": "320g",
+        "servings": "40",
+        "ingredients": "L-Citrulline Malate, Beta-Alanine, Caffeine Anhydrous, L-Tyrosine, Taurine, Alpha-GPC, AstraGin®, Natural & Artificial Flavors, Citric Acid, Sucralose, Silicon Dioxide.",
+        "usage_instructions": "Mix 1 scoop (8g) with 250-350ml cold water. Consume 20-30 minutes before training. Do not exceed 1 serving in a 24-hour period. Assess tolerance with half a scoop.",
+        "is_featured": 1,
+        "specs": [
+          {
+            "name": "L-Citrulline Malate",
+            "value": "6,000 mg"
+          },
+          {
+            "name": "Beta-Alanine",
+            "value": "3,200 mg"
+          },
+          {
+            "name": "Caffeine",
+            "value": "300 mg"
+          },
+          {
+            "name": "L-Tyrosine",
+            "value": "1,000 mg"
+          },
+          {
+            "name": "Alpha-GPC",
+            "value": "300 mg"
+          },
+          {
+            "name": "Servings",
+            "value": "40"
+          },
+          {
+            "name": "Net Weight",
+            "value": "320g"
+          },
+          {
+            "name": "Made In",
+            "value": "Sweden 🇸🇪"
+          },
+          {
+            "name": "Certification",
+            "value": "Halal Suitable"
+          }
         ],
-        flavors: [
-          { name: 'Orange', color: '#f97316', image: 'CREATINE ORANGE.png' },
-          { name: 'Watermelon', color: '#ef4444', image: 'CREATINE WATERMELON.png' }
+        "flavors": [
+          {
+            "name": "Tropical",
+            "color": "#f59e0b",
+            "image": "PWOx7 TROPICAL.png"
+          },
+          {
+            "name": "Watermelon",
+            "color": "#ef4444",
+            "image": "PWOx7 WATERMELON.png"
+          }
         ]
       },
       {
-        name: 'Creatine Monohydrate Mesh 200 (Unflavoured)',
-        short_description: 'Micronized Creatine Monohydrate with Taurine & Vitamin B6 • 96 Servings • 500g',
-        description: 'Pure micronized Creatine Monohydrate (Mesh 200) synergistically enhanced with Taurine and Vitamin B6 for optimal cellular uptake, hydration, and energy metabolism. Provides an incredible 96 servings in a 500g tub. Unflavoured for easy stacking with pre-workout or protein shakes. 100% Premium Quality, Halal Certified.',
-        weight: '500g',
-        servings: '96',
-        ingredients: 'Micronized Creatine Monohydrate (200 Mesh), Taurine, Vitamin B6 (Pyridoxine HCl).',
-        usage_instructions: 'Mix 1 scoop (approx. 5.2g) with 200-300ml cold water, juice, or your post-workout protein shake. Consume daily. No loading phase required.',
-        is_featured: 1,
-        is_new: 1,
-        badge_text: 'NEW',
-        specs: [
-          { name: 'Creatine Monohydrate', value: '5,000 mg per serving' },
-          { name: 'Active Formula', value: 'Taurine & Vitamin B6 Enhanced' },
-          { name: 'Mesh Grade', value: '200 Mesh Ultra-Fine' },
-          { name: 'Servings', value: '96' },
-          { name: 'Net Weight', value: '500g' },
-          { name: 'Flavour', value: 'Unflavoured' },
-          { name: 'Certification', value: 'Halal Certified' },
-          { name: 'Quality', value: '100% Premium' }
+        "name": "X-SHRED Pre-Workout",
+        "short_description": "Pre-Workout Thermogenic Formula — Shred • Focus • Energy",
+        "description": "X-SHRED is Island Nutrition's cutting-edge pre-workout formula designed for those focused on shredding and definition. Combining energy-boosting compounds with thermogenic agents, X-SHRED helps maximize fat oxidation during training while maintaining peak performance. Ice Tea Lime flavour for a crisp, refreshing pre-training drink. Made in Sweden, Halal certified.",
+        "weight": "320g",
+        "servings": "35",
+        "ingredients": "L-Citrulline, Acetyl L-Carnitine, Caffeine Anhydrous, Green Tea Extract, Beta-Alanine, L-Tyrosine, Synephrine HCl, BioPerine®, Natural & Artificial Ice Tea Lime Flavor, Citric Acid, Sucralose.",
+        "usage_instructions": "Mix 1 scoop with 250-350ml cold water. Consume 20-30 minutes before training. Start with half a scoop to assess tolerance.",
+        "is_featured": 1,
+        "is_new": 1,
+        "badge_text": "NEW",
+        "specs": [
+          {
+            "name": "L-Citrulline",
+            "value": "4,000 mg"
+          },
+          {
+            "name": "Acetyl L-Carnitine",
+            "value": "1,500 mg"
+          },
+          {
+            "name": "Green Tea Extract",
+            "value": "500 mg"
+          },
+          {
+            "name": "Caffeine",
+            "value": "250 mg"
+          },
+          {
+            "name": "Synephrine HCl",
+            "value": "30 mg"
+          },
+          {
+            "name": "Flavour",
+            "value": "Ice Tea Lime"
+          },
+          {
+            "name": "Servings",
+            "value": "35"
+          },
+          {
+            "name": "Net Weight",
+            "value": "320g"
+          },
+          {
+            "name": "Made In",
+            "value": "Sweden 🇸🇪"
+          },
+          {
+            "name": "Certification",
+            "value": "Halal Suitable"
+          }
         ],
-        flavors: [
-          { name: 'Unflavoured', color: '#e2e8f0', image: 'CREATINE UNFLAVOURED.png' }
-        ]
-      }
-    ]
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 5: Amino Acids (AMINO ELECTROLYTES EAA & BCAA)
-  // ──────────────────────────────────────────────────────────
-  {
-    category: {
-      name: 'Amino Acids',
-      description: 'Complete essential amino acid and electrolyte formulas for intra-workout endurance, rapid recovery, and optimal muscle hydration.',
-      sort_order: 50,
-      thumbnailSource: 'AMINO.png'
-    },
-    products: [
-      {
-        name: 'Amino Electrolytes EAA & BCAA',
-        short_description: 'Complete EAA & BCAA Formula with Electrolyte Complex • Pineapple • 23 Servings • 400g',
-        description: 'Island Nutrition\'s Amino Electrolytes combines a complete spectrum of Essential Amino Acids (EAAs) and Branched-Chain Amino Acids (BCAAs) with key hydration electrolytes. Engineered to fuel intra-workout endurance, prevent muscle breakdown, accelerate recovery, and maintain optimal cellular hydration. Refreshing Pineapple flavour. Made in Sweden, Halal suitable.',
-        weight: '400g',
-        servings: '23',
-        ingredients: 'EAA & BCAA Matrix (L-Leucine, L-Isoleucine, L-Valine, L-Lysine, L-Threonine, L-Phenylalanine, L-Methionine, L-Histidine, L-Tryptophan), Electrolyte Complex (Sodium Chloride, Potassium Citrate, Magnesium Bisglycinate, Calcium Citrate), Citric Acid, Natural Pineapple Flavour, Sucralose, Sunflower Lecithin.',
-        usage_instructions: 'Mix 1 scoop (approx. 17.4g) with 400-500ml cold water. Consume during or immediately after training for optimal recovery and hydration.',
-        is_featured: 1,
-        is_new: 1,
-        badge_text: 'NEW',
-        specs: [
-          { name: 'EAA & BCAA Matrix', value: 'Full Spectrum Essential Amino Acids' },
-          { name: 'Electrolytes', value: 'Sodium, Potassium, Magnesium, Calcium' },
-          { name: 'Flavour', value: 'Pineapple' },
-          { name: 'Servings', value: '23' },
-          { name: 'Net Weight', value: '400g' },
-          { name: 'Sugar Free', value: 'Yes' },
-          { name: 'Quality', value: '100% Premium' },
-          { name: 'Certification', value: 'Halal Suitable' }
-        ],
-        flavors: [
-          { name: 'Pineapple', color: '#facc15', image: 'AMINO.png' }
-        ]
-      }
-    ]
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 6: Weight Loss & Fat Burners
-  // ──────────────────────────────────────────────────────────
-  {
-    category: {
-      name: 'Weight Loss',
-      description: 'Thermogenic fat-burning formulas, L-Carnitine blends, and metabolic rate activators designed to maximize fat oxidation and support your cutting phase.',
-      sort_order: 60,
-      thumbnailSource: 'L-CARNITINE_SYNEPHRINE.png'
-    },
-    products: [
-      {
-        name: 'L-Carnitine + Synephrine',
-        short_description: 'Dual-Action Thermogenic Formula — L-Carnitine & Synephrine • 60 Capsules • 30 Servings',
-        description: 'Island Nutrition\'s L-Carnitine + Synephrine combines dual active metabolic compounds to accelerate fat transport and thermogenesis. L-Carnitine transports long-chain fatty acids into mitochondria for clean energy production, while Synephrine HCl boosts resting metabolic rate and energy expenditure. 60 capsules.',
-        weight: '60 Capsules',
-        servings: '30',
-        ingredients: 'L-Carnitine L-Tartrate, Acetyl L-Carnitine, Synephrine HCl, Vitamin B6, BioPerine® Black Pepper Extract, Vegetable Cellulose Capsule.',
-        usage_instructions: 'Take recommended dose 30 minutes before cardio or training. Can also be taken with meals for metabolic support throughout the day.',
-        is_featured: 0,
-        specs: [
-          { name: 'Form', value: '60 Capsules / Kapslar' },
-          { name: 'Servings', value: '30 Servings' },
-          { name: 'Formula', value: 'Dual Active Formula' },
-          { name: 'L-Carnitine', value: 'Fatty Acid Oxidation Support' },
-          { name: 'Synephrine', value: 'Thermogenic Metabolic Rate Activator' },
-          { name: 'BioPerine®', value: 'Enhanced Bioavailability' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'L-CARNITINE_SYNEPHRINE.png'
-      },
-      {
-        name: 'CLA',
-        short_description: 'Conjugated Linoleic Acid — Body Composition & Lean Muscle Support • 90 Softgels • 45 Servings',
-        description: 'CLA (Conjugated Linoleic Acid) from Island Nutrition supports healthy body composition by promoting lean muscle retention while aiding fat metabolism. A stimulant-free staple supplement derived from pure safflower oil. 90 softgels.',
-        weight: '90 Softgels',
-        servings: '45',
-        ingredients: 'Conjugated Linoleic Acid (from Safflower Oil), Gelatin Softgel Capsule, Glycerin.',
-        usage_instructions: 'Take 1-2 softgels with meals, 2-3 times daily. Best results with a balanced diet and regular exercise.',
-        is_featured: 0,
-        specs: [
-          { name: 'Active', value: 'Conjugated Linoleic Acid' },
-          { name: 'Form', value: '90 Softgels' },
-          { name: 'Servings', value: '45 Servings' },
-          { name: 'Source', value: 'Pure Safflower Oil' },
-          { name: 'Stimulant Free', value: 'Yes' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'CLA.png'
-      }
-    ]
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 7: Vitamins & Minerals
-  // ──────────────────────────────────────────────────────────
-  {
-    category: {
-      name: 'Vitamins & Minerals',
-      description: 'Essential micronutrient supplements for overall health, immune support, bone strength, and optimal physiological function. Premium quality, lab tested.',
-      sort_order: 70,
-      thumbnailSource: 'VITAMIN C.png'
-    },
-    products: [
-      {
-        name: 'Vitamin C',
-        short_description: 'Essential Antioxidant & High-Potency Vitamin C • 60 Capsules • 30 Servings',
-        description: 'Island Nutrition\'s Vitamin C delivers high-potency ascorbic acid for robust immune defense, cellular antioxidant protection, and collagen synthesis support. Essential for hard-training athletes. 60 capsules.',
-        weight: '60 Capsules',
-        servings: '30',
-        ingredients: 'Ascorbic Acid (Vitamin C), Microcrystalline Cellulose, Vegetable Cellulose Capsule, Magnesium Stearate.',
-        usage_instructions: 'Take 1 capsule daily with food and water.',
-        is_featured: 0,
-        specs: [
-          { name: 'Active', value: 'Vitamin C (Ascorbic Acid)' },
-          { name: 'Form', value: '60 Capsules / Kapslar' },
-          { name: 'Servings', value: '30 Servings' },
-          { name: 'Benefit', value: 'Essential Antioxidant & Immune Support' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'VITAMIN C.png'
-      },
-      {
-        name: 'Vitamin D3 + K2',
-        short_description: 'Daily Vitamin Formula with 5000 IU Vitamin D & Synergistic K2 • 60 Tablets • 60 Servings',
-        description: 'Island Nutrition\'s Vitamin D3 + K2 provides a clinical 5000 IU dose of Vitamin D3 combined with Vitamin K2 (MK-7) to optimize calcium metabolism, strengthen bone density, and support immune and cardiovascular health. 60 tablets.',
-        weight: '60 Tablets',
-        servings: '60',
-        ingredients: 'Cholecalciferol (Vitamin D3), Menaquinone-7 (Vitamin K2 as MK-7), Microcrystalline Cellulose, Tablet Coating, Magnesium Stearate.',
-        usage_instructions: 'Take 1 tablet daily with a meal for optimal absorption.',
-        is_featured: 0,
-        specs: [
-          { name: 'Vitamin D3', value: '5000 IU' },
-          { name: 'Vitamin K2', value: 'MK-7 Synergistic Form' },
-          { name: 'Form', value: '60 Tablets / Tabletter' },
-          { name: 'Servings', value: '60 Servings' },
-          { name: 'Support', value: 'Bone Density, Immune & Cardiovascular' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'VITAMIN D3_K2.png'
-      },
-      {
-        name: 'B-Complex',
-        short_description: 'Full Spectrum B-Vitamins for Cellular Energy & Nervous System • 60 Capsules • 30 Servings',
-        description: 'Island Nutrition\'s B-Complex delivers a comprehensive, full-spectrum profile of essential B-vitamins to drive cellular energy metabolism, support neurological health, and reduce fatigue. 60 capsules.',
-        weight: '60 Capsules',
-        servings: '30',
-        ingredients: 'Thiamine (B1), Riboflavin (B2), Niacin (B3), Pantothenic Acid (B5), Pyridoxine (B6), Biotin (B7), Folate (B9 as Methylfolate), Methylcobalamin (B12), Vegetable Cellulose Capsule.',
-        usage_instructions: 'Take 1 capsule daily with food.',
-        is_featured: 0,
-        specs: [
-          { name: 'Profile', value: 'Full Spectrum B-Vitamins (B1-B12)' },
-          { name: 'Form', value: '60 Capsules / Kapslar' },
-          { name: 'Servings', value: '30 Servings' },
-          { name: 'Function', value: 'Energy Metabolism & Nervous System' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'B-COMPLEX.png'
-      },
-      {
-        name: 'Magnesium X4',
-        short_description: 'Four Bioavailable Forms of Magnesium for Muscle & Nerve Support • 60 Capsules • 30 Servings',
-        description: 'Magnesium X4 combines four highly bioavailable forms of magnesium (Bisglycinate, Taurate, Malate, and Citrate) for optimal absorption. Promotes neuromuscular relaxation, reduces muscle cramping, and enhances recovery and sleep quality. 60 capsules.',
-        weight: '60 Capsules',
-        servings: '30',
-        ingredients: 'Magnesium Bisglycinate, Magnesium Taurate, Magnesium Malate, Magnesium Citrate, Vegetable Cellulose Capsule.',
-        usage_instructions: 'Take 2 capsules daily, preferably in the evening with food.',
-        is_featured: 0,
-        specs: [
-          { name: 'Magnesium Forms', value: 'Four Forms (Bisglycinate, Taurate, Malate, Citrate)' },
-          { name: 'Form', value: '60 Capsules / Kapslar' },
-          { name: 'Servings', value: '30 Servings' },
-          { name: 'Benefits', value: 'Muscle Function, Nerve Support & Recovery' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'MAGNESIUM X4.png'
-      },
-      {
-        name: 'MULTIWELL',
-        short_description: 'Complete Vitamins + Minerals Formula for Active Lifestyles • 90 Tablets • 90 Servings',
-        description: 'MULTIWELL is Island Nutrition\'s comprehensive daily multi-nutrient formula delivering an essential matrix of vitamins and chelated minerals to maintain vitality, optimize physiological performance, and support overall health. 90 tablets.',
-        weight: '90 Tablets',
-        servings: '90',
-        ingredients: 'Vitamin A, C, D3, E, K2, B-Complex, Zinc Bisglycinate, Magnesium, Selenium, Chromium, Iron, CoQ10, BioPerine®, Microcrystalline Cellulose, Tablet Coating, Magnesium Stearate.',
-        usage_instructions: 'Take 1 tablet daily with a meal.',
-        is_featured: 0,
-        specs: [
-          { name: 'Composition', value: 'Vitamins + Minerals Complete Spectrum' },
-          { name: 'Form', value: '90 Tablets / Tabletter' },
-          { name: 'Servings', value: '90 Servings' },
-          { name: 'Target', value: 'Daily Health, Immune & Vitality Support' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'MULTIWELL.png'
-      }
-    ]
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 8: Testosterone & Performance
-  // ──────────────────────────────────────────────────────────
-  {
-    category: {
-      name: 'Testo & Performance',
-      description: 'Natural testosterone optimization, hormonal balance, and male performance support formulas with clinically studied herbal extracts and essential minerals.',
-      sort_order: 80,
-      thumbnailSource: 'TESTO POWER.png'
-    },
-    products: [
-      {
-        name: 'TESTO POWER',
-        short_description: 'Zinc + Botanical Complex for Natural Testosterone & Vitality • 120 Capsules • 60 Servings',
-        description: 'TESTO POWER is Island Nutrition\'s advanced male performance formula featuring Zinc paired with an evidence-based botanical complex. Designed to support optimal testosterone synthesis, vitality, strength progression, and athletic drive. 120 capsules.',
-        weight: '120 Capsules',
-        servings: '60',
-        ingredients: 'Ashwagandha Root Extract (KSM-66®), Fenugreek Seed Extract, Tribulus Terrestris, Zinc Bisglycinate, Boron Citrate, Vitamin D3, Magnesium, BioPerine®, Vegetable Cellulose Capsule.',
-        usage_instructions: 'Take the recommended dose daily with a meal. Best taken with breakfast or 30-45 minutes before training.',
-        is_featured: 0,
-        specs: [
-          { name: 'Formula', value: 'Zinc + Botanical Complex' },
-          { name: 'Form', value: '120 Capsules / Kapslar' },
-          { name: 'Servings', value: '60 Servings' },
-          { name: 'Benefits', value: 'Testosterone Support, Vitality & Strength' },
-          { name: 'Zinc Source', value: 'Bisglycinate Chelate' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'TESTO POWER.png'
-      },
-      {
-        name: 'ZMA',
-        short_description: 'Zinc • Magnesium • B6 Synergy for Sleep & Recovery • 90 Capsules • 45 Servings',
-        description: 'Island Nutrition\'s ZMA unites highly bioavailable Zinc, Magnesium, and Vitamin B6 to optimize night-time hormonal balance, facilitate restorative deep sleep, and accelerate muscle tissue recovery. 90 capsules.',
-        weight: '90 Capsules',
-        servings: '45',
-        ingredients: 'Zinc Monomethionine Aspartate, Magnesium Aspartate, Pyridoxine HCl (Vitamin B6), Vegetable Cellulose Capsule.',
-        usage_instructions: 'Take 2-3 capsules 30-60 minutes before bedtime on an empty stomach.',
-        is_featured: 0,
-        specs: [
-          { name: 'Synergy', value: 'Zinc • Magnesium • B6' },
-          { name: 'Form', value: '90 Capsules / Kapslar' },
-          { name: 'Servings', value: '45 Servings' },
-          { name: 'Timing', value: 'Bedtime Recovery & Sleep Optimization' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'ZMA.png'
-      }
-    ]
-  },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 9: Joint & Recovery
-  // ──────────────────────────────────────────────────────────
-  {
-    category: {
-      name: 'Joint & Recovery',
-      description: 'Joint support complexes and collagen formulas to protect connective tissue, reduce joint discomfort, and accelerate recovery from intense training.',
-      sort_order: 90,
-      thumbnailSource: 'JOINT COMPLEX.png'
-    },
-    products: [
-      {
-        name: 'Joint Complex',
-        short_description: 'Collagen • MSM • Glucosamine Matrix for Joint & Cartilage Health • 90 Capsules • 45 Servings',
-        description: 'Joint Complex is Island Nutrition\'s premium triple-action formula featuring Collagen, MSM, and Glucosamine to maintain joint cartilage integrity, improve connective tissue resilience, and alleviate exercise-induced joint stiffness. 90 capsules.',
-        weight: '90 Capsules',
-        servings: '45',
-        ingredients: 'Glucosamine Sulfate, Chondroitin Sulfate, MSM (Methylsulfonylmethane), Collagen, Hyaluronic Acid, Turmeric Extract (Curcumin), Boswellia Extract, Vitamin C, Manganese, Vegetable Cellulose Capsule.',
-        usage_instructions: 'Take 2-3 capsules daily with food. Allow 4-6 weeks for optimal joint support benefits.',
-        is_featured: 0,
-        specs: [
-          { name: 'Key Actives', value: 'Collagen • MSM • Glucosamine' },
-          { name: 'Form', value: '90 Capsules / Kapslar' },
-          { name: 'Servings', value: '45 Servings' },
-          { name: 'Function', value: 'Cartilage Integrity, Joint Flexibility & Comfort' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'JOINT COMPLEX.png'
-      },
-      {
-        name: 'Collagen+',
-        short_description: 'Collagen+ with MSM, Sodium Hyaluronate & Q10 • Mango • 27 Servings • 300g',
-        description: 'Island Nutrition\'s COLLAGEN+ combines premium hydrolyzed collagen peptides with MSM, Sodium Hyaluronate (Hyaluronic Acid), and Coenzyme Q10 for comprehensive joint, skin, tendon, and cellular vitality support. Refreshing Mango flavour in a 300g powder tub. 27 servings.',
-        weight: '300g',
-        servings: '27',
-        ingredients: 'Hydrolyzed Collagen Peptides, MSM (Methylsulfonylmethane), Sodium Hyaluronate, Coenzyme Q10, Citric Acid, Natural Mango Flavour, Sucralose, Beta-Carotene.',
-        usage_instructions: 'Mix 1 scoop (approx. 11g) with 250-300ml cold water once daily, preferably in the morning or post-workout.',
-        is_featured: 0,
-        is_new: 1,
-        badge_text: 'NEW',
-        specs: [
-          { name: 'Actives', value: 'MSM | Sodium Hyaluronate | Q10' },
-          { name: 'Flavour', value: 'Mango' },
-          { name: 'Servings', value: '27' },
-          { name: 'Net Weight', value: '300g' },
-          { name: 'Collagen Form', value: 'Hydrolyzed Bioactive Peptides' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        flavors: [
-          { name: 'Mango', color: '#fb923c', image: 'COLLAGEN.png' }
+        "flavors": [
+          {
+            "name": "Ice Tea Lime",
+            "color": "#84cc16",
+            "image": "PWO_X-SHRED.png"
+          }
         ]
       }
     ]
   },
-
-  // ──────────────────────────────────────────────────────────
-  // CATEGORY 10: Health & Wellness
-  // ──────────────────────────────────────────────────────────
   {
-    category: {
-      name: 'Health & Wellness',
-      description: 'Adaptogenic herbs, nootropics, and specialty supplements for stress management, cognitive function, sleep quality, and overall well-being.',
-      sort_order: 100,
-      thumbnailSource: 'ASHWAGANDHA.png'
+    "category": {
+      "name": "Creatine",
+      "description": "Micronized Creatine Monohydrate 200 Mesh — ultra-fine, fast-dissolving creatine formulas for explosive strength, power output, and muscle cell volumization.",
+      "sort_order": 40,
+      "thumbnailSource": "CREATINE ORANGE.png"
     },
-    products: [
+    "products": [
       {
-        name: 'Ashwagandha',
-        short_description: 'Withania Somnifera Adaptogen for Cortisol Balance & Stress Relief • 60 Capsules • 30 Servings',
-        description: 'Island Nutrition\'s Ashwagandha delivers pure Withania Somnifera root extract, an ancient adaptogen clinically revered for lowering cortisol levels, calming the nervous system, enhancing resilience to stress, and promoting physical recovery. 60 capsules.',
-        weight: '60 Capsules',
-        servings: '30',
-        ingredients: 'Withania Somnifera Root Extract, Vegetable Cellulose Capsule, Rice Flour.',
-        usage_instructions: 'Take 1-2 capsules daily with food. Can be taken morning or evening.',
-        is_featured: 0,
-        specs: [
-          { name: 'Botanical', value: 'Withania Somnifera Root Extract' },
-          { name: 'Form', value: '60 Capsules / Kapslar' },
-          { name: 'Servings', value: '30 Servings' },
-          { name: 'Function', value: 'Adaptogen, Cortisol Balance & Recovery' },
-          { name: 'Quality', value: '100% Premium' }
+        "name": "Creatine Monohydrate 200 Mesh",
+        "short_description": "Micronized Creatine Monohydrate • 60 Servings • 360g • Ultra-Fine 200 Mesh",
+        "description": "Island Nutrition's Creatine Monohydrate features a 200 Mesh ultra-fine grade for superior solubility and absorption. Delivers 5,000 mg pure creatine monohydrate per serving to replenish cellular ATP, enhance explosive strength, and support muscle cell volumization. Halal certified and 100% premium quality. Available in Orange and Watermelon flavours.",
+        "weight": "360g",
+        "servings": "60",
+        "ingredients": "100% Micronized Creatine Monohydrate (200 Mesh), Citric Acid, Natural & Artificial Flavors, Sucralose.",
+        "usage_instructions": "Mix 1 scoop (6g providing 5g creatine) with 200-300ml cold water. Take daily, preferably post-workout or with a meal. No loading phase required.",
+        "is_featured": 1,
+        "specs": [
+          {
+            "name": "Creatine Monohydrate",
+            "value": "5,000 mg per serving"
+          },
+          {
+            "name": "Mesh Grade",
+            "value": "200 Mesh Ultra-Fine"
+          },
+          {
+            "name": "Servings",
+            "value": "60"
+          },
+          {
+            "name": "Net Weight",
+            "value": "360g"
+          },
+          {
+            "name": "Certification",
+            "value": "Halal Certified"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
         ],
-        image: 'ASHWAGANDHA.png'
-      },
-      {
-        name: 'GABA + L-Theanine',
-        short_description: 'Dual Amino Acid Formula for Deep Relaxation & Calm Focus • 60 Capsules • 30 Servings',
-        description: 'A synergistic calming nootropic blend of Gamma-Aminobutyric Acid (GABA) and L-Theanine. Supports inhibitory neurotransmitter pathways to quiet mental chatter, promote alpha brainwave state, and improve sleep onset and depth. 60 capsules.',
-        weight: '60 Capsules',
-        servings: '30',
-        ingredients: 'Gamma-Aminobutyric Acid (GABA), L-Theanine, Vegetable Cellulose Capsule, Magnesium Stearate.',
-        usage_instructions: 'Take 1-2 capsules 30-60 minutes before bedtime, or during the day for calm focus.',
-        is_featured: 0,
-        specs: [
-          { name: 'Formula', value: 'Dual Amino Acid Formula (GABA + L-Theanine)' },
-          { name: 'Form', value: '60 Capsules / Kapslar' },
-          { name: 'Servings', value: '30 Servings' },
-          { name: 'Support', value: 'Relaxation, Calm Mental Clarity & Sleep Quality' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        image: 'GABA_L-THEANINE.png'
-      },
-      {
-        name: 'Arginine (L-Arginine HCl)',
-        short_description: 'L-Arginine HCl Nitric Oxide Precursor • Lemon • 37 Servings • 300g',
-        description: 'Island Nutrition\'s ARGININE delivers ultra-pure L-Arginine HCl, a direct precursor to nitric oxide synthesis. Enhances endothelial vasodilation, increases vascular blood flow to working muscle tissue, and delivers intense muscular pumps and vascularity. Delicious Lemon flavour in a 300g tub. 37 servings.',
-        weight: '300g',
-        servings: '37',
-        ingredients: 'L-Arginine HCl, Citric Acid, Natural Lemon Flavour, Malic Acid, Sucralose, Curcumin Extract (Color).',
-        usage_instructions: 'Mix 1 scoop (approx. 8.1g) with 250-350ml cold water 20-30 minutes before physical training.',
-        is_featured: 0,
-        is_new: 1,
-        badge_text: 'NEW',
-        specs: [
-          { name: 'Active', value: 'L-Arginine HCl' },
-          { name: 'Flavour', value: 'Lemon' },
-          { name: 'Servings', value: '37' },
-          { name: 'Net Weight', value: '300g' },
-          { name: 'Function', value: 'Nitric Oxide Precursor & Vascular Pumps' },
-          { name: 'Quality', value: '100% Premium' }
-        ],
-        flavors: [
-          { name: 'Lemon', color: '#eab308', image: 'ARGININE.png' }
+        "flavors": [
+          {
+            "name": "Orange",
+            "color": "#f97316",
+            "image": "CREATINE ORANGE.png"
+          },
+          {
+            "name": "Watermelon",
+            "color": "#ef4444",
+            "image": "CREATINE WATERMELON.png"
+          }
         ]
+      },
+      {
+        "name": "Creatine Monohydrate Mesh 200 (Unflavoured)",
+        "short_description": "Micronized Creatine Monohydrate with Taurine & Vitamin B6 • 96 Servings • 500g",
+        "description": "Pure micronized Creatine Monohydrate (Mesh 200) synergistically enhanced with Taurine and Vitamin B6 for optimal cellular uptake, hydration, and energy metabolism. Provides an incredible 96 servings in a 500g tub. Unflavoured for easy stacking with pre-workout or protein shakes. 100% Premium Quality, Halal Certified.",
+        "weight": "500g",
+        "servings": "96",
+        "ingredients": "Micronized Creatine Monohydrate (200 Mesh), Taurine, Vitamin B6 (Pyridoxine HCl).",
+        "usage_instructions": "Mix 1 scoop (approx. 5.2g) with 200-300ml cold water, juice, or your post-workout protein shake. Consume daily. No loading phase required.",
+        "is_featured": 1,
+        "is_new": 1,
+        "badge_text": "NEW",
+        "specs": [
+          {
+            "name": "Creatine Monohydrate",
+            "value": "5,000 mg per serving"
+          },
+          {
+            "name": "Active Formula",
+            "value": "Taurine & Vitamin B6 Enhanced"
+          },
+          {
+            "name": "Mesh Grade",
+            "value": "200 Mesh Ultra-Fine"
+          },
+          {
+            "name": "Servings",
+            "value": "96"
+          },
+          {
+            "name": "Net Weight",
+            "value": "500g"
+          },
+          {
+            "name": "Flavour",
+            "value": "Unflavoured"
+          },
+          {
+            "name": "Certification",
+            "value": "Halal Certified"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "flavors": [
+          {
+            "name": "Unflavoured",
+            "color": "#e2e8f0",
+            "image": "CREATINE UNFLAVOURED.png"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": {
+      "name": "Amino Acids",
+      "description": "Complete essential amino acid and electrolyte formulas for intra-workout endurance, rapid recovery, and optimal muscle hydration.",
+      "sort_order": 50,
+      "thumbnailSource": "AMINO.png"
+    },
+    "products": [
+      {
+        "name": "Amino Electrolytes EAA & BCAA",
+        "short_description": "Complete EAA & BCAA Formula with Electrolyte Complex • Pineapple • 23 Servings • 400g",
+        "description": "Island Nutrition's Amino Electrolytes combines a complete spectrum of Essential Amino Acids (EAAs) and Branched-Chain Amino Acids (BCAAs) with key hydration electrolytes. Engineered to fuel intra-workout endurance, prevent muscle breakdown, accelerate recovery, and maintain optimal cellular hydration. Refreshing Pineapple flavour. Made in Sweden, Halal suitable.",
+        "weight": "400g",
+        "servings": "23",
+        "ingredients": "EAA & BCAA Matrix (L-Leucine, L-Isoleucine, L-Valine, L-Lysine, L-Threonine, L-Phenylalanine, L-Methionine, L-Histidine, L-Tryptophan), Electrolyte Complex (Sodium Chloride, Potassium Citrate, Magnesium Bisglycinate, Calcium Citrate), Citric Acid, Natural Pineapple Flavour, Sucralose, Sunflower Lecithin.",
+        "usage_instructions": "Mix 1 scoop (approx. 17.4g) with 400-500ml cold water. Consume during or immediately after training for optimal recovery and hydration.",
+        "is_featured": 1,
+        "is_new": 1,
+        "badge_text": "NEW",
+        "specs": [
+          {
+            "name": "EAA & BCAA Matrix",
+            "value": "Full Spectrum Essential Amino Acids"
+          },
+          {
+            "name": "Electrolytes",
+            "value": "Sodium, Potassium, Magnesium, Calcium"
+          },
+          {
+            "name": "Flavour",
+            "value": "Pineapple"
+          },
+          {
+            "name": "Servings",
+            "value": "23"
+          },
+          {
+            "name": "Net Weight",
+            "value": "400g"
+          },
+          {
+            "name": "Sugar Free",
+            "value": "Yes"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          },
+          {
+            "name": "Certification",
+            "value": "Halal Suitable"
+          }
+        ],
+        "flavors": [
+          {
+            "name": "Pineapple",
+            "color": "#facc15",
+            "image": "AMINO.png"
+          }
+        ]
+      },
+      {
+        "name": "Arginine (L-Arginine HCl)",
+        "short_description": "L-Arginine HCl Nitric Oxide Precursor • Lemon • 37 Servings • 300g",
+        "description": "Island Nutrition's ARGININE delivers ultra-pure L-Arginine HCl, a direct precursor to nitric oxide synthesis. Enhances endothelial vasodilation, increases vascular blood flow to working muscle tissue, and delivers intense muscular pumps and vascularity. Delicious Lemon flavour in a 300g tub. 37 servings.",
+        "weight": "300g",
+        "servings": "37",
+        "ingredients": "L-Arginine HCl, Citric Acid, Natural Lemon Flavour, Malic Acid, Sucralose, Curcumin Extract (Color).",
+        "usage_instructions": "Mix 1 scoop (approx. 8.1g) with 250-350ml cold water 20-30 minutes before physical training.",
+        "is_featured": 0,
+        "is_new": 1,
+        "badge_text": "NEW",
+        "specs": [
+          {
+            "name": "Active",
+            "value": "L-Arginine HCl"
+          },
+          {
+            "name": "Flavour",
+            "value": "Lemon"
+          },
+          {
+            "name": "Servings",
+            "value": "37"
+          },
+          {
+            "name": "Net Weight",
+            "value": "300g"
+          },
+          {
+            "name": "Function",
+            "value": "Nitric Oxide Precursor & Vascular Pumps"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "flavors": [
+          {
+            "name": "Lemon",
+            "color": "#eab308",
+            "image": "ARGININE.png"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": {
+      "name": "Weight Loss",
+      "description": "Thermogenic fat-burning formulas, L-Carnitine blends, and metabolic rate activators designed to maximize fat oxidation and support your cutting phase.",
+      "sort_order": 60,
+      "thumbnailSource": "L-CARNITINE_SYNEPHRINE.png"
+    },
+    "products": [
+      {
+        "name": "L-Carnitine + Synephrine",
+        "short_description": "Dual-Action Thermogenic Formula — L-Carnitine & Synephrine • 60 Capsules • 30 Servings",
+        "description": "Island Nutrition's L-Carnitine + Synephrine combines dual active metabolic compounds to accelerate fat transport and thermogenesis. L-Carnitine transports long-chain fatty acids into mitochondria for clean energy production, while Synephrine HCl boosts resting metabolic rate and energy expenditure. 60 capsules.",
+        "weight": "60 Capsules",
+        "servings": "30",
+        "ingredients": "L-Carnitine L-Tartrate, Acetyl L-Carnitine, Synephrine HCl, Vitamin B6, BioPerine® Black Pepper Extract, Vegetable Cellulose Capsule.",
+        "usage_instructions": "Take recommended dose 30 minutes before cardio or training. Can also be taken with meals for metabolic support throughout the day.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Form",
+            "value": "60 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "30 Servings"
+          },
+          {
+            "name": "Formula",
+            "value": "Dual Active Formula"
+          },
+          {
+            "name": "L-Carnitine",
+            "value": "Fatty Acid Oxidation Support"
+          },
+          {
+            "name": "Synephrine",
+            "value": "Thermogenic Metabolic Rate Activator"
+          },
+          {
+            "name": "BioPerine®",
+            "value": "Enhanced Bioavailability"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "L-CARNITINE_SYNEPHRINE.png"
+      },
+      {
+        "name": "CLA",
+        "short_description": "Conjugated Linoleic Acid — Body Composition & Lean Muscle Support • 90 Softgels • 45 Servings",
+        "description": "CLA (Conjugated Linoleic Acid) from Island Nutrition supports healthy body composition by promoting lean muscle retention while aiding fat metabolism. A stimulant-free staple supplement derived from pure safflower oil. 90 softgels.",
+        "weight": "90 Softgels",
+        "servings": "45",
+        "ingredients": "Conjugated Linoleic Acid (from Safflower Oil), Gelatin Softgel Capsule, Glycerin.",
+        "usage_instructions": "Take 1-2 softgels with meals, 2-3 times daily. Best results with a balanced diet and regular exercise.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Active",
+            "value": "Conjugated Linoleic Acid"
+          },
+          {
+            "name": "Form",
+            "value": "90 Softgels"
+          },
+          {
+            "name": "Servings",
+            "value": "45 Servings"
+          },
+          {
+            "name": "Source",
+            "value": "Pure Safflower Oil"
+          },
+          {
+            "name": "Stimulant Free",
+            "value": "Yes"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "CLA.png"
+      }
+    ]
+  },
+  {
+    "category": {
+      "name": "Testo & Performance",
+      "description": "Natural testosterone optimization, hormonal balance, and male performance support formulas with clinically studied herbal extracts and essential minerals.",
+      "sort_order": 70,
+      "thumbnailSource": "TESTO POWER.png"
+    },
+    "products": [
+      {
+        "name": "TESTO POWER",
+        "short_description": "Zinc + Botanical Complex for Natural Testosterone & Vitality • 120 Capsules • 60 Servings",
+        "description": "TESTO POWER is Island Nutrition's advanced male performance formula featuring Zinc paired with an evidence-based botanical complex. Designed to support optimal testosterone synthesis, vitality, strength progression, and athletic drive. 120 capsules.",
+        "weight": "120 Capsules",
+        "servings": "60",
+        "ingredients": "Ashwagandha Root Extract (KSM-66®), Fenugreek Seed Extract, Tribulus Terrestris, Zinc Bisglycinate, Boron Citrate, Vitamin D3, Magnesium, BioPerine®, Vegetable Cellulose Capsule.",
+        "usage_instructions": "Take the recommended dose daily with a meal. Best taken with breakfast or 30-45 minutes before training.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Formula",
+            "value": "Zinc + Botanical Complex"
+          },
+          {
+            "name": "Form",
+            "value": "120 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "60 Servings"
+          },
+          {
+            "name": "Benefits",
+            "value": "Testosterone Support, Vitality & Strength"
+          },
+          {
+            "name": "Zinc Source",
+            "value": "Bisglycinate Chelate"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "TESTO POWER.png"
+      },
+      {
+        "name": "ZMA",
+        "short_description": "Zinc • Magnesium • B6 Synergy for Sleep & Recovery • 90 Capsules • 45 Servings",
+        "description": "Island Nutrition's ZMA unites highly bioavailable Zinc, Magnesium, and Vitamin B6 to optimize night-time hormonal balance, facilitate restorative deep sleep, and accelerate muscle tissue recovery. 90 capsules.",
+        "weight": "90 Capsules",
+        "servings": "45",
+        "ingredients": "Zinc Monomethionine Aspartate, Magnesium Aspartate, Pyridoxine HCl (Vitamin B6), Vegetable Cellulose Capsule.",
+        "usage_instructions": "Take 2-3 capsules 30-60 minutes before bedtime on an empty stomach.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Synergy",
+            "value": "Zinc • Magnesium • B6"
+          },
+          {
+            "name": "Form",
+            "value": "90 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "45 Servings"
+          },
+          {
+            "name": "Timing",
+            "value": "Bedtime Recovery & Sleep Optimization"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "ZMA.png"
+      }
+    ]
+  },
+  {
+    "category": {
+      "name": "Joint & Recovery",
+      "description": "Joint support complexes and collagen formulas to protect connective tissue, reduce joint discomfort, and accelerate recovery from intense training.",
+      "sort_order": 80,
+      "thumbnailSource": "JOINT COMPLEX.png"
+    },
+    "products": [
+      {
+        "name": "Collagen+",
+        "short_description": "Collagen+ with MSM, Sodium Hyaluronate & Q10 • Mango • 27 Servings • 300g",
+        "description": "Island Nutrition's COLLAGEN+ combines premium hydrolyzed collagen peptides with MSM, Sodium Hyaluronate (Hyaluronic Acid), and Coenzyme Q10 for comprehensive joint, skin, tendon, and cellular vitality support. Refreshing Mango flavour in a 300g powder tub. 27 servings.",
+        "weight": "300g",
+        "servings": "27",
+        "ingredients": "Hydrolyzed Collagen Peptides, MSM (Methylsulfonylmethane), Sodium Hyaluronate, Coenzyme Q10, Citric Acid, Natural Mango Flavour, Sucralose, Beta-Carotene.",
+        "usage_instructions": "Mix 1 scoop (approx. 11g) with 250-300ml cold water once daily, preferably in the morning or post-workout.",
+        "is_featured": 0,
+        "is_new": 1,
+        "badge_text": "NEW",
+        "specs": [
+          {
+            "name": "Actives",
+            "value": "MSM | Sodium Hyaluronate | Q10"
+          },
+          {
+            "name": "Flavour",
+            "value": "Mango"
+          },
+          {
+            "name": "Servings",
+            "value": "27"
+          },
+          {
+            "name": "Net Weight",
+            "value": "300g"
+          },
+          {
+            "name": "Collagen Form",
+            "value": "Hydrolyzed Bioactive Peptides"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "flavors": [
+          {
+            "name": "Mango",
+            "color": "#fb923c",
+            "image": "COLLAGEN.png"
+          }
+        ]
+      },
+      {
+        "name": "Joint Complex",
+        "short_description": "Collagen • MSM • Glucosamine Matrix for Joint & Cartilage Health • 90 Capsules • 45 Servings",
+        "description": "Joint Complex is Island Nutrition's premium triple-action formula featuring Collagen, MSM, and Glucosamine to maintain joint cartilage integrity, improve connective tissue resilience, and alleviate exercise-induced joint stiffness. 90 capsules.",
+        "weight": "90 Capsules",
+        "servings": "45",
+        "ingredients": "Glucosamine Sulfate, Chondroitin Sulfate, MSM (Methylsulfonylmethane), Collagen, Hyaluronic Acid, Turmeric Extract (Curcumin), Boswellia Extract, Vitamin C, Manganese, Vegetable Cellulose Capsule.",
+        "usage_instructions": "Take 2-3 capsules daily with food. Allow 4-6 weeks for optimal joint support benefits.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Key Actives",
+            "value": "Collagen • MSM • Glucosamine"
+          },
+          {
+            "name": "Form",
+            "value": "90 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "45 Servings"
+          },
+          {
+            "name": "Function",
+            "value": "Cartilage Integrity, Joint Flexibility & Comfort"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "JOINT COMPLEX.png"
+      }
+    ]
+  },
+  {
+    "category": {
+      "name": "Vitamins & Minerals",
+      "description": "Essential micronutrient supplements for overall health, immune support, bone strength, and optimal physiological function. Premium quality, lab tested.",
+      "sort_order": 90,
+      "thumbnailSource": "VITAMIN C.png"
+    },
+    "products": [
+      {
+        "name": "MULTIWELL",
+        "short_description": "Complete Vitamins + Minerals Formula for Active Lifestyles • 90 Tablets • 90 Servings",
+        "description": "MULTIWELL is Island Nutrition's comprehensive daily multi-nutrient formula delivering an essential matrix of vitamins and chelated minerals to maintain vitality, optimize physiological performance, and support overall health. 90 tablets.",
+        "weight": "90 Tablets",
+        "servings": "90",
+        "ingredients": "Vitamin A, C, D3, E, K2, B-Complex, Zinc Bisglycinate, Magnesium, Selenium, Chromium, Iron, CoQ10, BioPerine®, Microcrystalline Cellulose, Tablet Coating, Magnesium Stearate.",
+        "usage_instructions": "Take 1 tablet daily with a meal.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Composition",
+            "value": "Vitamins + Minerals Complete Spectrum"
+          },
+          {
+            "name": "Form",
+            "value": "90 Tablets / Tabletter"
+          },
+          {
+            "name": "Servings",
+            "value": "90 Servings"
+          },
+          {
+            "name": "Target",
+            "value": "Daily Health, Immune & Vitality Support"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "MULTIWELL.png"
+      },
+      {
+        "name": "Magnesium X4",
+        "short_description": "Four Bioavailable Forms of Magnesium for Muscle & Nerve Support • 60 Capsules • 30 Servings",
+        "description": "Magnesium X4 combines four highly bioavailable forms of magnesium (Bisglycinate, Taurate, Malate, and Citrate) for optimal absorption. Promotes neuromuscular relaxation, reduces muscle cramping, and enhances recovery and sleep quality. 60 capsules.",
+        "weight": "60 Capsules",
+        "servings": "30",
+        "ingredients": "Magnesium Bisglycinate, Magnesium Taurate, Magnesium Malate, Magnesium Citrate, Vegetable Cellulose Capsule.",
+        "usage_instructions": "Take 2 capsules daily, preferably in the evening with food.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Magnesium Forms",
+            "value": "Four Forms (Bisglycinate, Taurate, Malate, Citrate)"
+          },
+          {
+            "name": "Form",
+            "value": "60 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "30 Servings"
+          },
+          {
+            "name": "Benefits",
+            "value": "Muscle Function, Nerve Support & Recovery"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "MAGNESIUM X4.png"
+      },
+      {
+        "name": "Vitamin D3 + K2",
+        "short_description": "Daily Vitamin Formula with 5000 IU Vitamin D & Synergistic K2 • 60 Tablets • 60 Servings",
+        "description": "Island Nutrition's Vitamin D3 + K2 provides a clinical 5000 IU dose of Vitamin D3 combined with Vitamin K2 (MK-7) to optimize calcium metabolism, strengthen bone density, and support immune and cardiovascular health. 60 tablets.",
+        "weight": "60 Tablets",
+        "servings": "60",
+        "ingredients": "Cholecalciferol (Vitamin D3), Menaquinone-7 (Vitamin K2 as MK-7), Microcrystalline Cellulose, Tablet Coating, Magnesium Stearate.",
+        "usage_instructions": "Take 1 tablet daily with a meal for optimal absorption.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Vitamin D3",
+            "value": "5000 IU"
+          },
+          {
+            "name": "Vitamin K2",
+            "value": "MK-7 Synergistic Form"
+          },
+          {
+            "name": "Form",
+            "value": "60 Tablets / Tabletter"
+          },
+          {
+            "name": "Servings",
+            "value": "60 Servings"
+          },
+          {
+            "name": "Support",
+            "value": "Bone Density, Immune & Cardiovascular"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "VITAMIN D3_K2.png"
+      },
+      {
+        "name": "Vitamin C",
+        "short_description": "Essential Antioxidant & High-Potency Vitamin C • 60 Capsules • 30 Servings",
+        "description": "Island Nutrition's Vitamin C delivers high-potency ascorbic acid for robust immune defense, cellular antioxidant protection, and collagen synthesis support. Essential for hard-training athletes. 60 capsules.",
+        "weight": "60 Capsules",
+        "servings": "30",
+        "ingredients": "Ascorbic Acid (Vitamin C), Microcrystalline Cellulose, Vegetable Cellulose Capsule, Magnesium Stearate.",
+        "usage_instructions": "Take 1 capsule daily with food and water.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Active",
+            "value": "Vitamin C (Ascorbic Acid)"
+          },
+          {
+            "name": "Form",
+            "value": "60 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "30 Servings"
+          },
+          {
+            "name": "Benefit",
+            "value": "Essential Antioxidant & Immune Support"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "VITAMIN C.png"
+      },
+      {
+        "name": "B-Complex",
+        "short_description": "Full Spectrum B-Vitamins for Cellular Energy & Nervous System • 60 Capsules • 30 Servings",
+        "description": "Island Nutrition's B-Complex delivers a comprehensive, full-spectrum profile of essential B-vitamins to drive cellular energy metabolism, support neurological health, and reduce fatigue. 60 capsules.",
+        "weight": "60 Capsules",
+        "servings": "30",
+        "ingredients": "Thiamine (B1), Riboflavin (B2), Niacin (B3), Pantothenic Acid (B5), Pyridoxine (B6), Biotin (B7), Folate (B9 as Methylfolate), Methylcobalamin (B12), Vegetable Cellulose Capsule.",
+        "usage_instructions": "Take 1 capsule daily with food.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Profile",
+            "value": "Full Spectrum B-Vitamins (B1-B12)"
+          },
+          {
+            "name": "Form",
+            "value": "60 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "30 Servings"
+          },
+          {
+            "name": "Function",
+            "value": "Energy Metabolism & Nervous System"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "B-COMPLEX.png"
+      }
+    ]
+  },
+  {
+    "category": {
+      "name": "Health & Wellness",
+      "description": "Adaptogenic herbs, nootropics, and specialty supplements for stress management, cognitive function, sleep quality, and overall well-being.",
+      "sort_order": 100,
+      "thumbnailSource": "ASHWAGANDHA.png"
+    },
+    "products": [
+      {
+        "name": "Ashwagandha",
+        "short_description": "Withania Somnifera Adaptogen for Cortisol Balance & Stress Relief • 60 Capsules • 30 Servings",
+        "description": "Island Nutrition's Ashwagandha delivers pure Withania Somnifera root extract, an ancient adaptogen clinically revered for lowering cortisol levels, calming the nervous system, enhancing resilience to stress, and promoting physical recovery. 60 capsules.",
+        "weight": "60 Capsules",
+        "servings": "30",
+        "ingredients": "Withania Somnifera Root Extract, Vegetable Cellulose Capsule, Rice Flour.",
+        "usage_instructions": "Take 1-2 capsules daily with food. Can be taken morning or evening.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Botanical",
+            "value": "Withania Somnifera Root Extract"
+          },
+          {
+            "name": "Form",
+            "value": "60 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "30 Servings"
+          },
+          {
+            "name": "Function",
+            "value": "Adaptogen, Cortisol Balance & Recovery"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "ASHWAGANDHA.png"
+      },
+      {
+        "name": "GABA + L-Theanine",
+        "short_description": "Dual Amino Acid Formula for Deep Relaxation & Calm Focus • 60 Capsules • 30 Servings",
+        "description": "A synergistic calming nootropic blend of Gamma-Aminobutyric Acid (GABA) and L-Theanine. Supports inhibitory neurotransmitter pathways to quiet mental chatter, promote alpha brainwave state, and improve sleep onset and depth. 60 capsules.",
+        "weight": "60 Capsules",
+        "servings": "30",
+        "ingredients": "Gamma-Aminobutyric Acid (GABA), L-Theanine, Vegetable Cellulose Capsule, Magnesium Stearate.",
+        "usage_instructions": "Take 1-2 capsules 30-60 minutes before bedtime, or during the day for calm focus.",
+        "is_featured": 0,
+        "specs": [
+          {
+            "name": "Formula",
+            "value": "Dual Amino Acid Formula (GABA + L-Theanine)"
+          },
+          {
+            "name": "Form",
+            "value": "60 Capsules / Kapslar"
+          },
+          {
+            "name": "Servings",
+            "value": "30 Servings"
+          },
+          {
+            "name": "Support",
+            "value": "Relaxation, Calm Mental Clarity & Sleep Quality"
+          },
+          {
+            "name": "Quality",
+            "value": "100% Premium"
+          }
+        ],
+        "image": "GABA_L-THEANINE.png"
       }
     ]
   }
