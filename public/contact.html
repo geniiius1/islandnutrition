@@ -74,64 +74,62 @@
   <!-- Contact Section -->
   <section class="section" style="padding-top: 0;">
     <div class="container">
-      <div class="contact-form-wrapper animate-on-scroll">
-        <div class="inquiry-card contact-inquiry-card">
-          <div class="inquiry-header" style="text-align: left; margin-bottom: 24px;">
-            <span class="inquiry-badge"><i class="fa-solid fa-headset"></i> DIRECT ASSISTANCE</span>
-            <h2 class="inquiry-title" style="font-size: clamp(1.25rem, 2.5vw, 1.75rem); text-align: left; margin: 0 0 8px 0;">FOR MORE INFORMATION ABOUT THE PRODUCTS CONTACT US</h2>
-            <p class="inquiry-subtitle" style="text-align: left; margin: 0; font-size: 0.92rem;">Fill out your details below for more information about products or wholesale information and we'll get back to you soon!</p>
+      <div class="inquiry-card animate-on-scroll">
+        <div class="inquiry-header">
+          <span class="inquiry-badge"><i class="fa-solid fa-headset"></i> DIRECT ASSISTANCE</span>
+          <h2 class="inquiry-title">FOR MORE INFORMATION ABOUT THE PRODUCTS CONTACT US</h2>
+          <p class="inquiry-subtitle">Fill out your details below for more information about products or wholesale information and we'll get back to you soon!</p>
+        </div>
+
+        <form id="contact-form" class="inquiry-form" onsubmit="handleInquirySubmit(event)">
+          <div class="inquiry-form-grid">
+            <div class="inquiry-field-group">
+              <label for="contact-name" class="inquiry-field-label">Your Name *</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-user inquiry-field-icon"></i>
+                <input type="text" id="contact-name" name="name" class="inquiry-input" placeholder="Your Name" required autocomplete="name">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group">
+              <label for="contact-phone" class="inquiry-field-label">Your Phone</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-solid fa-phone inquiry-field-icon"></i>
+                <input type="tel" id="contact-phone" name="phone" class="inquiry-input" placeholder="Your Phone" autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group">
+              <label for="contact-email" class="inquiry-field-label">Your Email *</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-envelope inquiry-field-icon"></i>
+                <input type="email" id="contact-email" name="email" class="inquiry-input" placeholder="Your Email" required autocomplete="email">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group">
+              <label for="contact-company" class="inquiry-field-label">Company Name</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-building inquiry-field-icon"></i>
+                <input type="text" id="contact-company" name="company" class="inquiry-input" placeholder="Company Name" autocomplete="organization">
+              </div>
+            </div>
+
+            <div class="inquiry-field-group inquiry-field-full">
+              <label for="contact-message" class="inquiry-field-label">Write A Message *</label>
+              <div class="inquiry-input-wrap">
+                <i class="fa-regular fa-comment-dots inquiry-field-icon textarea-icon"></i>
+                <textarea id="contact-message" name="message" class="inquiry-textarea" placeholder="Write A Message" rows="5" required></textarea>
+              </div>
+            </div>
           </div>
 
-          <form id="contact-form" class="inquiry-form" onsubmit="handleInquirySubmit(event)">
-            <div class="inquiry-form-grid">
-              <div class="inquiry-field-group">
-                <label for="contact-name" class="inquiry-field-label">Your Name *</label>
-                <div class="inquiry-input-wrap">
-                  <i class="fa-regular fa-user inquiry-field-icon"></i>
-                  <input type="text" id="contact-name" name="name" class="inquiry-input" placeholder="Your Name" required autocomplete="name">
-                </div>
-              </div>
-
-              <div class="inquiry-field-group">
-                <label for="contact-phone" class="inquiry-field-label">Your Phone</label>
-                <div class="inquiry-input-wrap">
-                  <i class="fa-solid fa-phone inquiry-field-icon"></i>
-                  <input type="tel" id="contact-phone" name="phone" class="inquiry-input" placeholder="Your Phone" autocomplete="tel">
-                </div>
-              </div>
-
-              <div class="inquiry-field-group">
-                <label for="contact-email" class="inquiry-field-label">Your Email *</label>
-                <div class="inquiry-input-wrap">
-                  <i class="fa-regular fa-envelope inquiry-field-icon"></i>
-                  <input type="email" id="contact-email" name="email" class="inquiry-input" placeholder="Your Email" required autocomplete="email">
-                </div>
-              </div>
-
-              <div class="inquiry-field-group">
-                <label for="contact-company" class="inquiry-field-label">Company Name</label>
-                <div class="inquiry-input-wrap">
-                  <i class="fa-regular fa-building inquiry-field-icon"></i>
-                  <input type="text" id="contact-company" name="company" class="inquiry-input" placeholder="Company Name" autocomplete="organization">
-                </div>
-              </div>
-
-              <div class="inquiry-field-group inquiry-field-full">
-                <label for="contact-message" class="inquiry-field-label">Write A Message *</label>
-                <div class="inquiry-input-wrap">
-                  <i class="fa-regular fa-comment-dots inquiry-field-icon textarea-icon"></i>
-                  <textarea id="contact-message" name="message" class="inquiry-textarea" placeholder="Write A Message" rows="5" required></textarea>
-                </div>
-              </div>
-            </div>
-
-            <div class="inquiry-action" style="text-align: left;">
-              <button type="submit" class="inquiry-submit-btn">
-                <span>SUBMIT</span>
-              </button>
-            </div>
-          </form>
-        </div>
+          <div class="inquiry-action">
+            <button type="submit" class="inquiry-submit-btn" id="contact-submit-btn">
+              <span>SUBMIT</span>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </section>
