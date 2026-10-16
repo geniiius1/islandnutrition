@@ -625,7 +625,7 @@ function renderProductCardHtml(product, i = 0, options = {}) {
       `).join('')}
       ${flavorsList.length > 4 ? `<span class="flavor-chip-more">+${flavorsList.length - 4}</span>` : ''}
     </div>
-  ` : '';
+  ` : '<div class="product-card-flavors product-card-flavors--empty"></div>';
 
   const isHeavy = isHeavyProduct(product);
   const giantCardClass = isHeavy ? ' product-card--giant' : '';
