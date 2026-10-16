@@ -40,9 +40,33 @@ async function checkAuth() {
     }
     const usernameEl = document.getElementById('admin-username');
     if (usernameEl) usernameEl.textContent = data.username;
+    fetchInquiriesBadge();
     navigateTo('dashboard');
   } catch {
     window.location.href = '/admin/login.html';
+  }
+}
+
+async function fetchInquiriesBadge() {
+  try {
+    const stats = await fetchAPI('/api/admin/stats');
+    if (stats && stats.unreadInquiries !== undefined) {
+      updateInquiriesBadge(stats.unreadInquiries);
+    }
+  } catch (err) {
+    // Non-blocking
+  }
+}
+
+function updateInquiriesBadge(count) {
+  const badge = document.getElementById('sidebar-inquiries-badge');
+  if (!badge) return;
+  const num = parseInt(count, 10) || 0;
+  if (num > 0) {
+    badge.textContent = num > 99 ? '99+' : num;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.style.display = 'none';
   }
 }
 
@@ -146,6 +170,10 @@ function navigateTo(page) {
       if (headerTitle) headerTitle.textContent = 'Products';
       loadProductsPage(content);
       break;
+    case 'inquiries':
+      if (headerTitle) headerTitle.textContent = 'Customer Inquiries';
+      loadInquiriesPage(content);
+      break;
     case 'settings':
       if (headerTitle) headerTitle.textContent = 'Settings';
       loadSettingsPage(content);
@@ -157,6 +185,9 @@ function navigateTo(page) {
 async function loadDashboard(container) {
   try {
     const stats = await fetchAPI('/api/admin/stats');
+    if (stats.unreadInquiries !== undefined) {
+      updateInquiriesBadge(stats.unreadInquiries);
+    }
 
     container.innerHTML = `
       <div class="stats-grid">
@@ -188,28 +219,69 @@ async function loadDashboard(container) {
           <div class="stat-card-value">${stats.images}</div>
           <div class="stat-card-label">Images</div>
         </div>
+        <div class="stat-card" style="cursor:pointer;" onclick="navigateTo('inquiries')" title="View All Inquiries">
+          <div class="stat-card-header">
+            <div class="stat-card-icon" style="background:rgba(16, 185, 129, 0.15); color:#10b981;"><i class="fa-solid fa-envelope-open-text"></i></div>
+            ${stats.unreadInquiries > 0 ? `<span class="inquiry-status-pill unread">${stats.unreadInquiries} New</span>` : ''}
+          </div>
+          <div class="stat-card-value">${stats.inquiries || 0}</div>
+          <div class="stat-card-label">Customer Inquiries</div>
+        </div>
       </div>
 
-      <div class="admin-card">
-        <div class="admin-card-header">
-          <h3 class="admin-card-title">Recent Products</h3>
-          <button class="btn-admin btn-admin-primary" onclick="navigateTo('products')">View All</button>
-        </div>
-        ${stats.recentProducts && stats.recentProducts.length > 0 ? `
-          <ul class="activity-list">
-            ${stats.recentProducts.map(p => `
-              <li class="activity-item">
-                <span class="activity-dot"></span>
-                <span class="activity-text"><strong>${p.name}</strong> added to ${p.category_name || 'Unknown'}</span>
-                <span class="activity-time">${formatDate(p.created_at)}</span>
-              </li>
-            `).join('')}
-          </ul>
-        ` : `
-          <div style="padding: 40px; text-align: center; color: var(--admin-text-muted);">
-            <p>No products yet. Start by adding categories and products!</p>
+      <div class="dashboard-split-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:24px;">
+        <!-- Recent Products -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title"><i class="fa-solid fa-boxes-stacked" style="margin-right:8px; font-size:0.95rem; color:#a1a1aa;"></i> Recent Products</h3>
+            <button class="btn-admin btn-admin-primary" onclick="navigateTo('products')">View All</button>
           </div>
-        `}
+          ${stats.recentProducts && stats.recentProducts.length > 0 ? `
+            <ul class="activity-list">
+              ${stats.recentProducts.map(p => `
+                <li class="activity-item">
+                  <span class="activity-dot"></span>
+                  <span class="activity-text"><strong>${escHTML(p.name)}</strong> added to ${escHTML(p.category_name || 'Showroom')}</span>
+                  <span class="activity-time">${formatDate(p.created_at)}</span>
+                </li>
+              `).join('')}
+            </ul>
+          ` : `
+            <div style="padding: 40px; text-align: center; color: var(--admin-text-muted);">
+              <p>No products yet. Start by adding categories and products!</p>
+            </div>
+          `}
+        </div>
+
+        <!-- Recent Inquiries -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h3 class="admin-card-title"><i class="fa-solid fa-inbox" style="margin-right:8px; font-size:0.95rem; color:#10b981;"></i> Customer Inquiries</h3>
+              ${stats.unreadInquiries > 0 ? `<span class="inquiry-status-pill unread" style="font-size:0.7rem; padding:2px 8px;">${stats.unreadInquiries} Unread</span>` : ''}
+            </div>
+            <button class="btn-admin btn-admin-primary" onclick="navigateTo('inquiries')">View Inbox</button>
+          </div>
+          ${stats.recentInquiries && stats.recentInquiries.length > 0 ? `
+            <ul class="activity-list">
+              ${stats.recentInquiries.map(inq => `
+                <li class="activity-item" style="cursor:pointer;" onclick="navigateTo('inquiries')">
+                  <span class="activity-dot" style="background:${inq.status === 'unread' ? '#10b981' : '#a1a1aa'}; box-shadow:${inq.status === 'unread' ? '0 0 8px rgba(16,185,129,0.6)' : 'none'};"></span>
+                  <span class="activity-text">
+                    <strong>${escHTML(inq.name)}</strong>${inq.company ? ` <span class="inquiry-company-tag">${escHTML(inq.company)}</span>` : ''}
+                    <div style="font-size:0.78rem; color:var(--admin-text-muted); margin-top:3px; max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"${escHTML(inq.message)}"</div>
+                  </span>
+                  <span class="activity-time">${formatDate(inq.created_at)}</span>
+                </li>
+              `).join('')}
+            </ul>
+          ` : `
+            <div style="padding: 40px; text-align: center; color: var(--admin-text-muted);">
+              <p style="font-size: 1.5rem; margin-bottom: 6px;"><i class="fa-regular fa-envelope"></i></p>
+              <p>No inquiries yet. Messages from the contact form will appear here.</p>
+            </div>
+          `}
+        </div>
       </div>
     `;
   } catch (err) {
@@ -453,6 +525,7 @@ async function loadProductsPage(container) {
               <thead>
                 <tr>
                   <th style="width:70px;">Image</th>
+                  <th style="width:70px; text-align:center;">Order</th>
                   <th>Name</th>
                   <th>Category</th>
                   <th>Badges</th>
@@ -495,6 +568,9 @@ function renderProductRows(list) {
           ? `<img class="table-image" src="${p.primary_image}" alt="${escHTML(p.name)}" loading="lazy">`
           : '<div class="table-image" style="display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--admin-text-muted);"><i class="fa-solid fa-box"></i></div>'
         }
+      </td>
+      <td style="text-align:center;">
+        <span class="admin-order-badge" title="Sort Order: #${p.sort_order ?? 0}">#${p.sort_order ?? 0}</span>
       </td>
       <td>
         <div style="font-weight:700; color:#ffffff; font-size:0.95rem;">${escHTML(p.name)}</div>
@@ -760,7 +836,7 @@ async function showProductForm(id = null) {
                 </div>
                 <div style="display:flex; align-items:center; gap:16px;">
                   <span class="product-flavor-badge" style="position:static; pointer-events:none;">
-                    <span class="flavor-dot" style="background:#06d6a0;"></span>
+                    <span class="flavor-dot" style="background:#10b981;"></span>
                     <span>1 Flavor</span>
                   </span>
 
@@ -1438,6 +1514,221 @@ function showImagePreviews(files, container, append = false) {
     };
     reader.readAsDataURL(file);
   });
+}
+
+// ===== INQUIRIES PAGE =====
+let allInquiries = [];
+let currentInquiryFilter = 'all';
+
+async function loadInquiriesPage(container) {
+  try {
+    allInquiries = await fetchAPI('/api/admin/inquiries');
+    const unreadCount = allInquiries.filter(i => i.status === 'unread').length;
+    updateInquiriesBadge(unreadCount);
+
+    container.innerHTML = `
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <h3 class="admin-card-title">Customer Inquiries</h3>
+            <span class="admin-count-pill" id="inquiries-total-badge">${allInquiries.length}</span>
+            ${unreadCount > 0 ? `<span class="inquiry-status-pill unread" id="inquiries-unread-badge">${unreadCount} Unread</span>` : ''}
+          </div>
+          <button class="btn-admin btn-admin-secondary" onclick="loadInquiriesPage(document.getElementById('admin-content'))">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="admin-filter-bar">
+          <div class="admin-search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="admin-inquiry-search" class="admin-search-input" placeholder="Search inquiries by name, email, phone, company or message..." oninput="filterInquiries()">
+          </div>
+
+          <div class="admin-filter-controls">
+            <button type="button" class="btn-inquiry-tab active" data-status="all" onclick="setInquiryTab('all')">
+              All (${allInquiries.length})
+            </button>
+            <button type="button" class="btn-inquiry-tab" data-status="unread" onclick="setInquiryTab('unread')">
+              Unread (${unreadCount})
+            </button>
+            <button type="button" class="btn-inquiry-tab" data-status="read" onclick="setInquiryTab('read')">
+              Read (${allInquiries.filter(i => i.status === 'read').length})
+            </button>
+            <button type="button" class="btn-inquiry-tab" data-status="replied" onclick="setInquiryTab('replied')">
+              Replied (${allInquiries.filter(i => i.status === 'replied').length})
+            </button>
+          </div>
+        </div>
+
+        <div style="padding: 24px;">
+          <div id="inquiries-list-container" class="inquiries-grid">
+            ${renderInquiriesList(allInquiries)}
+          </div>
+        </div>
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = '<p>Failed to load customer inquiries</p>';
+  }
+}
+
+function setInquiryTab(status) {
+  currentInquiryFilter = status;
+  document.querySelectorAll('.btn-inquiry-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.status === status);
+  });
+  filterInquiries();
+}
+
+function filterInquiries() {
+  const query = (document.getElementById('admin-inquiry-search')?.value || '').trim().toLowerCase();
+  const listContainer = document.getElementById('inquiries-list-container');
+  if (!listContainer) return;
+
+  const filtered = allInquiries.filter(inq => {
+    const matchesStatus = currentInquiryFilter === 'all' || inq.status === currentInquiryFilter;
+    const searchTarget = `${inq.name} ${inq.email} ${inq.phone || ''} ${inq.company || ''} ${inq.message}`.toLowerCase();
+    const matchesSearch = !query || searchTarget.includes(query);
+    return matchesStatus && matchesSearch;
+  });
+
+  listContainer.innerHTML = renderInquiriesList(filtered);
+}
+
+function renderInquiriesList(list) {
+  if (!list || list.length === 0) {
+    return `
+      <div style="padding: 60px 20px; text-align: center; color: var(--admin-text-muted);">
+        <p style="font-size: 2.2rem; margin-bottom: 12px;"><i class="fa-regular fa-envelope-open"></i></p>
+        <p style="font-size: 1.05rem; font-weight:600; color:var(--admin-text); margin-bottom:6px;">No inquiries found</p>
+        <p style="font-size: 0.85rem;">Customer messages submitted via the showroom contact form will be displayed here.</p>
+      </div>
+    `;
+  }
+
+  return list.map(inq => {
+    const initial = (inq.name || 'C').charAt(0).toUpperCase();
+    const isUnread = inq.status === 'unread';
+    const isReplied = inq.status === 'replied';
+    const statusLabel = inq.status.charAt(0).toUpperCase() + inq.status.slice(1);
+    const cleanPhone = (inq.phone || '').replace(/[^0-9+]/g, '');
+
+    return `
+      <div class="inquiry-card ${inq.status}" id="inquiry-card-${inq.id}">
+        <div class="inquiry-header">
+          <div class="inquiry-sender">
+            <div class="inquiry-avatar">${initial}</div>
+            <div class="inquiry-sender-meta">
+              <h4>
+                ${escHTML(inq.name)}
+                ${inq.company ? `<span class="inquiry-company-tag"><i class="fa-solid fa-building"></i> ${escHTML(inq.company)}</span>` : ''}
+              </h4>
+              <span class="inquiry-time"><i class="fa-regular fa-clock" style="margin-right:4px;"></i>${formatDate(inq.created_at)}</span>
+            </div>
+          </div>
+
+          <div class="inquiry-badges">
+            <span class="inquiry-status-pill ${inq.status}">
+              <i class="fa-solid fa-circle" style="font-size:0.5rem;"></i>
+              ${statusLabel}
+            </span>
+          </div>
+        </div>
+
+        <div class="inquiry-details-row">
+          <a href="mailto:${escHTML(inq.email)}?subject=Re:%20Island%20Nutrition%20Inquiry" class="inquiry-contact-link" title="Send email">
+            <i class="fa-regular fa-envelope" style="color:var(--admin-accent);"></i> ${escHTML(inq.email)}
+          </a>
+          ${inq.phone ? `
+            <a href="tel:${escHTML(cleanPhone)}" class="inquiry-contact-link" title="Call phone">
+              <i class="fa-solid fa-phone" style="color:#10b981;"></i> ${escHTML(inq.phone)}
+            </a>
+            <a href="https://wa.me/${escHTML(cleanPhone.replace('+', ''))}" target="_blank" class="inquiry-contact-link" title="Chat on WhatsApp" style="color:#25d366;">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+          ` : ''}
+        </div>
+
+        <div class="inquiry-message-box">
+          ${escHTML(inq.message)}
+        </div>
+
+        <div class="inquiry-actions">
+          <div class="inquiry-actions-group">
+            <a href="mailto:${escHTML(inq.email)}?subject=Re:%20Island%20Nutrition%20Inquiry" class="btn-admin btn-admin-primary" style="padding:6px 14px; font-size:0.82rem;" onclick="updateInquiryStatus(${inq.id}, 'replied')">
+              <i class="fa-solid fa-reply" style="margin-right:6px;"></i> Reply via Email
+            </a>
+            
+            ${isUnread ? `
+              <button type="button" class="btn-admin btn-admin-secondary" style="padding:6px 12px; font-size:0.82rem;" onclick="updateInquiryStatus(${inq.id}, 'read')">
+                <i class="fa-regular fa-circle-check" style="margin-right:5px;"></i> Mark as Read
+              </button>
+            ` : `
+              <button type="button" class="btn-admin btn-admin-secondary" style="padding:6px 12px; font-size:0.82rem;" onclick="updateInquiryStatus(${inq.id}, 'unread')">
+                <i class="fa-regular fa-envelope" style="margin-right:5px;"></i> Mark as Unread
+              </button>
+            `}
+
+            ${!isReplied ? `
+              <button type="button" class="btn-admin btn-admin-secondary" style="padding:6px 12px; font-size:0.82rem;" onclick="updateInquiryStatus(${inq.id}, 'replied')">
+                <i class="fa-solid fa-check-double" style="margin-right:5px;"></i> Mark as Replied
+              </button>
+            ` : ''}
+          </div>
+
+          <div>
+            <button type="button" class="btn-table btn-table-delete" style="padding:6px 10px;" onclick="deleteInquiry(${inq.id}, '${escHTML(inq.name.replace(/'/g, "\\'"))}')" title="Delete Inquiry">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function updateInquiryStatus(id, newStatus) {
+  try {
+    const res = await fetch(`/api/admin/inquiries/${id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to update status');
+
+    const inq = allInquiries.find(i => i.id === id);
+    if (inq) inq.status = newStatus;
+
+    const unreadCount = allInquiries.filter(i => i.status === 'unread').length;
+    updateInquiriesBadge(unreadCount);
+
+    showAdminToast(`Inquiry marked as ${newStatus}`, 'success');
+    filterInquiries();
+  } catch (err) {
+    showAdminToast(err.message, 'error');
+  }
+}
+
+async function deleteInquiry(id, senderName) {
+  if (!confirm(`Are you sure you want to delete inquiry from "${senderName}"?`)) return;
+
+  try {
+    const res = await fetch(`/api/admin/inquiries/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to delete');
+
+    allInquiries = allInquiries.filter(i => i.id !== id);
+    const unreadCount = allInquiries.filter(i => i.status === 'unread').length;
+    updateInquiriesBadge(unreadCount);
+
+    showAdminToast('Inquiry deleted', 'success');
+    filterInquiries();
+  } catch (err) {
+    showAdminToast(err.message, 'error');
+  }
 }
 
 // ===== UTILITY FUNCTIONS =====

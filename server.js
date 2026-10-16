@@ -497,7 +497,7 @@ app.post('/api/admin/products', requireAuth, upload.array('images', 10), async (
         'INSERT INTO product_flavors (product_id, flavor_name, color_code) VALUES (?, ?, ?)'
       );
       flavorsArr.forEach(flavor => {
-        if (flavor.name) insertFlavor.run(productId, flavor.name, flavor.color || '#06d6a0');
+        if (flavor.name) insertFlavor.run(productId, flavor.name, flavor.color || '#10b981');
       });
     }
 
@@ -590,7 +590,7 @@ app.put('/api/admin/products/:id', requireAuth, upload.array('images', 10), asyn
           'INSERT INTO product_flavors (product_id, flavor_name, color_code) VALUES (?, ?, ?)'
         );
         flavorsArr.forEach(flavor => {
-          if (flavor.name) insertFlavor.run(req.params.id, flavor.name, flavor.color || '#06d6a0');
+          if (flavor.name) insertFlavor.run(req.params.id, flavor.name, flavor.color || '#10b981');
         });
       }
     }
@@ -626,10 +626,12 @@ app.delete('/api/admin/products/:id', requireAuth, (req, res) => {
 // ADMIN STATS
 // ============================================================
 app.get('/api/admin/stats', requireAuth, (req, res) => {
-  const categories = db.prepare('SELECT COUNT(*) as count FROM categories').get().count;
-  const products = db.prepare('SELECT COUNT(*) as count FROM products').get().count;
-  const flavors = db.prepare('SELECT COUNT(*) as count FROM product_flavors').get().count;
-  const images = db.prepare('SELECT COUNT(*) as count FROM product_images').get().count;
+  const categories = db.prepare('SELECT COUNT(*) as count FROM categories').get()?.count || 0;
+  const products = db.prepare('SELECT COUNT(*) as count FROM products').get()?.count || 0;
+  const flavors = db.prepare('SELECT COUNT(*) as count FROM product_flavors').get()?.count || 0;
+  const images = db.prepare('SELECT COUNT(*) as count FROM product_images').get()?.count || 0;
+  const inquiries = db.prepare('SELECT COUNT(*) as count FROM inquiries').get()?.count || 0;
+  const unreadInquiries = db.prepare("SELECT COUNT(*) as count FROM inquiries WHERE status = 'unread'").get()?.count || 0;
 
   const recentProducts = db.prepare(`
     SELECT p.name, p.created_at, c.name as category_name
@@ -637,7 +639,53 @@ app.get('/api/admin/stats', requireAuth, (req, res) => {
     ORDER BY p.created_at DESC LIMIT 5
   `).all();
 
-  res.json({ categories, products, flavors, images, recentProducts });
+  const recentInquiries = db.prepare(`
+    SELECT id, name, email, company, created_at, status
+    FROM inquiries
+    ORDER BY created_at DESC LIMIT 5
+  `).all();
+
+  res.json({ categories, products, flavors, images, inquiries, unreadInquiries, recentProducts, recentInquiries });
+});
+
+// ============================================================
+// INQUIRIES & MESSAGES
+// ============================================================
+app.post('/api/inquiries', (req, res) => {
+  try {
+    const { name, phone, email, company, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Name, email, and message are required' });
+    }
+    const stmt = db.prepare(`
+      INSERT INTO inquiries (name, phone, email, company, message)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+    const result = stmt.run(name.trim(), phone?.trim() || null, email.trim(), company?.trim() || null, message.trim());
+    res.json({ success: true, id: result.lastInsertRowid });
+  } catch (err) {
+    console.error('Error saving inquiry:', err);
+    res.status(500).json({ error: 'Failed to save inquiry' });
+  }
+});
+
+app.get('/api/admin/inquiries', requireAuth, (req, res) => {
+  const inquiries = db.prepare('SELECT * FROM inquiries ORDER BY created_at DESC').all();
+  res.json(inquiries);
+});
+
+app.put('/api/admin/inquiries/:id/status', requireAuth, (req, res) => {
+  const { status } = req.body;
+  if (!['unread', 'read', 'replied'].includes(status)) {
+    return res.status(400).json({ error: 'Invalid status' });
+  }
+  db.prepare('UPDATE inquiries SET status = ? WHERE id = ?').run(status, req.params.id);
+  res.json({ success: true });
+});
+
+app.delete('/api/admin/inquiries/:id', requireAuth, (req, res) => {
+  db.prepare('DELETE FROM inquiries WHERE id = ?').run(req.params.id);
+  res.json({ success: true });
 });
 
 // ============================================================
@@ -757,7 +805,7 @@ async function startServer() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       product_id INTEGER NOT NULL,
       flavor_name TEXT NOT NULL,
-      color_code TEXT DEFAULT '#06d6a0',
+      color_code TEXT DEFAULT '#10b981',
       FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
     );
 
@@ -781,6 +829,17 @@ async function startServer() {
       key TEXT PRIMARY KEY,
       value TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS inquiries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      phone TEXT,
+      email TEXT NOT NULL,
+      company TEXT,
+      message TEXT NOT NULL,
+      status TEXT DEFAULT 'unread',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   // Ensure new columns exist on existing databases
@@ -797,6 +856,8 @@ async function startServer() {
     CREATE INDEX IF NOT EXISTS idx_product_flavors_product ON product_flavors(product_id);
     CREATE INDEX IF NOT EXISTS idx_product_images_product ON product_images(product_id);
     CREATE INDEX IF NOT EXISTS idx_product_specs_product ON product_specs(product_id);
+    CREATE INDEX IF NOT EXISTS idx_inquiries_status ON inquiries(status);
+    CREATE INDEX IF NOT EXISTS idx_inquiries_created ON inquiries(created_at);
   `);
 
   // Create default admin user

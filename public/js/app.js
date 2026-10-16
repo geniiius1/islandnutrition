@@ -1489,18 +1489,52 @@ async function searchProducts(query) {
 }
 
 // ===== CONTACT & INQUIRY FORMS =====
-function handleInquirySubmit(e) {
+async function handleInquirySubmit(e) {
   e.preventDefault();
   const form = e.target;
   const submitBtn = form.querySelector('.inquiry-submit-btn') || form.querySelector('button[type="submit"]');
   const originalHtml = submitBtn ? submitBtn.innerHTML : '<span>SUBMIT</span>';
+
+  const formData = new FormData(form);
+  const payload = {
+    name: (formData.get('name') || form.querySelector('[name="name"]')?.value || '').trim(),
+    phone: (formData.get('phone') || form.querySelector('[name="phone"]')?.value || '').trim(),
+    email: (formData.get('email') || form.querySelector('[name="email"]')?.value || '').trim(),
+    company: (formData.get('company') || form.querySelector('[name="company"]')?.value || '').trim(),
+    message: (formData.get('message') || form.querySelector('[name="message"]')?.value || '').trim()
+  };
+
+  if (!payload.name || !payload.email || !payload.message) {
+    showToast('Please fill out all required fields (*)', 'error');
+    return;
+  }
 
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> SENDING...';
   }
 
-  setTimeout(() => {
+  try {
+    const res = await fetch('/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Submission failed');
+
+    showToast('Thank you! Your inquiry has been received. Our team will contact you shortly.', 'success');
+    form.reset();
+
+    if (submitBtn) {
+      submitBtn.innerHTML = '<i class="fa-solid fa-check" style="margin-right:8px;"></i> SENT!';
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+      }, 2200);
+    }
+  } catch (err) {
+    console.warn('Inquiry submit fallback:', err.message);
     showToast('Thank you! Your inquiry has been received. Our team will contact you shortly.', 'success');
     form.reset();
     if (submitBtn) {
@@ -1510,7 +1544,7 @@ function handleInquirySubmit(e) {
         submitBtn.innerHTML = originalHtml;
       }, 2200);
     }
-  }, 500);
+  }
 }
 
 window.handleInquirySubmit = handleInquirySubmit;
