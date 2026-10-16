@@ -120,6 +120,7 @@ function initNavbar() {
       navToggle.classList.toggle('active', isOpen);
       navLinks.classList.toggle('open', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
+      document.body.classList.toggle('menu-open', isOpen);
     };
 
     navToggle.addEventListener('click', (e) => {
