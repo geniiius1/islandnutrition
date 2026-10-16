@@ -241,15 +241,22 @@ app.get('/api/categories/:idOrSlug', (req, res) => {
     ORDER BY p.sort_order, p.name
   `).all(category.id);
 
-  // Consolidated products: 1 card per product with flavor list and badges
   const consolidatedProducts = [];
   for (const product of products) {
+    const images = db.prepare(
+      'SELECT id, image_path, is_primary, sort_order FROM product_images WHERE product_id = ? ORDER BY sort_order, id'
+    ).all(product.id);
     const flavors = db.prepare(
       'SELECT id, flavor_name, color_code FROM product_flavors WHERE product_id = ? ORDER BY rowid'
     ).all(product.id);
 
+    flavors.forEach((f, idx) => {
+      f.image_path = images[idx] ? images[idx].image_path : product.primary_image;
+    });
+
     consolidatedProducts.push({
       ...product,
+      images: images,
       display_name: product.name,
       flavor_name: flavors[0] ? flavors[0].flavor_name : null,
       flavor_color: flavors[0] ? flavors[0].color_code : null,
@@ -375,7 +382,11 @@ app.get('/api/products', (req, res) => {
 
   const products = db.prepare(query).all(...params);
   for (const p of products) {
+    p.images = db.prepare('SELECT id, image_path, is_primary, sort_order FROM product_images WHERE product_id = ? ORDER BY sort_order, id').all(p.id);
     p.flavors = db.prepare('SELECT id, flavor_name, color_code FROM product_flavors WHERE product_id = ? ORDER BY rowid').all(p.id);
+    p.flavors.forEach((f, idx) => {
+      f.image_path = p.images[idx] ? p.images[idx].image_path : p.primary_image;
+    });
   }
 
   setApiCache(cacheKey, products);
@@ -418,6 +429,14 @@ app.get('/api/products/:idOrSlug', (req, res) => {
     WHERE p.category_id = ? AND p.id != ?
     ORDER BY RANDOM() LIMIT 4
   `).all(product.category_id, product.id);
+
+  for (const rel of product.related) {
+    rel.images = db.prepare('SELECT id, image_path, is_primary, sort_order FROM product_images WHERE product_id = ? ORDER BY sort_order, id').all(rel.id);
+    rel.flavors = db.prepare('SELECT id, flavor_name, color_code FROM product_flavors WHERE product_id = ? ORDER BY rowid').all(rel.id);
+    rel.flavors.forEach((f, idx) => {
+      f.image_path = rel.images[idx] ? rel.images[idx].image_path : rel.primary_image;
+    });
+  }
 
   setApiCache(cacheKey, product);
   res.json(product);

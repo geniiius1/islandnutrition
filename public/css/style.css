@@ -1378,10 +1378,13 @@ input, textarea, select {
   visibility: visible !important;
 }
 
-/* Product cards inside carousel */
+/* Product cards inside carousel - identical size to products.html */
 .products-carousel-track .product-card {
-  flex: 0 0 280px;
-  width: 280px;
+  flex: 0 0 368px;
+  width: 368px;
+  max-width: 368px;
+  height: auto;
+  align-self: stretch;
   opacity: 1 !important;
   transform: none !important;
   visibility: visible !important;
@@ -1578,6 +1581,8 @@ input, textarea, select {
   transition: all var(--duration-normal) var(--ease-out);
   cursor: pointer;
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card:hover {
@@ -1592,7 +1597,8 @@ input, textarea, select {
   position: relative;
   width: 100%;
   height: 340px;
-  min-height: 320px;
+  min-height: 340px;
+  max-height: 340px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -1601,6 +1607,7 @@ input, textarea, select {
   overflow: hidden;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
 }
 
 .product-card-image img {
@@ -1707,6 +1714,9 @@ input, textarea, select {
 }
 
 .product-card-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   padding: var(--space-5) var(--space-6);
   border-top: 1px solid var(--border-subtle);
 }
@@ -1718,12 +1728,20 @@ input, textarea, select {
   margin-bottom: var(--space-2);
   color: var(--text-primary);
   line-height: 1.3;
+  min-height: 2.6em;
+  max-height: 2.6em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-card-desc {
   font-size: 0.85rem;
   color: var(--text-muted);
   line-height: 1.5;
+  min-height: 3em;
+  max-height: 3em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -1733,8 +1751,11 @@ input, textarea, select {
 .product-card-meta {
   display: flex;
   gap: var(--space-3);
-  margin-top: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-3);
   flex-wrap: wrap;
+  min-height: 28px;
+  align-items: center;
 }
 
 .product-card-tag {
@@ -1755,13 +1776,25 @@ input, textarea, select {
   letter-spacing: 1.5px;
   color: var(--text-muted);
   margin-bottom: var(--space-1);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Flavors Row in Product Card */
 .product-card-flavors {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-1);
+  min-height: 26px;
+}
+
+.product-card-flavors--empty {
+  min-height: 26px;
   margin-top: var(--space-3);
   margin-bottom: var(--space-1);
 }
@@ -1780,6 +1813,25 @@ input, textarea, select {
   transition: all var(--duration-fast);
 }
 
+.flavor-chip--active {
+  background: rgba(var(--accent-primary-rgb), 0.12);
+  border-color: rgba(var(--accent-primary-rgb), 0.35);
+  color: var(--text-primary);
+}
+
+.flavor-chip-more {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
 .flavor-chip .flavor-dot {
   width: 7px;
   height: 7px;
@@ -1790,9 +1842,15 @@ input, textarea, select {
 
 .flavor-chip-text {
   white-space: nowrap;
-  max-width: 140px;
+  max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.search-row-flavor {
+  font-weight: 500;
+  font-size: 0.88rem;
+  opacity: 0.9;
 }
 
 /* Category Filter Pills Bar */
@@ -3264,7 +3322,14 @@ input, textarea, select {
     grid-template-columns: repeat(4, 1fr);
   }
   .products-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(290px, 350px));
+  }
+  .products-carousel-track .product-card {
+    flex: 0 0 340px;
+    width: 340px;
+    max-width: 340px;
+    height: auto;
+    align-self: stretch;
   }
 }
 
@@ -3356,8 +3421,15 @@ input, textarea, select {
   }
 
   .products-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 340px));
     gap: var(--space-4);
+  }
+  .products-carousel-track .product-card {
+    flex: 0 0 330px;
+    width: 330px;
+    max-width: 330px;
+    height: auto;
+    align-self: stretch;
   }
 
   .product-detail-grid {

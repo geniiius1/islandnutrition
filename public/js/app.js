@@ -176,7 +176,7 @@ async function preloadSearchCatalog() {
   try {
     const data = await api('/api/products');
     if (Array.isArray(data)) {
-      searchCatalog = data;
+      searchCatalog = expandProductsByFlavors(data);
       searchCatalogLoaded = true;
     }
   } catch (e) {}
@@ -243,14 +243,15 @@ function initNavSearch() {
 
   function renderProductRow(p) {
     const img = p.primary_image ? `${p.primary_image}?v=4.0` : '/assets/images/island-logo-white.png';
-    const spec = p.weight || (p.flavors && p.flavors[0] ? p.flavors[0].name : '');
+    const spec = p.flavor_name ? `${p.flavor_name} • ${p.weight || ''}` : (p.weight || '');
+    const flavorParam = p.flavor_index !== undefined ? `&flavor=${p.flavor_index}` : '';
     return `
-      <a href="/product.html?id=${p.id}" class="search-result-row" data-id="${p.id}">
+      <a href="/product.html?id=${p.id}${flavorParam}" class="search-result-row" data-id="${p.id}">
         <div class="search-row-thumb">
           <img src="${img}" alt="${p.name}" loading="lazy">
         </div>
         <div class="search-row-info">
-          <div class="search-row-title">${p.name}</div>
+          <div class="search-row-title">${p.name}${p.flavor_name ? ` <span class="search-row-flavor" style="color:${p.flavor_color || 'var(--accent-primary)'};">— ${p.flavor_name}</span>` : ''}</div>
           <div class="search-row-meta">
             <span class="search-row-badge">${p.category_name || 'Supplement'}</span>
             ${spec ? `<span>${spec}</span>` : ''}
@@ -557,20 +558,66 @@ function isHeavyProduct(product) {
   return false;
 }
 
+// ===== FLAVOR EXPANDER (Professional Multi-Flavor Product Architecture) =====
+function expandProductsByFlavors(products) {
+  if (!Array.isArray(products)) return [];
+  const expanded = [];
+
+  products.forEach(p => {
+    const flavors = Array.isArray(p.flavors) ? p.flavors : [];
+    const images = Array.isArray(p.images) ? p.images : [];
+
+    if (flavors.length > 1) {
+      flavors.forEach((f, idx) => {
+        const flavorImage = f.image_path || (images[idx] && images[idx].image_path) || p.primary_image;
+        expanded.push({
+          ...p,
+          flavor_index: idx,
+          flavor_name: f.flavor_name,
+          flavor_color: f.color_code || '#ffffff',
+          primary_image: flavorImage,
+          display_name: p.name,
+          display_flavor: f.flavor_name,
+          all_flavors: flavors,
+          is_flavor_variant: true,
+          sibling_count: flavors.length - 1
+        });
+      });
+    } else if (flavors.length === 1) {
+      const flavorImage = flavors[0].image_path || (images[0] && images[0].image_path) || p.primary_image;
+      expanded.push({
+        ...p,
+        flavor_index: 0,
+        flavor_name: flavors[0].flavor_name,
+        flavor_color: flavors[0].color_code || '#ffffff',
+        primary_image: flavorImage,
+        display_name: p.name,
+        display_flavor: flavors[0].flavor_name,
+        all_flavors: flavors,
+        is_flavor_variant: false,
+        sibling_count: 0
+      });
+    } else {
+      expanded.push({
+        ...p,
+        display_name: p.name,
+        all_flavors: [],
+        is_flavor_variant: false,
+        sibling_count: 0
+      });
+    }
+  });
+
+  return expanded;
+}
+
 // ===== UNIFIED PRODUCT CARD GENERATOR (Dual-Sided Badges, Dynamic Popover, Max Image Size) =====
 function renderProductCardHtml(product, i = 0, options = {}) {
-  // Extract flavors array
-  const flavorsList = Array.isArray(product.flavors) && product.flavors.length > 0
-    ? product.flavors
-    : (product.flavor_name ? [{ flavor_name: product.flavor_name, color_code: product.flavor_color || '#ffffff' }] : []);
-
-  const flavorCount = flavorsList.length || product.flavor_count || 0;
-
   // Check if explicitly unflavoured product
   const isUnflavored = /unflavour/i.test(product.name) ||
-    (flavorsList.length === 1 && /unflavour/i.test(flavorsList[0].flavor_name));
+    (product.flavor_name && /unflavour/i.test(product.flavor_name));
 
-  // 1. TOP-RIGHT BADGE: Identical to Flavor Badge, Customizable Color & Optional Text
+  // 1. TOP-RIGHT BADGE: Customizable Color & Optional Text (Featured / NEW)
   let topRightBadgeHtml = '';
   const isNew = Boolean(product.is_new === 1 || product.is_new === true || product.is_new === '1');
   const customBadgeText = product.badge_text ? product.badge_text.trim() : '';
@@ -588,44 +635,39 @@ function renderProductCardHtml(product, i = 0, options = {}) {
     `;
   }
 
-  // 2. TOP-LEFT BADGE: Clean Flavor Badge (Static Pill, No Dropdown)
-  // ONLY render when the product genuinely has flavors
+  // 2. TOP-LEFT BADGE: Dedicated Flavor Badge representing THIS card's specific flavor
   let flavorBadgeHtml = '';
-  if (flavorCount > 0) {
-    let badgeLabel = '';
-    let primaryDotColor = '#ffffff';
-
-    if (isUnflavored) {
-      badgeLabel = 'Unflavoured';
-      primaryDotColor = (flavorsList[0] && flavorsList[0].color_code) ? flavorsList[0].color_code : '#94a3b8';
-    } else if (flavorCount === 1) {
-      badgeLabel = '1 Flavor';
-      primaryDotColor = (flavorsList[0] && flavorsList[0].color_code) ? flavorsList[0].color_code : '#10b981';
-    } else {
-      badgeLabel = `${flavorCount} Flavors`;
-      primaryDotColor = (flavorsList[0] && flavorsList[0].color_code) ? flavorsList[0].color_code : '#06d6a0';
-    }
-
+  if (product.flavor_name) {
     flavorBadgeHtml = `
       <span class="product-flavor-badge">
-        <span class="flavor-dot" style="background:${primaryDotColor};"></span>
-        ${badgeLabel}
+        <span class="flavor-dot" style="background:${product.flavor_color || '#10b981'};"></span>
+        ${product.flavor_name}
+      </span>
+    `;
+  } else if (isUnflavored) {
+    flavorBadgeHtml = `
+      <span class="product-flavor-badge">
+        <span class="flavor-dot" style="background:#94a3b8;"></span>
+        Unflavoured
       </span>
     `;
   }
 
-  // 3. Flavor Chips Below Description
-  const flavorChipsHtml = flavorsList.length > 0 ? `
-    <div class="product-card-flavors">
-      ${flavorsList.slice(0, 4).map(f => `
-        <span class="flavor-chip" title="${f.flavor_name}">
-          <span class="flavor-dot" style="background:${f.color_code || '#ffffff'}"></span>
-          <span class="flavor-chip-text">${f.flavor_name}</span>
+  // 3. Flavor Row Below Description (Single uniform row with active flavor + sister count)
+  let flavorChipsHtml = '';
+  if (product.flavor_name) {
+    flavorChipsHtml = `
+      <div class="product-card-flavors">
+        <span class="flavor-chip flavor-chip--active" title="${product.flavor_name}">
+          <span class="flavor-dot" style="background:${product.flavor_color || '#ffffff'}"></span>
+          <span class="flavor-chip-text">${product.flavor_name}</span>
         </span>
-      `).join('')}
-      ${flavorsList.length > 4 ? `<span class="flavor-chip-more">+${flavorsList.length - 4}</span>` : ''}
-    </div>
-  ` : '';
+        ${product.sibling_count > 0 ? `<span class="flavor-chip-more" title="Available in ${product.all_flavors.length} flavors">+${product.sibling_count} more</span>` : ''}
+      </div>
+    `;
+  } else {
+    flavorChipsHtml = `<div class="product-card-flavors product-card-flavors--empty"></div>`;
+  }
 
   const isHeavy = isHeavyProduct(product);
   const giantCardClass = isHeavy ? ' product-card--giant' : '';
@@ -640,7 +682,7 @@ function renderProductCardHtml(product, i = 0, options = {}) {
       ${flavorBadgeHtml}
       <div class="product-card-image">
         ${product.primary_image
-          ? `<img src="${product.primary_image}?v=4.0" alt="${cardName}" class="${giantImgClass}" loading="lazy">`
+          ? `<img src="${product.primary_image}?v=4.0" alt="${cardName} - ${product.flavor_name || ''}" class="${giantImgClass}" loading="lazy">`
           : `<div class="no-image"><i class="fa-solid fa-box"></i></div>`
         }
       </div>
@@ -672,10 +714,11 @@ async function loadProductsPage() {
     grid.innerHTML = '<div class="loading-spinner" style="grid-column:1/-1"><div class="spinner"></div></div>';
     
     // Fetch products and categories in parallel
-    const [products, categories] = await Promise.all([
+    const [rawProducts, categories] = await Promise.all([
       api('/api/products'),
       api('/api/categories')
     ]);
+    const products = expandProductsByFlavors(rawProducts);
 
     // Initial state from URL parameters
     const params = new URLSearchParams(window.location.search);
@@ -765,7 +808,8 @@ async function loadProductsPage() {
           const catMatch = p.category_name && p.category_name.toLowerCase().includes(q);
           const descMatch = (p.short_description && p.short_description.toLowerCase().includes(q)) ||
                             (p.description && p.description.toLowerCase().includes(q));
-          const flavorMatch = p.flavor_names && p.flavor_names.toLowerCase().includes(q);
+          const flavorMatch = (p.flavor_name && p.flavor_name.toLowerCase().includes(q)) ||
+                              (p.flavor_names && p.flavor_names.toLowerCase().includes(q));
           return nameMatch || catMatch || descMatch || flavorMatch;
         });
       }
@@ -910,7 +954,8 @@ async function loadCategoryProducts() {
       return;
     }
 
-    grid.innerHTML = data.products.map((product, i) => renderProductCardHtml(product, i)).join('');
+    const products = expandProductsByFlavors(data.products || []);
+    grid.innerHTML = products.map((product, i) => renderProductCardHtml(product, i)).join('');
 
     initScrollAnimations();
   } catch (err) {
@@ -1074,7 +1119,7 @@ async function loadProductDetail() {
             <h2 class="section-title">You May Also Like</h2>
           </div>
           <div class="products-grid">
-            ${product.related.map((p, i) => renderProductCardHtml(p, i)).join('')}
+            ${expandProductsByFlavors(product.related || []).slice(0, 4).map((p, i) => renderProductCardHtml(p, i)).join('')}
           </div>
         </div>
       ` : ''}
@@ -1359,11 +1404,14 @@ async function loadFeaturedProducts() {
   if (!track) return;
 
   try {
-    let products = await api('/api/products?featured=true');
-    if (!products || products.length === 0) {
-      products = await api('/api/products?limit=8');
+    let rawProducts = await api('/api/products?featured=true');
+    if (!rawProducts || rawProducts.length === 0) {
+      rawProducts = await api('/api/products?limit=8');
     }
-    if (!products || products.length === 0) return;
+    if (!rawProducts || rawProducts.length === 0) return;
+
+    // Expand by flavors so each flavor shines as its own professional spotlight card
+    const products = expandProductsByFlavors(rawProducts);
 
     // Place products with the NEW badge at the very front of featured products
     products.sort((a, b) => {
