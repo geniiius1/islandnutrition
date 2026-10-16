@@ -25,7 +25,7 @@
   <link rel="preload" href="/uploads/product_pwo_x-shred.webp?v=2.6" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-  <link rel="stylesheet" href="/css/style.css?v=4.0">
+  <link rel="stylesheet" href="/css/style.css?v=5.1">
 </head>
 <body>
 
@@ -42,11 +42,17 @@
         <a href="/products.html" class="nav-link">Products</a>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link">Contact</a>
+        <button class="nav-search-btn" aria-label="Search products" title="Search products">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
         <button class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle theme">
           <span class="theme-toggle-icon"></span>
         </button>
       </div>
       <div class="nav-actions-mobile">
+        <button class="nav-search-btn nav-search-mobile" aria-label="Search products" title="Search products">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
         <button class="theme-toggle-btn theme-toggle-mobile" aria-label="Toggle theme" title="Toggle theme">
           <span class="theme-toggle-icon"></span>
         </button>
@@ -269,40 +275,6 @@
     </div>
   </section>
 
-  <!-- Featured Categories Slider -->
-  <section class="section categories-slider-section" id="categories-section" style="padding-bottom: var(--space-12);">
-    <div class="container">
-      <div class="section-header animate-on-scroll">
-        <span class="section-label">Our Collection</span>
-        <h2 class="section-title">Browse Categories</h2>
-        <p class="section-subtitle">Explore our carefully curated range of quality supplements designed for every goal.</p>
-      </div>
-
-      <!-- Categories Carousel Wrapper -->
-      <div class="carousel-outer-wrapper animate-on-scroll">
-        <button class="carousel-arrow prev-arrow" id="cat-prev-btn" aria-label="Previous categories">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <div class="carousel-viewport" id="categories-viewport">
-          <div class="carousel-track" id="featured-categories">
-            <div class="loading-spinner" style="width:100%;"><div class="spinner"></div></div>
-          </div>
-        </div>
-
-        <button class="carousel-arrow next-arrow" id="cat-next-btn" aria-label="Next categories">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
-
-      <!-- Carousel Pagination Dots -->
-      <div class="carousel-dots" id="cat-carousel-dots"></div>
-
-      <div class="text-center mt-8 animate-on-scroll">
-        <a href="/products.html" class="btn btn-secondary btn-lg">View All Categories <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></a>
-      </div>
-    </div>
-  </section>
 
   <!-- Product Inquiry & Wholesale Contact Section -->
   <section class="section product-inquiry-section" id="inquiry">
@@ -380,24 +352,10 @@
           <p style="margin-top: 16px;">Quality supplements crafted for peak performance. Fuel your paradise with the finest quality ingredients.</p>
         </div>
         <div class="footer-col">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/products.html">Products</a></li>
-            <li><a href="/about.html">About Us</a></li>
-            <li><a href="/contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Products</h4>
-          <ul id="footer-categories">
-            <li><a href="/products.html">All Categories</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
           <h4>Connect</h4>
           <ul>
             <li><a href="#">Instagram</a></li>
+            <li><a href="mailto:info@island-nutrition.co">info@island-nutrition.co</a></li>
           </ul>
         </div>
       </div>
@@ -416,11 +374,10 @@
   <!-- Back to Top -->
   <button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-  <script src="/js/app.js?v=3.1"></script>
+  <script src="/js/app.js?v=3.5"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       initHeroSlider();
-      loadFeaturedCategories();
       loadFeaturedProducts();
     });
   </script>

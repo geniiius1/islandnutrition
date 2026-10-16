@@ -84,6 +84,7 @@ try {
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavbar();
+  initNavSearch();
   initScrollAnimations();
   initBackToTop();
 });
@@ -163,6 +164,258 @@ function initNavbar() {
       link.classList.add('active');
     }
   });
+}
+
+// ===== GLOBAL NAV SEARCH & MODAL =====
+// ===== GLOBAL NAV SEARCH & SPOTLIGHT (ULTRA-CLEAN & LIGHTNING FAST) =====
+let searchCatalog = [];
+let searchCatalogLoaded = false;
+
+async function preloadSearchCatalog() {
+  if (searchCatalogLoaded) return;
+  try {
+    const data = await api('/api/products');
+    if (Array.isArray(data)) {
+      searchCatalog = data;
+      searchCatalogLoaded = true;
+    }
+  } catch (e) {}
+}
+
+function initNavSearch() {
+  // Preload products in background for 0ms instant search
+  preloadSearchCatalog();
+
+  let backdrop = document.querySelector('.search-modal-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'search-modal-backdrop';
+    backdrop.id = 'search-modal-backdrop';
+    backdrop.innerHTML = `
+      <div class="search-modal" role="dialog" aria-modal="true" aria-label="Search Supplements">
+        <div class="search-modal-header">
+          <i class="fa-solid fa-magnifying-glass search-modal-icon"></i>
+          <input type="text" class="search-modal-input" id="nav-search-input" placeholder="Search supplements, categories, flavors..." autocomplete="off" spellcheck="false">
+          <button type="button" class="search-modal-clear" id="nav-search-clear" aria-label="Clear query" style="display:none;"><i class="fa-solid fa-xmark"></i></button>
+          <kbd class="search-kbd" id="nav-search-close" title="Close">ESC</kbd>
+        </div>
+        <div class="search-modal-body" id="nav-search-results"></div>
+        <div class="search-modal-footer">
+          <div class="search-footer-hints">
+            <span><kbd class="search-kbd">↑</kbd><kbd class="search-kbd">↓</kbd> navigate</span>
+            <span><kbd class="search-kbd">↵</kbd> select</span>
+            <span><kbd class="search-kbd">esc</kbd> close</span>
+          </div>
+          <a href="/products.html" class="search-footer-link" id="nav-search-view-all">All Products &rarr;</a>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(backdrop);
+  }
+
+  const input = document.getElementById('nav-search-input');
+  const clearBtn = document.getElementById('nav-search-clear');
+  const closeBtn = document.getElementById('nav-search-close');
+  const resultsContainer = document.getElementById('nav-search-results');
+  const viewAllLink = document.getElementById('nav-search-view-all');
+
+  let selectedIndex = -1;
+
+  function renderDefaultView() {
+    selectedIndex = -1;
+    const popularTags = ['Pre-Workout', 'Protein', 'Creatine', 'Mass Gainer', 'Vitamins'];
+    const suggested = searchCatalog.slice(0, 4);
+
+    let html = `
+      <div class="search-section-header">Categories</div>
+      <div class="search-tags-row">
+        ${popularTags.map(t => `<button type="button" class="search-tag" data-search="${t}">${t}</button>`).join('')}
+      </div>
+    `;
+
+    if (suggested.length > 0) {
+      html += `<div class="search-section-header">Popular Products</div>`;
+      html += suggested.map(p => renderProductRow(p)).join('');
+    }
+
+    resultsContainer.innerHTML = html;
+  }
+
+  function renderProductRow(p) {
+    const img = p.primary_image ? `${p.primary_image}?v=2.6` : '/assets/images/island-logo-white.png';
+    const spec = p.weight || (p.flavors && p.flavors[0] ? p.flavors[0].name : '');
+    return `
+      <a href="/product.html?id=${p.id}" class="search-result-row" data-id="${p.id}">
+        <div class="search-row-thumb">
+          <img src="${img}" alt="${p.name}" loading="lazy">
+        </div>
+        <div class="search-row-info">
+          <div class="search-row-title">${p.name}</div>
+          <div class="search-row-meta">
+            <span class="search-row-badge">${p.category_name || 'Supplement'}</span>
+            ${spec ? `<span>${spec}</span>` : ''}
+          </div>
+        </div>
+        <i class="fa-solid fa-arrow-right search-row-arrow"></i>
+      </a>
+    `;
+  }
+
+  function openSearch(initialQuery = '') {
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    preloadSearchCatalog().then(() => {
+      if (initialQuery) {
+        input.value = initialQuery;
+        if (clearBtn) clearBtn.style.display = 'flex';
+        executeSearch(initialQuery);
+      } else {
+        input.value = '';
+        if (clearBtn) clearBtn.style.display = 'none';
+        renderDefaultView();
+      }
+    });
+    setTimeout(() => input.focus(), 30);
+  }
+
+  function closeSearch() {
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openSearchBtnHandler(e) {
+    e.preventDefault();
+    openSearch();
+  }
+
+  // Attach search triggers
+  document.querySelectorAll('.nav-search-btn').forEach(btn => {
+    btn.removeEventListener('click', openSearchBtnHandler);
+    btn.addEventListener('click', openSearchBtnHandler);
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) closeSearch();
+  });
+
+  // Hotkeys (Cmd+K / Ctrl+K, Escape)
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (backdrop.classList.contains('open')) closeSearch();
+      else openSearch();
+    } else if (e.key === 'Escape' && backdrop.classList.contains('open')) {
+      closeSearch();
+    }
+  });
+
+  // Clear query
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      clearBtn.style.display = 'none';
+      input.focus();
+      renderDefaultView();
+    });
+  }
+
+  // Delegated click for tags
+  resultsContainer.addEventListener('click', (e) => {
+    const tag = e.target.closest('.search-tag');
+    if (tag) {
+      const q = tag.getAttribute('data-search');
+      input.value = q;
+      if (clearBtn) clearBtn.style.display = 'flex';
+      input.focus();
+      executeSearch(q);
+    }
+  });
+
+  // Instant 0ms In-Memory Search
+  function executeSearch(query) {
+    selectedIndex = -1;
+    const q = query.trim().toLowerCase();
+    if (!q) {
+      renderDefaultView();
+      if (viewAllLink) viewAllLink.href = '/products.html';
+      return;
+    }
+
+    if (viewAllLink) viewAllLink.href = `/products.html?search=${encodeURIComponent(query.trim())}`;
+
+    // 0ms Filter
+    const matches = searchCatalog.filter(p => {
+      const name = (p.name || '').toLowerCase();
+      const cat = (p.category_name || '').toLowerCase();
+      const flv = (p.flavor_names || '').toLowerCase();
+      const desc = (p.description || '').toLowerCase();
+      return name.includes(q) || cat.includes(q) || flv.includes(q) || desc.includes(q);
+    });
+
+    if (matches.length === 0) {
+      const safeQuery = query.replace(/[&<>"']/g, '');
+      resultsContainer.innerHTML = `
+        <div class="search-empty-state">
+          No products found for "<strong>${safeQuery}</strong>"
+        </div>
+      `;
+      return;
+    }
+
+    resultsContainer.innerHTML = `
+      <div class="search-section-header">${matches.length} Results</div>
+      ${matches.slice(0, 7).map(p => renderProductRow(p)).join('')}
+    `;
+  }
+
+  // Keystroke listener — 0ms INSTANT filtering as user types
+  input.addEventListener('input', (e) => {
+    const q = e.target.value;
+    if (clearBtn) clearBtn.style.display = q.length > 0 ? 'flex' : 'none';
+    executeSearch(q);
+  });
+
+  // Keyboard navigation (Up, Down, Enter)
+  input.addEventListener('keydown', (e) => {
+    const rows = resultsContainer.querySelectorAll('.search-result-row');
+    if (!rows.length) {
+      if (e.key === 'Enter') {
+        const q = input.value.trim();
+        window.location.href = q ? `/products.html?search=${encodeURIComponent(q)}` : '/products.html';
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex + 1) % rows.length;
+      updateRowHighlight(rows);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex - 1 + rows.length) % rows.length;
+      updateRowHighlight(rows);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (selectedIndex >= 0 && rows[selectedIndex]) {
+        rows[selectedIndex].click();
+      } else {
+        const q = input.value.trim();
+        window.location.href = q ? `/products.html?search=${encodeURIComponent(q)}` : '/products.html';
+      }
+    }
+  });
+
+  function updateRowHighlight(rows) {
+    rows.forEach((row, idx) => {
+      if (idx === selectedIndex) {
+        row.classList.add('selected');
+        row.scrollIntoView({ block: 'nearest' });
+      } else {
+        row.classList.remove('selected');
+      }
+    });
+  }
 }
 
 // ===== SCROLL ANIMATIONS (High Performance Singleton Observer) =====
@@ -1528,23 +1781,6 @@ async function initHeroSlider() {
     }
   });
 
-  // Subtle 3D Tilt Effect on Product Stage (Desktop / Mouse only to save mobile battery & CPU)
-  const stageWrap = document.querySelector('.hero-product-stage-wrap');
-  if (stageWrap && stage && window.matchMedia('(pointer: fine)').matches) {
-    const maxTilt = 3.5;
-    hero.addEventListener('mousemove', (e) => {
-      const rect = stage.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      const rotateX = Math.max(-maxTilt, Math.min(maxTilt, (-y / rect.height) * 3));
-      const rotateY = Math.max(-maxTilt, Math.min(maxTilt, (x / rect.width) * 3));
-      stageWrap.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
-    }, { passive: true });
-
-    hero.addEventListener('mouseleave', () => {
-      stageWrap.style.transform = 'rotateX(0deg) rotateY(0deg)';
-    });
-  }
 
   // Touch Swipe for Mobile
   let touchStartX = 0;

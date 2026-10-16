@@ -8,13 +8,28 @@ let categories = [];
 let products = [];
 let editingItem = null;
 
+// ===== HELPER: Check if currently on the login page =====
+function isLoginPage() {
+  return Boolean(
+    document.querySelector('.login-page') ||
+    document.getElementById('login-username') ||
+    window.location.pathname.endsWith('login.html') ||
+    window.location.pathname.endsWith('/admin/login')
+  );
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
-  checkAuth();
-  initSidebar();
+  if (isLoginPage()) {
+    checkLoginAuth();
+  } else {
+    checkAuth();
+    initSidebar();
+  }
 });
 
 // ===== AUTH =====
+// Check auth on admin dashboard: redirect to login if not authenticated
 async function checkAuth() {
   try {
     const res = await fetch('/api/admin/check');
@@ -31,25 +46,47 @@ async function checkAuth() {
   }
 }
 
+// Check auth on login page: if already logged in, redirect to dashboard; otherwise stay on page!
+async function checkLoginAuth() {
+  try {
+    const res = await fetch('/api/admin/check');
+    const data = await res.json();
+    if (data.authenticated) {
+      window.location.href = '/admin/index.html';
+    }
+  } catch {
+    // If not authenticated or error, stay on login page
+  }
+}
+
 async function handleLogin(e) {
   e.preventDefault();
   const errorEl = document.getElementById('login-error');
+  const submitBtn = e.target.querySelector('button[type="submit"]') || document.querySelector('.btn-login');
   const username = document.getElementById('login-username').value;
   const password = document.getElementById('login-password').value;
 
   try {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in...';
+    }
     const res = await fetch('/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    if (!res.ok) throw new Error(data.error || 'Login failed');
     window.location.href = '/admin/index.html';
   } catch (err) {
     if (errorEl) {
       errorEl.textContent = err.message || 'Login failed';
       errorEl.style.display = 'block';
+    }
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In to Dashboard';
     }
   }
 }
@@ -1408,7 +1445,9 @@ async function fetchAPI(url) {
   const res = await fetch(url);
   if (!res.ok) {
     if (res.status === 401) {
-      window.location.href = '/admin/login.html';
+      if (!isLoginPage()) {
+        window.location.href = '/admin/login.html';
+      }
       return;
     }
     throw new Error('Request failed');

@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-  <link rel="stylesheet" href="/css/style.css?v=4.0">
+  <link rel="stylesheet" href="/css/style.css?v=5.1">
 </head>
 <body>
 
@@ -39,11 +39,17 @@
         <a href="/products.html" class="nav-link">Products</a>
         <a href="/about.html" class="nav-link">About</a>
         <a href="/contact.html" class="nav-link active">Contact</a>
+        <button class="nav-search-btn" aria-label="Search products" title="Search products">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
         <button class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle theme">
           <span class="theme-toggle-icon"></span>
         </button>
       </div>
       <div class="nav-actions-mobile">
+        <button class="nav-search-btn nav-search-mobile" aria-label="Search products" title="Search products">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
         <button class="theme-toggle-btn theme-toggle-mobile" aria-label="Toggle theme" title="Toggle theme">
           <span class="theme-toggle-icon"></span>
         </button>
@@ -240,18 +246,10 @@
           <p style="margin-top: 16px;">Quality supplements crafted for peak performance.</p>
         </div>
         <div class="footer-col">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/products.html">Products</a></li>
-            <li><a href="/about.html">About Us</a></li>
-            <li><a href="/contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
           <h4>Connect</h4>
           <ul>
             <li><a href="#">Instagram</a></li>
+            <li><a href="mailto:info@island-nutrition.co">info@island-nutrition.co</a></li>
           </ul>
         </div>
       </div>
@@ -269,7 +267,7 @@
 
   <button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-  <script src="/js/app.js?v=3.1"></script>
+  <script src="/js/app.js?v=3.5"></script>
   <script>
     function handleContactSubmit(e) {
       e.preventDefault();
