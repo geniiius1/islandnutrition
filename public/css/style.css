@@ -2927,29 +2927,18 @@ input, textarea, select {
   opacity: 1;
 }
 
-/* Contact Page Grid Layout */
+/* Contact Page Layout */
+.contact-form-wrapper,
 .contact-page-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: var(--space-10);
-  align-items: start;
-}
-
-.contact-info-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-2xl);
-  padding: clamp(28px, 4vw, 44px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-sizing: border-box;
-  height: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .contact-inquiry-card {
-  max-width: 100%;
-  margin: 0;
+  max-width: 820px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* ============================================================
