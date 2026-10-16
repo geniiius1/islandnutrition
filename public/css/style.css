@@ -1606,7 +1606,7 @@ input, textarea, select {
 .product-card-image img {
   width: auto;
   height: 100%;
-  max-width: 88%;
+  max-width: 92%;
   max-height: 100%;
   object-fit: contain;
   object-position: center bottom;
@@ -1953,7 +1953,7 @@ input, textarea, select {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px;
+  padding: 16px;
   margin-bottom: var(--space-4);
   position: relative;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.03);
@@ -3911,7 +3911,7 @@ input, textarea, select {
     max-width: 100% !important;
     max-height: none !important;
     aspect-ratio: 1 / 1 !important;
-    padding: 24px !important;
+    padding: 12px !important;
     margin: 0 0 var(--space-4) 0 !important;
     border-radius: var(--radius-xl) !important;
     display: flex !important;
@@ -4001,7 +4001,7 @@ input, textarea, select {
   }
 
   .product-gallery-main:hover img {
-    transform: translate(-50%, -50%) !important;
+    transform: none !important;
   }
 
   .feature-card:hover {
@@ -4664,7 +4664,7 @@ input, textarea, select {
     max-width: 100% !important;
     max-height: none !important;
     aspect-ratio: 1 / 1 !important;
-    padding: 20px !important;
+    padding: 10px !important;
     margin: 0 0 var(--space-4) 0 !important;
     border-radius: var(--radius-xl) !important;
     display: flex !important;

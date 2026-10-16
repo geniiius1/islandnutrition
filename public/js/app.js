@@ -242,7 +242,7 @@ function initNavSearch() {
   }
 
   function renderProductRow(p) {
-    const img = p.primary_image ? `${p.primary_image}?v=2.6` : '/assets/images/island-logo-white.png';
+    const img = p.primary_image ? `${p.primary_image}?v=4.0` : '/assets/images/island-logo-white.png';
     const spec = p.weight || (p.flavors && p.flavors[0] ? p.flavors[0].name : '');
     return `
       <a href="/product.html?id=${p.id}" class="search-result-row" data-id="${p.id}">
@@ -640,7 +640,7 @@ function renderProductCardHtml(product, i = 0, options = {}) {
       ${flavorBadgeHtml}
       <div class="product-card-image">
         ${product.primary_image
-          ? `<img src="${product.primary_image}?v=2.6" alt="${cardName}" class="${giantImgClass}" loading="lazy">`
+          ? `<img src="${product.primary_image}?v=4.0" alt="${cardName}" class="${giantImgClass}" loading="lazy">`
           : `<div class="no-image"><i class="fa-solid fa-box"></i></div>`
         }
       </div>
@@ -941,7 +941,7 @@ async function loadProductDetail() {
     // Store image paths for flavor switcher (index-matched with flavors)
     window.__productImages = (product.images || [])
       .sort((a, b) => a.sort_order - b.sort_order)
-      .map(img => `${img.image_path}?v=2.6`);
+      .map(img => `${img.image_path}?v=4.0`);
 
     container.innerHTML = `
       <div class="product-detail-grid">
@@ -954,7 +954,7 @@ async function loadProductDetail() {
               </button>
             ` : ''}
             <img id="main-product-image"
-              src="${primaryImage ? `${primaryImage.image_path}?v=2.6` : '/assets/images/island-logo-white.png'}"
+              src="${primaryImage ? `${primaryImage.image_path}?v=4.0` : '/assets/images/island-logo-white.png'}"
               alt="${product.name}">
             ${product.images && product.images.length > 1 ? `
               <button class="gallery-arrow gallery-arrow-right" onclick="galleryNext()" aria-label="Next image">
@@ -970,7 +970,7 @@ async function loadProductDetail() {
               ${product.images.map((img, i) => `
                 <div class="product-gallery-thumb ${i === 0 ? 'active' : ''}"
                      onclick="galleryGoTo(${i})">
-                  <img src="${img.image_path}?v=2.6" alt="View ${i + 1}">
+                  <img src="${img.image_path}?v=4.0" alt="View ${i + 1}">
                 </div>
               `).join('')}
             </div>
@@ -1622,7 +1622,7 @@ async function initHeroSlider() {
 
       // 3. Product Image
       if (productImg && p.primary_image) {
-        productImg.src = `${p.primary_image}?v=2.6`;
+        productImg.src = `${p.primary_image}?v=4.0`;
         productImg.alt = p.name;
         if (isHeavyProduct(p)) {
           productImg.classList.add('hero-img--giant');
@@ -1741,7 +1741,7 @@ async function initHeroSlider() {
     const nextProd = products[(idx + 1) % products.length];
     if (nextProd && nextProd.primary_image) {
       const img = new Image();
-      img.src = `${nextProd.primary_image}?v=2.6`;
+      img.src = `${nextProd.primary_image}?v=4.0`;
     }
   }
 

@@ -17,9 +17,10 @@ function slugify(text) {
 
 /**
  * Process a product image from source PNGs:
- * - Resize to max 1200px (preserves detail for product pages)
- * - Convert to WebP at quality 90 (visually lossless, ~80-90% size reduction)
- * - Typically reduces 5-8MB PNGs down to 80-200KB WebP
+ * - Trim transparent whitespace, scale to fill a UNIFIED 1200×1200 canvas
+ * - Convert to WebP at quality 92 (visually lossless, ~80-90% size reduction)
+ * - Every product occupies the exact same canvas → identical visual presence
+ * - Professional standard used by Optimum Nutrition, BSN, MuscleTech
  */
 async function processProductImage(sourceFilename) {
   const sourcePath = path.join(sourceDir, sourceFilename);
@@ -35,6 +36,11 @@ async function processProductImage(sourceFilename) {
     return null;
   }
 
+  // UNIFIED CANVAS — same dimensions for every single product
+  const CANVAS_SIZE = 1200;
+  const TARGET_HEIGHT = 1040; // 86.7% of 1200 - uniform professional nutrition standard
+  const MAX_WIDTH = 1100;     // maximum allowed width to guarantee margins
+
   try {
     // 1. Trim outer transparent whitespace so we isolate the exact bottle/tub
     const trimmedBuffer = await sharp(sourcePath)
@@ -43,51 +49,34 @@ async function processProductImage(sourceFilename) {
     
     const { width: trimW, height: trimH } = trimmedBuffer.info;
 
-    // 2. Identify if this is a pill bottle (capsules, tablets, softgels)
-    const isPillBottle = /carnitine|cla|vitamin|b-complex|magnesium|multiwell|testo|zma|joint|ashwagandha|gaba/i.test(sourceFilename);
-
-    let targetW, targetH;
-    const isGiantProduct = /gainer|4000/i.test(sourceFilename);
-
-    if (isPillBottle) {
-      // UNIFY ALL PILL BOTTLES: Exact same height (1100px) across every single bottle!
-      targetH = 1100;
-      targetW = Math.round(trimW * (targetH / trimH));
-    } else if (isGiantProduct) {
-      // Massive 4000g buckets (X-GAINER): 1040px with generous margins so lid & sides never crop
-      const scale = Math.min(1040 / trimW, 1040 / trimH);
-      targetW = Math.round(trimW * scale);
-      targetH = Math.round(trimH * scale);
-    } else {
-      // Powder tubs & jars: Scale so max dimension is 1100px (heroic scale)
-      const scale = Math.min(1100 / trimW, 1100 / trimH);
-      targetW = Math.round(trimW * scale);
-      targetH = Math.round(trimH * scale);
+    // 2. Scale uniformly so every product has the exact same 1040px height
+    let scale = TARGET_HEIGHT / trimH;
+    if (trimW * scale > MAX_WIDTH) {
+      scale = MAX_WIDTH / trimW;
     }
+    const targetW = Math.round(trimW * scale);
+    const targetH = Math.round(trimH * scale);
 
-    // 3. Add clean, tight padding
-    const padTop = isGiantProduct ? 35 : 20;
-    const padBottom = isGiantProduct ? 25 : 20;
-    const padSide = isGiantProduct ? 35 : 20;
-    const canvasW = targetW + (padSide * 2);
-    const canvasH = targetH + padTop + padBottom;
+    // 3. Center on the uniform square canvas
+    const offsetX = Math.round((CANVAS_SIZE - targetW) / 2);
+    const offsetY = Math.round((CANVAS_SIZE - targetH) / 2);
 
     const resizedBuffer = await sharp(trimmedBuffer.data)
-      .resize(targetW, targetH, { fit: 'fill' })
+      .resize(targetW, targetH, { fit: 'inside' })
       .toBuffer();
 
     await sharp({
       create: {
-        width: canvasW,
-        height: canvasH,
+        width: CANVAS_SIZE,
+        height: CANVAS_SIZE,
         channels: 4,
         background: { r: 0, g: 0, b: 0, alpha: 0 }
       }
     })
       .composite([{
         input: resizedBuffer,
-        top: padTop,
-        left: padSide
+        top: offsetY,
+        left: offsetX
       }])
       .webp({
         quality: 92,
@@ -98,7 +87,7 @@ async function processProductImage(sourceFilename) {
     const stats = fs.statSync(outputPath);
     const originalStats = fs.statSync(sourcePath);
     const reduction = ((1 - stats.size / originalStats.size) * 100).toFixed(1);
-    console.log(`  ✓ ${sourceFilename} → ${outputFilename} [${canvasW}x${canvasH}, ${isPillBottle ? 'BOTTLE-HERO' : 'POWDER-HERO'}] (${reduction}% smaller)`);
+    console.log(`  ✓ ${sourceFilename} → ${outputFilename} [${CANVAS_SIZE}×${CANVAS_SIZE}, UNIFIED] (${reduction}% smaller)`);
 
     return `/uploads/${outputFilename}`;
   } catch (err) {
