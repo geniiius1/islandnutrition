@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
   <script>
     (function() {
       try {
-        var s = localStorage.getItem('in_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        var s = localStorage.getItem('in_theme') || 'dark';
         document.documentElement.setAttribute('data-theme', s);
       } catch(e) {}
     })();
@@ -103,7 +103,7 @@
 
   <button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-  <script src="/js/app.js?v=4.0"></script>
+  <script src="/js/app.js?v=4.1"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       loadProductDetail();

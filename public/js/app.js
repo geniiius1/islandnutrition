@@ -8,9 +8,6 @@ const THEME_STORAGE_KEY = 'in_theme';
 function getCurrentTheme() {
   const stored = localStorage.getItem(THEME_STORAGE_KEY);
   if (stored === 'light' || stored === 'dark') return stored;
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    return 'light';
-  }
   return 'dark';
 }
 
@@ -49,6 +46,17 @@ function applyTheme(theme, save = true) {
       img.src = isDark ? logoWhite : logoBlack;
     }
   });
+
+  // Update mobile browser chrome status bar color
+  try {
+    let metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (!metaTheme) {
+      metaTheme = document.createElement('meta');
+      metaTheme.name = 'theme-color';
+      document.head.appendChild(metaTheme);
+    }
+    metaTheme.content = isDark ? '#070709' : '#ffffff';
+  } catch (e) {}
 }
 
 function toggleTheme() {
@@ -65,14 +73,6 @@ function initTheme() {
     btn.removeEventListener('click', toggleTheme);
     btn.addEventListener('click', toggleTheme);
   });
-
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
-      if (!localStorage.getItem(THEME_STORAGE_KEY)) {
-        applyTheme(e.matches ? 'light' : 'dark', false);
-      }
-    });
-  }
 }
 
 // Immediate initial run to prevent flash
