@@ -792,7 +792,7 @@ async function startServer() {
   const defaultSettings = {
     site_name: 'Island Nutrition',
     site_tagline: 'Fuel Your Paradise',
-    site_description: 'Quality supplements crafted for peak performance.',
+    site_description: 'Quality supplements crafted for peak performance. Fuel your paradise with the finest quality ingredients.',
     contact_email: 'info@islandnutrition.com',
     contact_phone: '+1 (555) 123-4567',
     instagram: '#',

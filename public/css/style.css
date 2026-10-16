@@ -4110,6 +4110,10 @@ input, textarea, select {
 
   .footer-brand {
     max-width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .footer-brand .nav-logo {
@@ -4117,7 +4121,8 @@ input, textarea, select {
   }
 
   .footer-brand p {
-    max-width: 320px;
+    text-align: center !important;
+    max-width: 340px;
     margin-left: auto;
     margin-right: auto;
   }
