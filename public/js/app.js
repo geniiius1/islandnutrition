@@ -654,22 +654,6 @@ function renderProductCardHtml(product, i = 0, options = {}) {
     `;
   }
 
-  // 3. Flavor Row Below Description (Single uniform row with active flavor + sister count)
-  let flavorChipsHtml = '';
-  if (product.flavor_name) {
-    flavorChipsHtml = `
-      <div class="product-card-flavors">
-        <span class="flavor-chip flavor-chip--active" title="${product.flavor_name}">
-          <span class="flavor-dot" style="background:${product.flavor_color || '#ffffff'}"></span>
-          <span class="flavor-chip-text">${product.flavor_name}</span>
-        </span>
-        ${product.sibling_count > 0 ? `<span class="flavor-chip-more" title="Available in ${product.all_flavors.length} flavors">+${product.sibling_count} more</span>` : ''}
-      </div>
-    `;
-  } else {
-    flavorChipsHtml = `<div class="product-card-flavors product-card-flavors--empty"></div>`;
-  }
-
   const isHeavy = isHeavyProduct(product);
   const giantCardClass = isHeavy ? ' product-card--giant' : '';
   const giantImgClass = isHeavy ? ' product-img--giant' : '';
@@ -690,8 +674,6 @@ function renderProductCardHtml(product, i = 0, options = {}) {
       <div class="product-card-info">
         ${product.category_name ? `<div class="product-card-category">${product.category_name}</div>` : ''}
         <div class="product-card-name">${cardName}</div>
-        ${product.short_description ? `<div class="product-card-desc">${product.short_description}</div>` : ''}
-        ${flavorChipsHtml}
         <div class="product-card-meta">
           ${product.weight ? `<span class="product-card-tag">${product.weight}</span>` : ''}
           ${product.servings ? `<span class="product-card-tag">${formatServings(product.servings)}</span>` : ''}
@@ -1006,9 +988,6 @@ async function loadProductDetail() {
               <button class="gallery-arrow gallery-arrow-right" onclick="galleryNext()" aria-label="Next image">
                 <i class="fa-solid fa-chevron-right"></i>
               </button>
-              <div class="gallery-counter">
-                <span id="gallery-current">1</span> / <span id="gallery-total">${product.images.length}</span>
-              </div>
             ` : ''}
           </div>
           ${product.images && product.images.length > 1 ? `
@@ -1176,10 +1155,6 @@ function galleryGoTo(index) {
   // Update active thumbnail
   const thumbs = document.querySelectorAll('.product-gallery-thumb');
   thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
-
-  // Update counter
-  const counterEl = document.getElementById('gallery-current');
-  if (counterEl) counterEl.textContent = index + 1;
 
   // Sync active flavor tag
   const flavorTags = document.querySelectorAll('.flavor-tag');
@@ -1483,7 +1458,7 @@ async function searchProducts(query) {
 
     // Switch grid to products layout
     grid.className = 'products-grid';
-    renderProductCards(grid, products);
+    renderProductCards(grid, expandProductsByFlavors(products));
   } catch (err) {
     console.error('Search failed:', err);
   }
